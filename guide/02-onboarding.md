@@ -71,7 +71,6 @@ You now have `duples/{your_id}/` with these files:
 
 ```
 duples/{your_id}/
-  SPEC.md                 ← your Duple's design doc — start here
   duple_settings.py       ← domain gates, archetype, enabled triggers
   router_config.yaml      ← intent routing rules
   .env.example            ← env var reference (no real secrets here)
@@ -79,8 +78,6 @@ duples/{your_id}/
     reply/
       context_builder.py  ← how your Duple assembles context for the LLM
 ```
-
-**Start with `SPEC.md`** — write down what your Duple is, who it's for, what it should and shouldn't do. Use it to record routing decisions, prompt choices, and open questions as you build. There's no required format — it's for you.
 
 Edit these files locally with Claude Code. Key files:
 
