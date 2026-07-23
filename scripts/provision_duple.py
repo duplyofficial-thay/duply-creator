@@ -237,12 +237,22 @@ def provision(duple_id: str, supabase_dir: Path) -> None:
         supabase_dir,
     )
     # Append schema to pgrst.db_schemas (idempotent — skips if already present)
+    # Must read from pg_db_role_setting, not current_setting() which returns the session value
     run_sql(
         f"""DO $$
-DECLARE cur text;
+DECLARE
+  cur text := 'public';
+  cfg text;
 BEGIN
-  SELECT current_setting('pgrst.db_schemas', true) INTO cur;
-  IF cur IS NULL OR cur = '' THEN cur := 'public'; END IF;
+  FOR cfg IN
+    SELECT unnest(setconfig)
+    FROM pg_db_role_setting
+    WHERE setrole = (SELECT oid FROM pg_roles WHERE rolname = 'authenticator')
+  LOOP
+    IF cfg LIKE 'pgrst.db_schemas=%%' THEN
+      cur := substring(cfg FROM 'pgrst\\.db_schemas=(.+)');
+    END IF;
+  END LOOP;
   IF position('{schema}' IN cur) = 0 THEN
     EXECUTE format('ALTER ROLE authenticator SET pgrst.db_schemas TO %%L', cur || ',{schema}');
   END IF;
