@@ -390,6 +390,7 @@ def _render_duple_settings(archetype: str, gates: dict, reach_triggers: list) ->
         f"\n"
         f"CHAT = {{\n"
         f'    "gate_roles": "{chat_gate}",\n'
+        f'    "cards_enabled": False,\n'
         f"}}\n"
         f"\n"
         f"REACH = {{\n"
