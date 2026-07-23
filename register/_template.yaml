@@ -11,8 +11,3 @@ persona:
     # 2–4 sentences. This seeds the initial prompt.
     # Operational details (tools, formatting rules, coverage scope) go in Supabase after provisioning.
 
-gates:
-  chat: "all"          # all | creator | tester | pro
-  reach: "creator"     # start with "creator", expand after testing
-  memory: "all"
-  knowledge: "all"
