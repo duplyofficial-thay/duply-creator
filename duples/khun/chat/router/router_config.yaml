@@ -1,0 +1,17 @@
+# router_config.yaml — intent routing rules
+# ticker_alias_map: map common misspellings to canonical tickers
+# chat_word_denylist: short words that route to AI, never CARD
+# NOTE: bare NO/YES must be quoted (PyYAML parses them as booleans otherwise)
+
+ticker_alias_map: {}
+
+chat_word_denylist:
+  - HI
+  - HEY
+  - OK
+  - "NO"
+  - "YES"
+  - WOW
+  - LOL
+  - THANKS
+  - TEST

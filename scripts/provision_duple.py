@@ -12,11 +12,15 @@ Prerequisites:
     - register/{duple_id}.yaml filled out
 """
 
+from __future__ import annotations
+
 import json
+import os
 import re
 import secrets
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 import yaml  # pip install pyyaml
@@ -68,15 +72,32 @@ _TOOLS: dict[str, dict[str, list[str]]] = {
 
 
 def run_sql(sql: str, supabase_dir: Path) -> str:
-    result = subprocess.run(
-        ["supabase", "db", "query", "--linked", "-c", sql],
-        cwd=supabase_dir,
-        capture_output=True,
-        text=True,
-    )
+    """Run SQL via supabase CLI (temp file → -f flag). Returns raw stdout."""
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".sql", delete=False) as f:
+        f.write(sql)
+        tmp = f.name
+    try:
+        result = subprocess.run(
+            ["supabase", "db", "query", "--linked", "-f", tmp],
+            cwd=supabase_dir,
+            capture_output=True,
+            text=True,
+        )
+    finally:
+        os.unlink(tmp)
     if result.returncode != 0:
         raise RuntimeError(f"SQL failed:\n{result.stderr.strip()}")
     return result.stdout
+
+
+def run_sql_rows(sql: str, supabase_dir: Path) -> list[dict]:
+    """Run SQL and return parsed rows from the JSON output."""
+    out = run_sql(sql, supabase_dir)
+    try:
+        data = json.loads(out)
+        return data.get("rows", [])
+    except (json.JSONDecodeError, AttributeError):
+        return []
 
 
 def sq(value: str) -> str:
@@ -124,19 +145,19 @@ def provision(duple_id: str, supabase_dir: Path) -> None:
 
     # 2. Conflict check
     _step("Checking for conflicts")
-    out = run_sql(
-        f"SELECT COUNT(*)::int FROM information_schema.schemata "
+    rows = run_sql_rows(
+        f"SELECT COUNT(*)::int AS n FROM information_schema.schemata "
         f"WHERE schema_name = '{sq(schema)}';",
         supabase_dir,
     )
-    if " 1" in out or out.strip().endswith("1"):
+    if int((rows[0] if rows else {}).get("n", 0)) > 0:
         _die(f"Schema '{schema}' already exists.")
 
-    out = run_sql(
-        f"SELECT COUNT(*)::int FROM pg_roles WHERE rolname = '{sq(role)}';",
+    rows = run_sql_rows(
+        f"SELECT COUNT(*)::int AS n FROM pg_roles WHERE rolname = '{sq(role)}';",
         supabase_dir,
     )
-    if " 1" in out or out.strip().endswith("1"):
+    if int((rows[0] if rows else {}).get("n", 0)) > 0:
         _die(f"Role '{role}' already exists.")
 
     # 3. Create schema + role + grants
@@ -206,17 +227,19 @@ def provision(duple_id: str, supabase_dir: Path) -> None:
 
     # 7. Verify isolation
     _step("Verifying isolation")
-    own = run_sql(
+    rows = run_sql_rows(
         f"SELECT has_schema_privilege('{sq(role)}', '{schema}', 'USAGE') AS own;",
         supabase_dir,
     )
-    _check(own, expect_true=True, label=f"{role} has USAGE on {schema}")
+    own_ok = bool((rows[0] if rows else {}).get("own", False))
+    _check(own_ok, expect_true=True, label=f"{role} has USAGE on {schema}")
 
-    other = run_sql(
+    rows = run_sql_rows(
         f"SELECT has_schema_privilege('{sq(role)}', 'thay_ai', 'USAGE') AS other;",
         supabase_dir,
     )
-    _check(other, expect_true=False, label=f"{role} is isolated from thay_ai")
+    other_ok = bool((rows[0] if rows else {}).get("other", False))
+    _check(other_ok, expect_true=False, label=f"{role} is isolated from thay_ai")
 
     # 8. Generate scaffold
     _step("Generating scaffold")
@@ -486,9 +509,8 @@ def _step(label: str) -> None:
     print(f"  {label}...")
 
 
-def _check(sql_out: str, *, expect_true: bool, label: str) -> None:
-    found_true = "true" in sql_out.lower() or (" t\n" in sql_out) or sql_out.strip().endswith(" t")
-    ok = found_true if expect_true else not found_true
+def _check(value: bool, *, expect_true: bool, label: str) -> None:
+    ok = value if expect_true else not value
     mark = "✓" if ok else "!"
     warn = "" if ok else " — check manually"
     print(f"    {mark} {label}{warn}")
