@@ -1,7 +1,7 @@
 duple_id: ""           # lowercase, no spaces — becomes your schema: {duple_id}_ai
 archetype: ""          # finance | lifestyle | commerce
 owner: ""              # your name or email
-description: ""        # one-line public description shown on duply.org (e.g. "Your expert lens on U.S. markets.")
+description: ""        # one-line public description shown on duply.org
 
 persona:
   name: ""             # display name users see
@@ -10,11 +10,6 @@ persona:
     # Who this Duple is — personality, character, tone, values.
     # 2–4 sentences. This seeds the initial prompt.
     # Operational details (tools, formatting rules, coverage scope) go in Supabase after provisioning.
-
-reach:
-  enabled_triggers:
-    - price_above      # remove this section if archetype is not finance
-    - price_below
 
 gates:
   chat: "all"          # all | creator | tester | pro

@@ -340,8 +340,8 @@ def _render_duple_settings(archetype: str, gates: dict, reach_triggers: list) ->
     reach_gate = gates.get("reach", "creator")
     memory_gate = gates.get("memory", "all")
     knowledge_gate = gates.get("knowledge", "all")
-    reach_enabled = archetype == "finance" and bool(reach_triggers)
-    cards_enabled = archetype == "finance"
+    reach_enabled = bool(reach_triggers)
+    cards_enabled = False
 
     return (
         f'ARCHETYPE = "{archetype}"\n'
@@ -671,8 +671,8 @@ def _render_card_dedup() -> str:
 # When you add cards: implement suppression logic here.
 
 
-def suppress_if_recently_shown(history, card_type, card_ticker, window=6):
-    return card_type, card_ticker
+def suppress_if_recently_shown(history, card_type, card_subject, window=6):
+    return card_type, card_subject
 '''
 
 
@@ -724,11 +724,35 @@ def _print_credentials(
     print(f"""
 Send credentials to {owner} via a secure channel.
 
-Next steps:
-  1. git add duples/{duple_id}/ && git commit -m "feat: scaffold {duple_id}" && git push
-  2. Creator: git pull → copy duples/.env.example → duples/{duple_id}/.env → fill in password
-  3. Fill in agent_profiles.system_prompt for {schema}.chat.reply in Supabase
-  4. Add line-webhook-service entry to infra/platform/docker-compose.yml on Pi
+── Creator steps ─────────────────────────────────────────────
+  1. git push (scaffold committed above)
+  2. Creator: git pull → copy duples/.env.example → duples/{duple_id}/.env → fill in creds
+  3. Edit duples/{duple_id}/ scaffold (router, duple_settings, context_builder)
+  4. Fill system_prompt for {schema}.chat.reply in Supabase (see guide/04-prompts.md)
+
+── Team infra steps ───────────────────────────────────────────
+  5. Assign port: (thay=8020, khun=8021 → pick next) and fill into duples/{duple_id}/.env
+  6. On Pi — add to infra/platform/docker-compose.yml:
+
+     {duple_id}-line-webhook-service:
+       image: duply-platform:latest
+       container_name: {duple_id}-line-webhook-service
+       restart: always
+       network_mode: host
+       working_dir: /app/platform/chat
+       command: ["python3", "line_webhook_service.py"]
+       env_file:
+         - ../../.env.platform
+         - ../../.env.archetype.finance
+         - ../../duples/{duple_id}/.env
+       volumes:
+         - ../../duples:/app/duples:ro
+
+  7. Cloudflare Zero Trust → Tunnels → Edit → Public Hostnames → Add:
+       webhook-{duple_id}.duply.org → http://localhost:<PORT>
+  8. LINE Console → Messaging API → Webhook URL:
+       https://webhook-{duple_id}.duply.org/webhook  (enable + verify)
+  9. docker compose -f infra/platform/docker-compose.yml up -d {duple_id}-line-webhook-service
 """)
 
 

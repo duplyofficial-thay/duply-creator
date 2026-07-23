@@ -66,7 +66,7 @@ If your finance Duple covers both markets, the team can add both packs.
   "enabled_triggers": ["price_above", "price_below"]   # price alerts (finance)
   ```
   Available trigger types depend on your archetype — ask the Duply team what's registered for yours.
-- `system_prompt` in `{schema}.agent_profiles` for `reach.alert` — how alert messages are phrased. Add any blocks you want (coverage, tone, examples, etc.) — all keys are included in the prompt automatically.
+- `system_prompt` in `{schema}.agent_profiles` for `reach.alert` — how alert messages are phrased. Only these keys are read: `coverage`, `stance`, `goal`, `philosophy`, `examples`. Other keys are ignored.
 
 **Rollout pattern:** Start with `gate_roles: "creator"` (you only) → test with `gate_roles: "tester"` → open with `gate_roles: "all"`.  
 Gate change requires editing `duple_settings.py` + a rebuild (contact Duply team).

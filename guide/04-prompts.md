@@ -151,10 +151,13 @@ WHERE agent_id = 'chat.reply';
 
 ## When Changes Take Effect
 
-- **`public.duply_duples.persona`** — live after Redis cache expiry (~24h) or manual flush
-- **`{schema}.agent_profiles.system_prompt`** — same cache TTL, same flush path
+- **`public.duply_duples.persona`** — live after in-process cache expiry (~5 min)
+- **`{schema}.agent_profiles.system_prompt`** — same TTL (~5 min)
 
-Ask the Duply team to flush `{duple_id}:agent:{agent_id}:prompt` from Redis for an immediate update.
+For an immediate update (no wait): ask the Duply team to restart your container.
+```bash
+docker compose -f infra/platform/docker-compose.yml restart {duple_id}-line-webhook-service
+```
 
 ---
 
