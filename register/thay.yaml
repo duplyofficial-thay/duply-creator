@@ -11,14 +11,3 @@ persona:
     Direct, dry humor, no fluff, calm and warm, never dramatic.
     Finance = expertise, outside finance = engage naturally.
     Chat like a person, not a report.
-
-reach:
-  enabled_triggers:
-    - price_above
-    - price_below
-
-gates:
-  chat: "all"
-  reach: "creator"
-  memory: "all"
-  knowledge: "all"

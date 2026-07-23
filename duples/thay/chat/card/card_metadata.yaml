@@ -1,0 +1,70 @@
+# card_metadata.yaml — display metadata (icon/color/localized name) ported
+# from n8n's RENDER_ST/RENDER_MC/RENDER_THEME node code (Subflow B,
+# workflow q9llBApw4G2mMOl5). This is presentation data, not fetch/routing
+# logic — kept separate from router_config.yaml on purpose.
+
+sector_meta:
+  XLK: {name_en: Technology,    name_th: "เทคโนโลยี",       icon: XLK.png, color: "#6366F1"}
+  XLC: {name_en: Communication, name_th: "สื่อสาร",          icon: XLC.png, color: "#06B6D4"}
+  XLF: {name_en: Financials,    name_th: "การเงิน",          icon: XLF.png, color: "#F59E0B"}
+  XLI: {name_en: Industrials,   name_th: "อุตสาหกรรม",      icon: XLI.png, color: "#64748B"}
+  XLV: {name_en: Healthcare,    name_th: "สุขภาพ",           icon: XLV.png, color: "#10B981"}
+  XLP: {name_en: Staples,       name_th: "สินค้าจำเป็น",     icon: XLY.png, color: "#EC4899"}
+  XLE: {name_en: Energy,        name_th: "พลังงาน",          icon: XLE.png, color: "#EF4444"}
+
+# sector row postback navigates to that sector's theme-equivalent card
+# (tapping "Technology" sends "TECH", same as if the user typed it)
+sector_to_theme_keyword:
+  XLK: TECH
+  XLC: COMM
+  XLF: FINANCE
+  XLI: INDUSTRY
+  XLV: HEALTH
+  XLP: STAPLES
+  XLE: ENERGY
+
+# fixed display order, NOT sorted by performance (unlike sector_meta rows)
+macro_order: [SPY, QQQ, IWM, TLT, LQD, GLD]
+
+macro_meta:
+  SPY: {name_en: Market,    name_th: "ภาพรวมตลาด",      icon: macro_market.png,   color: "#1D4ED8", has_tag: true}
+  QQQ: {name_en: Growth,    name_th: "หุ้นเติบโต",       icon: macro_growth.png,   color: "#059669", has_tag: true}
+  IWM: {name_en: Small Cap, name_th: "หุ้นเล็ก",         icon: macro_smallcap.png, color: "#7C3AED", has_tag: true}
+  TLT: {name_en: Rates,     name_th: "อัตราดอกเบี้ย",    icon: macro_rates.png,    color: "#F59E0B", has_tag: false}
+  LQD: {name_en: Credit,    name_th: "เครดิต",           icon: macro_credit.png,   color: "#EC4899", has_tag: false}
+  GLD: {name_en: Gold,      name_th: "ทอง",              icon: macro_gold.png,     color: "#D97706", has_tag: true}
+
+theme_labels:
+  TECH: TECHNOLOGY
+  ENERGY: ENERGY
+  FINANCE: FINANCIALS
+  HEALTH: HEALTHCARE
+  INDUSTRY: INDUSTRIALS
+  CONSUMER: CONSUMER
+  STAPLES: STAPLES
+  COMM: "COMM & MEDIA"
+  MAG7: MAG7
+  SEMI: SEMI
+  QUANTUM: QUANTUM
+  SOFTWARE: SOFTWARE
+  DEFENSE: DEFENSE
+  BIOTECH: BIOTECH
+  FINTECH: FINTECH
+  SPACE: SPACE
+  NUCLEAR: NUCLEAR
+  DRONES: DRONES
+  PHOTONICS: PHOTONICS
+  ROBOTIC: "PHYSICAL AI"
+  AIPOWER: "AI POWER"
+
+benchmark_labels:
+  SPY: S&P500
+  QQQ: NASDAQ
+  KWEB: China
+  XLK: Tech
+  XLE: Energy
+  XLF: Financials
+  XLV: Healthcare
+  XLI: Industrials
+  XLP: Staples
+  XLC: "Comm Services"

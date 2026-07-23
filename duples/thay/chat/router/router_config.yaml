@@ -1,0 +1,86 @@
+# router_config.yaml — data ported verbatim from n8n's `Router` code node
+# (workflow Thay.chat, d7bEzQqL9YF1mlN9) per the migration audit. Content-only
+# — anyone can extend a keyword/alias/denylist entry here without touching
+# router.py. Precedence order and TICKER_REGEX are structural and live in
+# code, not here.
+
+ticker_alias_map:
+  APPLE: AAPL
+  APPL: AAPL
+  NVIDIA: NVDA
+  TESLA: TSLA
+  GOOGLE: GOOGL
+  TENCENT: TCEHY
+
+chat_word_denylist:
+  # NO/YES MUST stay quoted — PyYAML (1.1 spec) parses bare NO/YES/ON/OFF
+  # as booleans, not strings. Caught by the golden-set replay test
+  # ('Yes' silently routed to CARD/pt instead of AI) — leaving this note
+  # so nobody "cleans up" the quotes later and reintroduces it.
+  - HI
+  - HEY
+  - OK
+  - "NO"
+  - "YES"
+  - WOW
+  - LOL
+  - WTF
+  - LOVE
+  - THANKS
+  - TEST
+  - ERROR
+  - THAY
+
+mode_words:
+  bf: [bf, "พื้นฐาน", funda, fundamental]
+  pt: [pt, price, "กราฟ", technical]
+  ns: [ns, news, "ข่าว"]
+
+# keyword -> {card_type, theme?}. Two-word keys (e.g. "AI POWER") match only
+# when the message is exactly two words (see router.py — this deliberately
+# tightens n8n's looser "first two words" match; no confirmed production
+# case relied on the loose behavior, see audit §2).
+keyword_route_map:
+  WL: {card_type: wl}
+  WATCHLIST: {card_type: wl}
+  "พอร์ต": {card_type: wl}
+  SECTOR: {card_type: st}
+  ST: {card_type: st}
+  "เซกเตอร์": {card_type: st}
+  MACRO: {card_type: mc}
+  MC: {card_type: mc}
+  "ภาพรวม": {card_type: mc}
+  NS: {card_type: mc_ns}
+  NEWS: {card_type: mc_ns}
+  MCNS: {card_type: mc_ns}
+  TECH: {card_type: theme, theme: TECH}
+  "เทค": {card_type: theme, theme: TECH}
+  ENERGY: {card_type: theme, theme: ENERGY}
+  "พลังงาน": {card_type: theme, theme: ENERGY}
+  FINANCE: {card_type: theme, theme: FINANCE}
+  BANK: {card_type: theme, theme: FINANCE}
+  HEALTH: {card_type: theme, theme: HEALTH}
+  HEALTHCARE: {card_type: theme, theme: HEALTH}
+  DEFENSE: {card_type: theme, theme: DEFENSE}
+  MILITARY: {card_type: theme, theme: DEFENSE}
+  MAG7: {card_type: theme, theme: MAG7}
+  CHINA: {card_type: theme, theme: CHINA}
+  SEMI: {card_type: theme, theme: SEMI}
+  AIINFRA: {card_type: theme, theme: SEMI}
+  AIPOWER: {card_type: theme, theme: AIPOWER}
+  "AI POWER": {card_type: theme, theme: AIPOWER}
+  QUANTUM: {card_type: theme, theme: QUANTUM}
+  SOFTWARE: {card_type: theme, theme: SOFTWARE}
+  BIOTECH: {card_type: theme, theme: BIOTECH}
+  FINTECH: {card_type: theme, theme: FINTECH}
+  SPACE: {card_type: theme, theme: SPACE}
+  NUCLEAR: {card_type: theme, theme: NUCLEAR}
+  DRONES: {card_type: theme, theme: DRONES}
+  DRONE: {card_type: theme, theme: DRONES}
+  ROBOTIC: {card_type: theme, theme: ROBOTIC}
+  PHYSICALAI: {card_type: theme, theme: ROBOTIC}
+  PHOTONICS: {card_type: theme, theme: PHOTONICS}
+  PHOTO: {card_type: theme, theme: PHOTONICS}
+  STAPLES: {card_type: theme, theme: STAPLES}
+  INDUSTRY: {card_type: theme, theme: INDUSTRY}
+  COMM: {card_type: theme, theme: COMM}
