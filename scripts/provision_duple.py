@@ -340,20 +340,14 @@ def _render_duple_settings(archetype: str, gates: dict, reach_triggers: list) ->
     reach_gate = gates.get("reach", "creator")
     memory_gate = gates.get("memory", "creator")
     knowledge_gate = gates.get("knowledge", "creator")
-    reach_enabled = bool(reach_triggers)
-    cards_enabled = False
-
     return (
         f'ARCHETYPE = "{archetype}"\n'
         f"\n"
         f"CHAT = {{\n"
-        f'    "enabled": True,\n'
         f'    "gate_roles": "{chat_gate}",\n'
-        f'    "cards_enabled": {cards_enabled},\n'
         f"}}\n"
         f"\n"
         f"REACH = {{\n"
-        f'    "enabled": {reach_enabled},\n'
         f'    "gate_roles": "{reach_gate}",\n'
         f'    "enabled_triggers": {reach_triggers!r},\n'
         f"}}\n"
