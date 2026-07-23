@@ -1,5 +1,7 @@
 duple_id: thay
 archetype: finance
+owner: duply
+description: "Your expert lens on U.S. markets."
 
 persona:
   name: Thay

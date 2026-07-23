@@ -1,5 +1,7 @@
 duple_id: ""           # lowercase, no spaces — becomes your schema: {duple_id}_ai
 archetype: ""          # finance | lifestyle | commerce
+owner: ""              # your name or email
+description: ""        # one-line public description shown on duply.org (e.g. "Your expert lens on U.S. markets.")
 
 persona:
   name: ""             # display name users see
