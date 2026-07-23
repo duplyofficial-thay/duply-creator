@@ -46,8 +46,10 @@ _AGENTS = [
 
 _TOOLS: dict[str, dict[str, list[str]]] = {
     "finance": {
-        "chat.reply":        ["generic", "finance.generic", "finance.us"],
-        "reach.alert":       ["generic", "finance.generic", "finance.us"],
+        # finance.us / finance.set NOT included by default — team adds the right
+        # market pack after provisioning based on the Duple's actual market focus.
+        "chat.reply":        ["generic", "finance.generic"],
+        "reach.alert":       ["generic", "finance.generic"],
         "memory.noter":      [],
         "memory.dream":      [],
         "knowledge.extract": ["generic"],
@@ -66,6 +68,38 @@ _TOOLS: dict[str, dict[str, list[str]]] = {
         "memory.dream":      [],
         "knowledge.extract": ["generic"],
     },
+}
+
+# Default system_prompt templates — enough for the agent to run without crashing.
+# Team fills in real content in Supabase after provisioning.
+_DEFAULT_PROMPTS: dict[str, dict] = {
+    "chat.reply": {
+        "philosophy": (
+            "Be helpful, warm, and genuine. Match your persona's character. "
+            "Don't lecture or add unnecessary caveats."
+        ),
+        "platform": (
+            "You chat via LINE. Keep replies conversational and concise. "
+            "Use line breaks for readability, not markdown headers."
+        ),
+        "tools": (
+            "Use tools when you need current data. "
+            "Call tools before answering questions about real-time information."
+        ),
+        "coverage": (
+            "Focus on topics within your Duple's domain. "
+            "Engage naturally on other topics but stay honest about your expertise."
+        ),
+    },
+    "reach.alert": {
+        "format": (
+            "Send clear, direct alerts. State what triggered, the current value, "
+            "and brief context. No fluff."
+        ),
+    },
+    "memory.noter":      {"note": "Configure extraction rules in Supabase."},
+    "memory.dream":      {"note": "Configure consolidation rules in Supabase."},
+    "knowledge.extract": {"note": "Configure knowledge extraction rules in Supabase."},
 }
 
 # ─── SQL helpers ─────────────────────────────────────────────────────────────
@@ -216,13 +250,15 @@ def provision(duple_id: str, supabase_dir: Path) -> None:
     for agent_id in _AGENTS:
         domain, function = agent_id.split(".", 1)
         tools = tools_map.get(agent_id, [])
+        prompt = _DEFAULT_PROMPTS.get(agent_id, {"note": "Configure in Supabase."})
+        prompt_json = sq(json.dumps(prompt, ensure_ascii=False))
         run_sql(
             f"INSERT INTO {schema}.agent_profiles "
             f"  (agent_id, duple, domain, function, system_prompt, "
             f"   is_active, uses_tools, tools_enabled, status) "
             f"VALUES "
             f"  ('{sq(agent_id)}', '{sq(duple_id)}', '{sq(domain)}', '{sq(function)}', "
-            f"   '{{}}'::jsonb, true, {str(bool(tools)).lower()}, "
+            f"   '{prompt_json}'::jsonb, true, {str(bool(tools)).lower()}, "
             f"   '{sq(json.dumps(tools))}'::jsonb, 'active');",
             supabase_dir,
         )
