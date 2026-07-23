@@ -1,0 +1,111 @@
+# tool_catalog.yaml — authoritative list of tools available to Duple creators.
+#
+# Keep this in sync with platform/tools/registry.py (duply-agents).
+# When adding a tool: update registry.py + _PACK_MAP, then add an entry here,
+# then run: python scripts/gen_tool_catalog.py
+#
+# Fields:
+#   name:        tool function name (matches registry.py key and tools_enabled value)
+#   pack:        pack name used in tools_enabled (e.g. "generic", "finance.generic")
+#   owner_scope: null = all archetypes; "finance" = finance only; "finance.us" = US finance only
+#   description: what the tool does — shown to creators in the guide
+#   args:        list of {name, type, required, description} for the main args
+
+tools:
+  # ── generic pack (all archetypes) ──────────────────────────────────────────
+
+  - name: get_search
+    pack: generic
+    owner_scope: null
+    description: "Search the web for recent news by keyword."
+    args:
+      - {name: query, type: string, required: true,  description: "Search keywords in English"}
+      - {name: days,  type: int,    required: false, description: "How many days back (default 7, max 30)"}
+
+  - name: get_memories
+    pack: generic
+    owner_scope: null
+    description: "Fetch the user's long-term memory topics (what the Duple remembers about them)."
+    args:
+      - {name: duply_id, type: string, required: true, description: "User ID"}
+
+  - name: get_knowledge
+    pack: generic
+    owner_scope: null
+    description: "Search ingested documents via vector similarity. Requires knowledge domain enabled."
+    args:
+      - {name: query, type: string, required: true, description: "What to look up"}
+
+  - name: set_alert
+    pack: generic
+    owner_scope: null
+    description: "Set a price alert for a ticker on behalf of the user. Requires reach.alert enabled."
+    args:
+      - {name: ticker,     type: string, required: true,  description: "Ticker symbol (e.g. AAPL)"}
+      - {name: direction,  type: string, required: true,  description: "\"above\" or \"below\""}
+      - {name: price,      type: number, required: true,  description: "Target price"}
+
+  # ── finance.generic pack ───────────────────────────────────────────────────
+
+  - name: get_watchlist
+    pack: finance.generic
+    owner_scope: finance
+    description: "Fetch the user's saved watchlist with current price and analysis tags."
+    args: []
+
+  - name: update_watchlist
+    pack: finance.generic
+    owner_scope: finance
+    description: "Add or remove a ticker from the user's watchlist."
+    args:
+      - {name: action, type: string, required: true, description: "\"add\" or \"remove\""}
+      - {name: ticker, type: string, required: true, description: "Ticker symbol"}
+
+  # ── finance.us pack ────────────────────────────────────────────────────────
+
+  - name: get_stock_us
+    pack: finance.us
+    owner_scope: finance.us
+    description: "Full price + technical + fundamental + news analysis for a US-listed ticker."
+    args:
+      - {name: ticker, type: string, required: true, description: "US ticker symbol (e.g. NVDA)"}
+
+  - name: get_macro_us
+    pack: finance.us
+    owner_scope: finance.us
+    description: "Macro overview (SPY/QQQ/GLD/rates) or macro news."
+    args:
+      - {name: mode, type: string, required: false, description: "\"overview\" or \"news\" (default overview)"}
+
+  - name: get_sector_us
+    pack: finance.us
+    owner_scope: finance.us
+    description: "Performance overview of all major US market sectors."
+    args: []
+
+  - name: get_theme_us
+    pack: finance.us
+    owner_scope: finance.us
+    description: "Performance and holdings for one of 21 market themes (TECH, ENERGY, HEALTH, etc.)."
+    args:
+      - {name: theme, type: string, required: true, description: "Theme keyword (e.g. TECH, ENERGY)"}
+
+  - name: get_screener_us
+    pack: finance.us
+    owner_scope: finance.us
+    description: "Screen US stocks by criteria (e.g. top gainers, high volume, RSI oversold)."
+    args:
+      - {name: filter, type: string, required: true, description: "Screen type (e.g. top_gainers, overbought)"}
+
+  - name: get_earnings_us
+    pack: finance.us
+    owner_scope: finance.us
+    description: "Upcoming earnings dates, EPS estimates, and beat/miss history for a ticker."
+    args:
+      - {name: ticker, type: string, required: false, description: "Ticker (omit for this week's calendar)"}
+
+  - name: get_economic_calendar_us
+    pack: finance.us
+    owner_scope: finance.us
+    description: "High-impact US economic events for the current week (CPI, FOMC, NFP, etc.)."
+    args: []
