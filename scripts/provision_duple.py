@@ -52,21 +52,21 @@ _TOOLS: dict[str, dict[str, list[str]]] = {
         "reach.alert":       ["generic", "finance.generic"],
         "memory.noter":      [],
         "memory.dream":      [],
-        "knowledge.extract": ["generic"],
+        "knowledge.extract": [],
     },
     "lifestyle": {
         "chat.reply":        ["generic"],
         "reach.alert":       [],
         "memory.noter":      [],
         "memory.dream":      [],
-        "knowledge.extract": ["generic"],
+        "knowledge.extract": [],
     },
     "commerce": {
         "chat.reply":        ["generic"],
         "reach.alert":       [],
         "memory.noter":      [],
         "memory.dream":      [],
-        "knowledge.extract": ["generic"],
+        "knowledge.extract": [],
     },
 }
 
