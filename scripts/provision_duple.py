@@ -370,14 +370,20 @@ def _generate_scaffold(duple_id: str, archetype: str, cfg: dict) -> None:
     _write(root / "chat" / "reply" / "context_builder.py",
            _render_context_builder(duple_id, persona["name"]))
 
-    # chat/card/ — minimal stubs; always generated so reply_flow.py can import them.
+    # chat/card/ — stubs; always generated so reply_flow.py can import them
+    # and so future card authors know the required interface.
     (root / "chat" / "card").mkdir(parents=True, exist_ok=True)
-    fallback_msg = "ขออภัยค่ะ ระบบขัดข้อง" if persona.get("language") == "TH" else "Sorry, something went wrong."
-    _write(root / "chat" / "card" / "card_config.py", _render_card_config(fallback_msg))
-    _write(root / "chat" / "card" / "pipeline.py", _render_card_pipeline())
-    _write(root / "chat" / "card" / "dedup.py", _render_card_dedup())
+    is_thai = persona.get("language", "").upper() == "TH"
+    fallback_msg = "ขออภัยครับ ระบบขัดข้อง" if is_thai else "Sorry, something went wrong."
+    _write(root / "chat" / "card" / "card_config.py",    _render_card_config(fallback_msg))
+    _write(root / "chat" / "card" / "pipeline.py",       _render_card_pipeline())
+    _write(root / "chat" / "card" / "dedup.py",          _render_card_dedup())
+    _write(root / "chat" / "card" / "data_fetcher.py",   _render_card_data_fetcher())
+    _write(root / "chat" / "card" / "card_renderer.py",  _render_card_renderer())
+    _write(root / "chat" / "card" / "card_primitives.py",_render_card_primitives())
+    _write(root / "chat" / "card" / "card_metadata.yaml",_render_card_metadata(duple_id))
 
-    print(f"  wrote duples/{duple_id}/ (7 files)")
+    print(f"  wrote duples/{duple_id}/ (10 files)")
 
 
 def _render_duple_settings(archetype: str, gates: dict, reach_triggers: list) -> str:
@@ -714,6 +720,108 @@ def _render_card_dedup() -> str:
 
 def suppress_if_recently_shown(history, card_type, card_subject, window=6):
     return card_type, card_subject
+'''
+
+
+def _render_card_data_fetcher() -> str:
+    return '''\
+# card/data_fetcher.py — stub.
+#
+# Implement these when cards_enabled is set to True in duple_settings.py.
+#
+# resolve_target(route) -> target
+#   Maps a RouteDecision to a fetch target (ticker, list of tickers, keyword…).
+#   Called by pipeline.py before any fetch. See duples/thay/chat/card/data_fetcher.py.
+#
+# fetch_*_batch(target, user_ctx) -> data | None
+#   One function per card family (pt, ns, bf…). Returns raw data dict or None on failure.
+#   pipeline.py calls the right fetch function based on route.card_type.
+
+
+def resolve_target(route):
+    raise NotImplementedError("data_fetcher.resolve_target not implemented yet")
+'''
+
+
+def _render_card_renderer() -> str:
+    return '''\
+# card/card_renderer.py — stub.
+#
+# Implement these when cards_enabled is set to True in duple_settings.py.
+#
+# Each function takes raw data (from data_fetcher) + user_ctx and returns a
+# LINE Flex Message dict {"contents": {...}, "altText": "..."} or None.
+# Use card_primitives.py for reusable Flex building blocks.
+#
+# pipeline.py imports these by name — keep the function names stable:
+#   render_pt_card(target, data, user_ctx, mode) -> dict | None
+#   render_ns_card(target, data, user_ctx)       -> dict | None
+#   render_bf_card(target, data, user_ctx)       -> dict | None
+#   render_macro_ns_card(data, user_ctx)         -> dict | None
+#   render_tag_info_card(tag_id, user_ctx)       -> dict | None
+#
+# See duples/thay/chat/card/card_renderer.py for a complete reference implementation.
+
+
+def render_pt_card(target, data, user_ctx, mode="single"):
+    raise NotImplementedError("card_renderer.render_pt_card not implemented yet")
+
+
+def render_ns_card(target, data, user_ctx):
+    raise NotImplementedError("card_renderer.render_ns_card not implemented yet")
+
+
+def render_bf_card(target, data, user_ctx):
+    raise NotImplementedError("card_renderer.render_bf_card not implemented yet")
+
+
+def render_macro_ns_card(data, user_ctx):
+    raise NotImplementedError("card_renderer.render_macro_ns_card not implemented yet")
+
+
+def render_tag_info_card(tag_id, user_ctx):
+    raise NotImplementedError("card_renderer.render_tag_info_card not implemented yet")
+'''
+
+
+def _render_card_primitives() -> str:
+    return '''\
+# card/card_primitives.py — stub.
+#
+# Pure helper functions that build LINE Flex Message JSON fragments.
+# No engine-specific logic here — card_renderer.py calls these.
+#
+# See duples/thay/chat/card/card_primitives.py for the full set of primitives:
+#   header_box(title, subtitle, color)    -> flex box dict
+#   price_row(label, value, change_pct)   -> flex row dict
+#   tag_chip(label, color)                -> flex component
+#   footer_row(action_label, action_data) -> flex box dict
+#   bubble(header, body, footer)          -> Flex bubble dict
+#   carousel(bubbles)                     -> Flex carousel dict
+#
+# All primitives are pure functions: data in, Flex JSON fragment out.
+'''
+
+
+def _render_card_metadata(duple_id: str) -> str:
+    return f'''\
+# card/card_metadata.yaml — display metadata for cards (icons, colors, labels).
+#
+# Add entries here when implementing card types in card_renderer.py.
+# See duples/thay/chat/card/card_metadata.yaml for the full reference format.
+#
+# Example structure:
+#
+# sector_meta:
+#   XLK: {{name_en: Technology, name_th: "เทคโนโลยี", icon: XLK.png, color: "#6366F1"}}
+#
+# macro_meta:
+#   SPY: {{name_en: Market, name_th: "ภาพรวมตลาด", icon: macro_market.png, color: "#1D4ED8", has_tag: true}}
+#
+# theme_labels:
+#   TECH: TECHNOLOGY
+#
+# This file is intentionally empty until cards are configured for {duple_id}.
 '''
 
 
