@@ -195,14 +195,16 @@ def provision(duple_id: str, supabase_dir: Path) -> None:
 
     # 5. Seed public.duply_duples
     _step("Seeding public.duply_duples")
-    persona_json = sq(json.dumps(persona, ensure_ascii=False))
+    # persona column is TEXT — store the description string only, matching
+    # how Thay's persona is stored (plain prose, not JSON blob).
+    persona_text = sq(persona.get("description", "").strip())
     run_sql(
         f"INSERT INTO public.duply_duples "
         f"  (duple_id, schema_name, name, archetype, description, persona, is_active) "
         f"VALUES "
         f"  ('{sq(duple_id)}', '{schema}', '{sq(persona['name'])}', "
         f"   '{sq(archetype)}', '{sq(cfg['description'])}', "
-        f"   '{persona_json}'::jsonb, true) "
+        f"   '{persona_text}', true) "
         f"ON CONFLICT (duple_id) DO NOTHING;",
         supabase_dir,
     )

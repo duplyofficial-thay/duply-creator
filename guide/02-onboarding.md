@@ -42,10 +42,11 @@ After receiving your registration file, the Duply team runs `scripts/provision_d
 - Generates `duples/{duple_id}/` in this repo and pushes it back
 
 **Pi infrastructure (manual, done by team):**
-- Creates LINE Official Account for your Duple (integrated with the Duply LIFF auth system)
-- Configures Cloudflare tunnel → new hostname e.g. `webhook-{duple_id}.duply.org`
-- Adds a new `line-webhook-service` entry to `infra/platform/docker-compose.yml`
-- Registers the webhook URL in LINE Console
+- Creates LINE Official Account for your Duple (integrated with the Duply LIFF auth system — team handles this end-to-end)
+- Assigns a port for your webhook service (e.g. `8021`) and adds it to your `duples/{duple_id}/.env`
+- Adds a new public hostname in the Cloudflare Zero Trust dashboard: `webhook-{duple_id}.duply.org` → `http://localhost:{port}` (same single `cloudflared` daemon, routes configured remotely — no restart needed)
+- Adds a new `line-webhook-service` entry to `infra/platform/docker-compose.yml` on the Pi pointing at your `duples/{duple_id}/` and `.env`
+- Registers `https://webhook-{duple_id}.duply.org/webhook` in LINE Console as the webhook URL
 
 **You receive:**
 - Postgres credentials (role name + password) — see below
