@@ -81,12 +81,17 @@ You now have `duples/{your_id}/` with these files:
 
 ```
 duples/{your_id}/
-  duple_settings.py       ← domain gates, archetype, enabled triggers
-  router_config.yaml      ← intent routing rules
-  .env.example            ← env var reference (no real secrets here)
+  duple_settings.py          ← domain gates, archetype, enabled triggers
+  .env.example               ← env var reference (no real secrets here)
   chat/
+    router/
+      router_config.yaml     ← intent routing rules
     reply/
-      context_builder.py  ← how your Duple assembles context for the LLM
+      context_builder.py     ← how your Duple assembles LLM context
+    card/
+      card_config.py         ← card types (stub — extend if you add cards)
+      pipeline.py            ← card rendering (stub)
+      dedup.py               ← card dedup logic (stub)
 ```
 
 Edit these files locally with Claude Code. Key files:
@@ -126,7 +131,9 @@ git commit -m "feat: update context and routing for {your_id}"
 git push
 ```
 
-Notify the Duply team → we pull → rebuild Docker image → redeploy → test via LINE.
+Notify the Duply team → we pull → **restart container** (no image rebuild needed) → test via LINE.
+
+> **Why no rebuild?** The Pi mounts `duples/` as a live volume into the container. Code changes in `duples/{your_id}/` take effect after a plain container restart (`docker compose restart`). Only changes to `platform/` or `shared/` (core platform code) require a full image rebuild.
 
 ---
 
