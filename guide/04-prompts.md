@@ -19,7 +19,7 @@ Connection details:
 ## The `agent_profiles` Table
 
 ```sql
-SELECT agent_id, jsonb_pretty(duple_prompt) FROM {schema}.agent_profiles;
+SELECT agent_id, jsonb_pretty(system_prompt) FROM {schema}.agent_profiles;
 ```
 
 One row per agent. The agents you'll edit most:
@@ -33,45 +33,47 @@ One row per agent. The agents you'll edit most:
 
 ---
 
-## The `duple_prompt` Column
+## The `system_prompt` Column
 
-A JSONB object. The exact keys vary per agent — read what's already there before editing. General structure for `chat.reply`:
+A JSONB object — **this is the column you own and edit**. The exact keys vary per agent. Read what's already there before editing. For `chat.reply`, Thay's live keys as a reference:
 
 ```json
 {
-  "persona": "You are Grace, a concise lifestyle assistant...",
-  "instructions": "Keep replies short. Never use bullet points for simple answers...",
-  "tools": "Use get_search for current events. Only call get_memories when [MEMORY TOPICS] appears in context...",
-  "coverage": "Focus on scheduling, tasks, and day-to-day lifestyle..."
+  "philosophy": "GARP + early-stage growth with catalysts. Small/mid caps fair game...",
+  "platform":   "LINE chat. Lead with the point. 1-2 sentences per bubble, max 3 bubbles...",
+  "tools":      "Priority: get_stock_us → get_macro_us. get_search only if asked...",
+  "coverage":   "US-listed stocks and ETFs only. Other assets via proxy ETF.",
+  "bond":       "0-1: new, guide gently. 3-6: direct, challenge. 6+: casual, roast ok...",
+  "examples":   [{"user": "...", "thay": "..."}]
 }
 ```
 
-You can add, modify, or remove keys. The platform injects the entire `duple_prompt` object into the model's system message.
+Keys are flexible — add, remove, or rename to fit your Duple's needs. The platform injects the entire `system_prompt` object into the model's context.
 
 ---
 
 ## How to Edit Safely
 
-**Always use `jsonb_set()`** — not a plain `UPDATE ... SET duple_prompt = '{...}'`. A full-column overwrite silently wipes keys you didn't include.
+**Always use `jsonb_set()`** — not a plain `UPDATE ... SET system_prompt = '{...}'`. A full-column overwrite silently wipes every key you didn't include.
 
 Update a single key:
 ```sql
 UPDATE {schema}.agent_profiles
-SET duple_prompt = jsonb_set(duple_prompt, '{persona}', '"You are Grace, a concise lifestyle assistant who..."')
+SET system_prompt = jsonb_set(system_prompt, '{philosophy}', '"Your philosophy here..."')
 WHERE agent_id = 'chat.reply';
 ```
 
 Add a new key:
 ```sql
 UPDATE {schema}.agent_profiles
-SET duple_prompt = jsonb_set(duple_prompt, '{coverage}', '"Focus on scheduling, tasks, and day-to-day planning."', true)
+SET system_prompt = jsonb_set(system_prompt, '{coverage}', '"Focus on scheduling, tasks, and day-to-day planning."', true)
 WHERE agent_id = 'chat.reply';
 ```
 
 Remove a key:
 ```sql
 UPDATE {schema}.agent_profiles
-SET duple_prompt = duple_prompt - 'coverage'
+SET system_prompt = system_prompt - 'coverage'
 WHERE agent_id = 'chat.reply';
 ```
 
