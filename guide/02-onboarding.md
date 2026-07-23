@@ -22,24 +22,33 @@ Inside the `register/` folder:
 3. Commit and push
 4. Notify the Duply team
 
-**Do not include LINE tokens in this file.** Send `LINE_CHANNEL_ACCESS_TOKEN` and `LINE_CHANNEL_SECRET` to the Duply team separately via a secure channel. You'll need to create a LINE Official Account first at [developers.line.biz](https://developers.line.biz).
+The Duply team handles LINE setup end-to-end — you don't need a LINE account or tokens.
 
 ---
 
 ## Step 2 — Provisioning (Duply Team)
 
-After receiving your registration file, the Duply team:
+After receiving your registration file, the Duply team runs `scripts/provision_duple.py`, which does everything in one shot:
 
-1. Runs `provision_duple.py` with your config:
-   - Creates Postgres schema `{duple_id}_ai` in the shared Supabase project
-   - Creates a native Postgres role scoped to that schema only (your credentials)
-   - Seeds `{schema}.agent_profiles` with default prompt blocks for all agents
-   - Seeds `public.duply_duples` with your Duple's metadata row
-   - Verifies isolation: confirms your role cannot read `thay_ai` or any other schema
-2. Runs scaffold generator → creates `duples/{duple_id}/` in this repo
-3. Pushes the scaffold back to `duply-creator`
-4. Wires LINE OA + Cloudflare tunnel on the Pi
-5. Sends you your Postgres credentials (role name + password)
+**Database (fully automated):**
+- Creates Postgres schema `{duple_id}_ai` in the shared Supabase project
+- Creates a native Postgres role scoped to that schema only
+- Creates all tables (`user_profiles`, `interact_log`, `agent_profiles`, etc.)
+- Seeds `{schema}.agent_profiles` with all 5 agents (correct `tools_enabled` per archetype)
+- Seeds `public.duply_duples` with your Duple's metadata and persona
+- Verifies isolation: confirms your role cannot read `thay_ai` or any other schema
+
+**Scaffold (fully automated):**
+- Generates `duples/{duple_id}/` in this repo and pushes it back
+
+**Pi infrastructure (manual, done by team):**
+- Creates LINE Official Account for your Duple (integrated with the Duply LIFF auth system)
+- Configures Cloudflare tunnel → new hostname e.g. `webhook-{duple_id}.duply.org`
+- Adds a new `line-webhook-service` entry to `infra/platform/docker-compose.yml`
+- Registers the webhook URL in LINE Console
+
+**You receive:**
+- Postgres credentials (role name + password) — see below
 
 **Save credentials immediately** — copy `duples/.env.example` to `duples/{your_id}/.env` and fill in:
 
