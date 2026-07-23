@@ -20,8 +20,6 @@ chat_word_denylist:
   - KHUN
 
 mode_words:
-  bf: [bf, "พื้นฐาน", funda, fundamental]
   pt: [pt, price, "กราฟ", technical]
-  ns: [ns, news, "ข่าว"]
 
 keyword_route_map: {}
