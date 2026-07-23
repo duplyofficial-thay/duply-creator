@@ -392,10 +392,7 @@ chat_word_denylist:
   - THANKS
   - TEST
 
-mode_words:
-  bf: [bf, "พื้นฐาน", funda, fundamental]
-  pt: [pt, price, "กราฟ", technical]
-  ns: [ns, news, "ข่าว"]
+mode_words: {}   # add keyword groups here if your Duple has analysis modes
 
 keyword_route_map: {}
 """
@@ -637,7 +634,7 @@ from agent_loop import CardConfig, build_json_shape_hint
 CARD_CONFIG = CardConfig(
     valid_card_types=frozenset({{None}}),
     ticker_required_card_types=frozenset(),
-    subject_field_name="card_ticker",
+    subject_field_name="card_subject",
     fallback_message="{fallback_msg}",
 )
 
