@@ -71,7 +71,11 @@ _TOOLS: dict[str, dict[str, list[str]]] = {
 }
 
 # Default system_prompt templates — enough for the agent to run without crashing.
-# Team fills in real content in Supabase after provisioning.
+# Keys must match exactly what each agent's code reads. Team fills real content in Supabase.
+# chat.reply: _build_system_prompt() reads bond, business, philosophy, coverage, tools,
+#             platform, examples (list); "output" is code-locked — never put it here.
+# reach.alert: reads coverage, stance, goal, philosophy, examples (list);
+#              "output" is code-locked — never put it here.
 _DEFAULT_PROMPTS: dict[str, dict] = {
     "chat.reply": {
         "philosophy": (
@@ -90,12 +94,19 @@ _DEFAULT_PROMPTS: dict[str, dict] = {
             "Focus on topics within your Duple's domain. "
             "Engage naturally on other topics but stay honest about your expertise."
         ),
+        "bond": (
+            "Match your tone to the user's closeness level. "
+            "Warmer and more casual as the relationship grows."
+        ),
+        "business": "",
+        "examples": [],
     },
     "reach.alert": {
-        "format": (
-            "Send clear, direct alerts. State what triggered, the current value, "
-            "and brief context. No fluff."
-        ),
+        "coverage": "Send alerts about assets the user is tracking.",
+        "stance": "Factual and concise. No recommendations, no speculation.",
+        "goal": "Keep the user informed about significant price movements in their watchlist.",
+        "philosophy": "Be direct and informative. State what triggered and why it matters.",
+        "examples": [],
     },
     "memory.noter":      {"note": "Configure extraction rules in Supabase."},
     "memory.dream":      {"note": "Configure consolidation rules in Supabase."},
