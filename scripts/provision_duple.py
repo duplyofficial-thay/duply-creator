@@ -220,6 +220,38 @@ def provision(duple_id: str, supabase_dir: Path) -> None:
         supabase_dir,
     )
 
+    # 3b. Grant PostgREST roles access + expose schema
+    _step("Granting PostgREST access + exposing schema")
+    run_sql(
+        f"GRANT USAGE ON SCHEMA {schema} TO anon, authenticated, service_role;",
+        supabase_dir,
+    )
+    run_sql(
+        f"ALTER DEFAULT PRIVILEGES IN SCHEMA {schema} "
+        f"GRANT ALL ON TABLES TO service_role;",
+        supabase_dir,
+    )
+    run_sql(
+        f"ALTER DEFAULT PRIVILEGES IN SCHEMA {schema} "
+        f"GRANT SELECT ON TABLES TO anon, authenticated;",
+        supabase_dir,
+    )
+    # Append schema to pgrst.db_schemas (idempotent — skips if already present)
+    run_sql(
+        f"""DO $$
+DECLARE cur text;
+BEGIN
+  SELECT current_setting('pgrst.db_schemas', true) INTO cur;
+  IF cur IS NULL OR cur = '' THEN cur := 'public'; END IF;
+  IF position('{schema}' IN cur) = 0 THEN
+    EXECUTE format('ALTER ROLE authenticator SET pgrst.db_schemas TO %%L', cur || ',{schema}');
+  END IF;
+END $$;
+NOTIFY pgrst, 'reload config';
+NOTIFY pgrst, 'reload schema';""",
+        supabase_dir,
+    )
+
     # 4. Create tables from template
     _step("Creating tables")
     sql = SCHEMA_TEMPLATE.read_text()
@@ -237,6 +269,10 @@ def provision(duple_id: str, supabase_dir: Path) -> None:
         sql = "\n".join(lines)
 
     run_sql(sql, supabase_dir)
+
+    # 4b. Grant on existing tables (DEFAULT PRIVILEGES only covers future tables)
+    run_sql(f"GRANT ALL ON ALL TABLES IN SCHEMA {schema} TO service_role;", supabase_dir)
+    run_sql(f"GRANT SELECT ON ALL TABLES IN SCHEMA {schema} TO anon, authenticated;", supabase_dir)
 
     # 5. Seed public.duply_duples
     _step("Seeding public.duply_duples")
