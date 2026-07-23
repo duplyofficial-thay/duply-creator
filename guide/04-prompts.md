@@ -1,6 +1,13 @@
 # Editing Prompts and Persona
 
-Your Duple's behavior is driven by the `agent_profiles` table in your schema. You own the `duple_prompt` column — the platform owns `system_prompt`. You never touch `system_prompt`.
+Your Duple's behavior is driven by **two separate tables**:
+
+| Table | Column | What it holds | Scope |
+|---|---|---|---|
+| `public.duply_duples` | `persona` | Who your Duple is — character, tone, background | Shared across ALL agents |
+| `{schema}.agent_profiles` | `system_prompt` | Per-agent operational config — tools, format rules, coverage | One row per agent |
+
+Edit both. The platform injects `persona` first, then each agent's `system_prompt` on top.
 
 ---
 
@@ -16,39 +23,60 @@ Connection details:
 
 ---
 
-## The `agent_profiles` Table
+## 1. Editing Persona (`public.duply_duples`)
 
+This is the **shared character block** — who your Duple is at a human level. It's the same string injected into every agent (chat, reach, dream, noter). Write it like a brief character brief, not a system instruction.
+
+Thay's real persona as a reference:
+```
+Thay: a Thai male US-stock companion, late 30s, ex-fund manager turned friend.
+Direct, dry humor, no fluff, calm and warm, never dramatic.
+Finance = expertise, outside finance = engage naturally.
+Chat like a person, not a report.
+```
+
+Update yours:
+```sql
+UPDATE public.duply_duples
+SET persona = 'Grace: ...'
+WHERE duple_id = '{your_duple_id}';
+```
+
+Changes are live after Redis cache expiry (~24h) or a manual flush by the Duply team.
+
+---
+
+## 2. Editing Per-Agent Config (`{schema}.agent_profiles`)
+
+Each agent has its own row with a `system_prompt` JSONB column. This is where operational behavior lives — tools routing, formatting rules, coverage scope, response examples.
+
+Read what's there first:
 ```sql
 SELECT agent_id, jsonb_pretty(system_prompt) FROM {schema}.agent_profiles;
 ```
 
-One row per agent. The agents you'll edit most:
+The agents you'll edit most:
 
 | `agent_id` | Purpose |
 |---|---|
-| `chat.reply` | Main chat persona — what users experience directly |
-| `memory.noter` | What to extract and track from conversations |
-| `memory.dream` | How to consolidate memories over time |
-| `reach.alert` | How alerts are phrased |
+| `chat.reply` | Main chat behavior — tool priorities, format rules, coverage scope |
+| `memory.noter` | What to extract and remember from conversations |
+| `memory.dream` | How to consolidate memories into long-term topics |
+| `reach.alert` | How alert messages are written |
 
----
-
-## The `system_prompt` Column
-
-A JSONB object — **this is the column you own and edit**. The exact keys vary per agent. Read what's already there before editing. For `chat.reply`, Thay's live keys as a reference:
-
+Thay's `chat.reply` keys as a reference:
 ```json
 {
   "philosophy": "GARP + early-stage growth with catalysts. Small/mid caps fair game...",
   "platform":   "LINE chat. Lead with the point. 1-2 sentences per bubble, max 3 bubbles...",
   "tools":      "Priority: get_stock_us → get_macro_us. get_search only if asked...",
-  "coverage":   "US-listed stocks and ETFs only. Other assets via proxy ETF.",
-  "bond":       "0-1: new, guide gently. 3-6: direct, challenge. 6+: casual, roast ok...",
-  "examples":   [{"user": "...", "thay": "..."}]
+  "coverage":   "US-listed stocks and ETFs only.",
+  "bond":       "0-1: new, guide gently. 3-6: direct. 6+: casual, roast ok...",
+  "examples":   [{"user": "ASTS น่าซื้อมั้ย", "thay": "RSI 51 เพิ่งเด้งจาก EMA50..."}]
 }
 ```
 
-Keys are flexible — add, remove, or rename to fit your Duple's needs. The platform injects the entire `system_prompt` object into the model's context.
+Keys are flexible — add, remove, or rename to fit your Duple.
 
 ---
 
@@ -66,14 +94,14 @@ WHERE agent_id = 'chat.reply';
 Add a new key:
 ```sql
 UPDATE {schema}.agent_profiles
-SET system_prompt = jsonb_set(system_prompt, '{coverage}', '"Focus on scheduling, tasks, and day-to-day planning."', true)
+SET system_prompt = jsonb_set(system_prompt, '{coverage}', '"Your coverage scope here."', true)
 WHERE agent_id = 'chat.reply';
 ```
 
 Remove a key:
 ```sql
 UPDATE {schema}.agent_profiles
-SET system_prompt = system_prompt - 'coverage'
+SET system_prompt = system_prompt - 'bond'
 WHERE agent_id = 'chat.reply';
 ```
 
@@ -81,12 +109,15 @@ WHERE agent_id = 'chat.reply';
 
 ## When Changes Take Effect
 
-Prompt changes are **live immediately** — no redeploy needed. The platform caches prompts in Redis (24h TTL). To force an immediate refresh, ask the Duply team to flush `{duple_id}:agent:{agent_id}:prompt` from Redis, or just wait for the cache to expire.
+- **`public.duply_duples.persona`** — live after Redis cache expiry (~24h) or manual flush
+- **`{schema}.agent_profiles.system_prompt`** — same cache TTL, same flush path
+
+Ask the Duply team to flush `{duple_id}:agent:{agent_id}:prompt` from Redis for an immediate update.
 
 ---
 
 ## Tips
 
-- **Test after every meaningful change.** Send a LINE message to your Duple and check the response. The platform logs every LLM call to `{schema}.agent_call_log` — useful for debugging.
-- **Keep persona in `persona`, behavior rules in `instructions`.** Don't mix them into one long block — easier to edit individual aspects later.
-- **noter and dream prompts matter.** If `chat.reply` is what users see, noter/dream are what make the Duple feel like it "gets" the user over time. Spend time on their extraction and consolidation rules.
+- **`persona` = character, `system_prompt` = behavior.** Don't mix them — keep persona human-readable, keep system_prompt operational.
+- **Test after every meaningful change** via LINE. Check `{schema}.agent_call_log` if something looks off.
+- **noter and dream prompts matter as much as chat.reply.** They shape what the Duple remembers and how it builds user understanding over time.
