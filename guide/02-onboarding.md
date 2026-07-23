@@ -4,77 +4,64 @@
 
 | Step | Creator | Duply Team |
 |---|---|---|
-| 0 | Fill in `duple_config.yaml` | — |
-| 1 | — | Provision schema + DB role, return credentials |
-| 2 | Connect to DB, write persona/prompts | — |
-| 3 | — | Generate code scaffold, open PR for review |
-| 4 | Edit router config + Duple settings | — |
-| 5 | Push to repo, open PR | Review + merge + deploy on Pi |
-| 6 | Create LINE Official Account, send token/secret | Wire LINE OA + Cloudflare route → Duple goes live |
+| 1 | Add registration file, push | — |
+| 2 | — | Provision schema + scaffold + push back |
+| 3 | Pull, edit `duples/{id}/` locally | — |
+| 4 | Push changes | Deploy on Pi → test via LINE |
+| 5 | Edit prompts directly in DB | (no deploy needed) |
 
 ---
 
-## Step 0 — Fill in `duple_config.yaml`
+## Step 1 — Register Your Duple
 
-Fill in every field in [`templates/duple_config.yaml`](../templates/duple_config.yaml).
+Inside the `register/` folder:
 
-Key decisions:
-- **`duple_id`** — lowercase, no spaces, unique. Becomes your schema name (`{duple_id}_ai`) and the mention keyword in LINE (`@{Duple_id}`)
-- **`archetype`** — determines which tool packs your Duple can use (see [03-domains.md](03-domains.md))
-- **`persona.description`** — 2–4 sentences. This seeds your initial `chat.reply` prompt; you'll refine it in Step 2
+1. Copy `_template.yaml` → rename to `{your_duple_id}.yaml`  
+   (Use `thay.yaml` as a real reference — it's a live, working Duple)
+2. Fill in every field
+3. Commit and push
+4. Notify the Duply team
 
-Send the filled-in config to the Duply team. **Do not include LINE tokens in this file** — send those separately via a secure channel.
-
----
-
-## Step 1 — Provisioning (Duply Team)
-
-The Duply team runs `provision_duple.py` with your config. This:
-
-1. Creates Postgres schema `{duple_id}_ai` in the shared Supabase project
-2. Creates a native Postgres role scoped to that schema only (read + write, no other schemas)
-3. Seeds `{schema}.agent_profiles` with default prompt blocks for all agents
-4. Seeds `public.duply_duples` with your Duple's metadata row
-5. Verifies isolation: confirms the new role cannot query `thay_ai` or any other schema
-6. Returns credentials (role name + password) to you
-
-You'll receive a Postgres connection string. Keep it secret.
+**Do not include LINE tokens in this file.** Send `LINE_CHANNEL_ACCESS_TOKEN` and `LINE_CHANNEL_SECRET` to the Duply team separately via a secure channel. You'll need to create a LINE Official Account first at [developers.line.biz](https://developers.line.biz).
 
 ---
 
-## Step 2 — Write Your Persona and Prompts
+## Step 2 — Provisioning (Duply Team)
 
-Connect to your schema using the credentials from Step 1 (psql, DBeaver, TablePlus, or any Postgres client — or ask Claude Code to do it for you).
+After receiving your registration file, the Duply team:
 
-Edit `{schema}.agent_profiles` — specifically the `duple_prompt` JSONB column for each `agent_id`. This is the layer you own. See [04-prompts.md](04-prompts.md) for the exact keys and how to edit safely.
-
-Start with `chat.reply` — it's what users hit first. You can refine the others later.
+1. Runs `provision_duple.py` with your config:
+   - Creates Postgres schema `{duple_id}_ai` in the shared Supabase project
+   - Creates a native Postgres role scoped to that schema only (your credentials)
+   - Seeds `{schema}.agent_profiles` with default prompt blocks for all agents
+   - Seeds `public.duply_duples` with your Duple's metadata row
+   - Verifies isolation: confirms your role cannot read `thay_ai` or any other schema
+2. Runs scaffold generator → creates `duples/{duple_id}/` in this repo
+3. Pushes the scaffold back to `duply-creator`
+4. Wires LINE OA + Cloudflare tunnel on the Pi
+5. Sends you your Postgres credentials (role name + password)
 
 ---
 
-## Step 3 — Code Scaffold (Duply Team)
+## Step 3 — Pull and Edit
 
-The Duply team runs the scaffold generator with your config. This creates:
+```bash
+git pull
+```
+
+You now have `duples/{your_id}/` with these files:
 
 ```
-duples/<duple_id>/
+duples/{your_id}/
   duple_settings.py       ← domain gates, archetype, enabled triggers
   router_config.yaml      ← intent routing rules
-  .env.example            ← env var template (no real secrets)
+  .env.example            ← env var reference (no real secrets here)
   chat/
     reply/
-      context_builder.py  ← context assembly (persona, memory, market data)
-    card/
-      card_config.py      ← card types your Duple serves (if archetype=finance)
+      context_builder.py  ← how your Duple assembles context for the LLM
 ```
 
-This scaffold is opened as a PR in the shared `duply-thay` repo for the Duply team to review before merging.
-
----
-
-## Step 4 — Edit Your Config
-
-Once you have the scaffold, your main files to edit:
+Edit these files locally with Claude Code. Key files:
 
 ### `duple_settings.py`
 
@@ -83,9 +70,9 @@ Controls which domains are active and who can access them:
 ```python
 ARCHETYPE = "finance"   # or "lifestyle", "commerce"
 
-CHAT = {"enabled": True, "gate_roles": "all"}
-REACH = {"enabled": True, "gate_roles": "creator", "enabled_triggers": ["price_above", "price_below"]}
-MEMORY = {"enabled": True, "gate_roles": "all"}
+CHAT    = {"enabled": True, "gate_roles": "all"}
+REACH   = {"enabled": True, "gate_roles": "creator", "enabled_triggers": ["price_above", "price_below"]}
+MEMORY  = {"enabled": True, "gate_roles": "all"}
 KNOWLEDGE = {"enabled": False, "gate_roles": "all"}
 ```
 
@@ -93,31 +80,41 @@ Role options: `"all"` (everyone), `"creator"` (you only), `"tester"` (beta users
 
 ### `router_config.yaml`
 
-Controls how incoming messages are classified — which messages go to AI, which trigger a card, which hit a service. The Duply team can help tune this after you describe your Duple's main use cases.
+Routing rules — which messages trigger a card response vs go to AI. Claude Code can help you tune this after you describe your Duple's main use cases.
+
+### `context_builder.py`
+
+How your Duple assembles the LLM's context (user profile, memory, market data, etc.). This is the main file you'll iterate on as your Duple evolves.
 
 ---
 
-## Step 5 — PR and Deploy
+## Step 4 — Deploy
 
-Push your `duples/<duple_id>/` changes to the repo and open a PR. The Duply team reviews, merges, then:
-- Rebuilds the Docker image
-- Starts your Duple's `line-webhook-service` process on the Pi
-- Confirms it's healthy
+Push your changes:
+
+```bash
+git add duples/{your_id}/
+git commit -m "feat: update context and routing for {your_id}"
+git push
+```
+
+Notify the Duply team → we pull → rebuild Docker image → redeploy → test via LINE.
 
 ---
 
-## Step 6 — LINE OA + Go Live
+## Step 5 — Edit Prompts (no redeploy needed)
 
-1. Create a LINE Official Account for your Duple at [developers.line.biz](https://developers.line.biz)
-2. Send `LINE_CHANNEL_ACCESS_TOKEN` and `LINE_CHANNEL_SECRET` to the Duply team via secure channel
-3. The Duply team adds them to `duples/<duple_id>/.env` on the Pi and sets the webhook URL
-4. Your Duple is live — add yourself as a friend on LINE and test
+Once your Duple is live, most tuning happens in Supabase — not code. Connect to your schema with the Postgres credentials from Step 2 and edit `{schema}.agent_profiles`.
+
+See [04-prompts.md](04-prompts.md) for the exact table, columns, and safe edit patterns.
+
+Changes to prompts are **live immediately** after a Redis cache expiry (~24h) or manual flush by the Duply team.
 
 ---
 
 ## After Launch
 
-- **Edit prompts anytime** — connect to your schema, update `agent_profiles.duple_prompt`. No redeploy needed
-- **Change gate_roles** — edit `duple_settings.py` + rebuild (Duply team does the rebuild)
-- **Add users to roles** — update `{schema}.user_profiles.roles` column (TEXT[]) in your schema
-- **Ingest knowledge docs** — send content to the Duply team; they run `knowledge/ingest.py`
+- **Expand access:** change `gate_roles` in `duple_settings.py` → push → team redeploys
+- **Add users to a role:** update `{schema}.user_profiles.roles` (TEXT[]) directly in your schema
+- **Ingest knowledge docs:** send content to the Duply team — they run `knowledge/ingest.py`
+- **Enable broadcast:** contact Duply team to enable `reach.broadcast` once you have a use case

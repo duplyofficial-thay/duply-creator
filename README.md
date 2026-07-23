@@ -16,9 +16,9 @@ Users talk to Duples via **LINE**. Each Duple has its own persona, tools, and me
 
 ## Getting Started
 
-1. Read [guide/01-concepts.md](guide/01-concepts.md) — vocabulary and mental model  
-2. Read [guide/02-onboarding.md](guide/02-onboarding.md) — step-by-step from zero to live  
-3. Fill in [templates/duple_config.yaml](templates/duple_config.yaml) and send to the Duply team
+1. Read [guide/01-concepts.md](guide/01-concepts.md) — vocabulary and mental model
+2. Read [guide/02-onboarding.md](guide/02-onboarding.md) — step-by-step from zero to live
+3. Go to [register/](register/) — copy `_template.yaml`, rename, fill in, push
 
 ---
 
@@ -26,9 +26,12 @@ Users talk to Duples via **LINE**. Each Duple has its own persona, tools, and me
 
 | Path | What it is |
 |---|---|
+| `register/_template.yaml` | Blank registration config |
+| `register/thay.yaml` | Real example — Thay (finance Duple) |
+| `register/{your_id}.yaml` | Your registration file — add it here |
+| `duples/{your_id}/` | Your Duple's code — scaffolded by Duply team after registration |
 | `guide/01-concepts.md` | Core vocabulary and how the platform works |
 | `guide/02-onboarding.md` | Full onboarding walkthrough |
 | `guide/03-domains.md` | What each domain does and what you can configure |
 | `guide/04-prompts.md` | How to edit your Duple's persona and prompts |
-| `templates/duple_config.yaml` | Config template — fill this in to request provisioning |
 | `PATCH-NOTES.md` | Platform changelog |

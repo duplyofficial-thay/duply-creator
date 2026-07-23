@@ -1,0 +1,19 @@
+duple_id: ""           # lowercase, no spaces — becomes your schema: {duple_id}_ai
+archetype: ""          # finance | lifestyle | commerce
+
+persona:
+  name: ""             # display name users see
+  language: ""         # th | en | th+en
+  description: |
+    # 2–4 sentences. Personality + purpose. Seeds your initial chat.reply prompt.
+
+reach:
+  enabled_triggers:
+    - price_above      # remove this section if archetype is not finance
+    - price_below
+
+gates:
+  chat: "all"          # all | creator | tester | pro
+  reach: "creator"     # start with "creator", expand after testing
+  memory: "all"
+  knowledge: "all"
