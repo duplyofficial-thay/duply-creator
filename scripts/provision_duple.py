@@ -102,10 +102,10 @@ _DEFAULT_PROMPTS: dict[str, dict] = {
         "examples": [],
     },
     "reach.alert": {
-        "coverage": "Send alerts about assets the user is tracking.",
-        "stance": "Factual and concise. No recommendations, no speculation.",
-        "goal": "Keep the user informed about significant price movements in their watchlist.",
-        "philosophy": "Be direct and informative. State what triggered and why it matters.",
+        "coverage": "Send proactive alerts about topics the user is tracking.",
+        "stance": "Factual and concise. State what triggered and why it matters.",
+        "goal": "Keep the user informed when significant events occur.",
+        "philosophy": "Be direct. No filler, no speculation.",
         "examples": [],
     },
     "memory.noter":      {"note": "Configure extraction rules in Supabase."},
@@ -307,7 +307,10 @@ def _generate_scaffold(duple_id: str, archetype: str, cfg: dict) -> None:
 
     persona = cfg["persona"]
     gates = cfg.get("gates", {})
-    reach_triggers = cfg.get("reach", {}).get("enabled_triggers", ["price_above", "price_below"])
+    reach_triggers = cfg.get("reach", {}).get(
+        "enabled_triggers",
+        ["price_above", "price_below"] if archetype == "finance" else []
+    )
 
     # duple_settings.py
     _write(root / "duple_settings.py", _render_duple_settings(archetype, gates, reach_triggers))
@@ -322,7 +325,7 @@ def _generate_scaffold(duple_id: str, archetype: str, cfg: dict) -> None:
     # chat/reply/context_builder.py
     (root / "chat" / "reply").mkdir(parents=True, exist_ok=True)
     _write(root / "chat" / "reply" / "context_builder.py",
-           _render_context_builder(duple_id, persona["name"], archetype))
+           _render_context_builder(duple_id, persona["name"]))
 
     # chat/card/ — minimal stubs; always generated so reply_flow.py can import them.
     # cards_enabled controls behaviour at runtime; the files must exist regardless.
@@ -401,28 +404,7 @@ keyword_route_map: {}
 """
 
 
-def _render_context_builder(duple_id: str, persona_name: str, archetype: str) -> str:
-    is_finance = archetype == "finance"
-    _profile_select = (
-        "nickname,tier,system_lang,knowledge_level,closeness,goal,archetype_data"
-        if is_finance else
-        "nickname,tier,system_lang,knowledge_level,closeness,goal"
-    )
-    _watchlist_doc = (
-        "    watchlist       list  — raw user watchlist (for card dedup reuse)"
-        if is_finance else
-        "    watchlist       list  — always [] (extend in this file if needed)"
-    )
-    _watchlist_fetch = (
-        '    watchlist = (profile.get("archetype_data") or {}).get("watchlist") or []\n\n'
-        if is_finance else
-        ""
-    )
-    _watchlist_return = (
-        '        "watchlist": watchlist,'
-        if is_finance else
-        '        "watchlist": [],'
-    )
+def _render_context_builder(duple_id: str, persona_name: str) -> str:
     return f'''\
 """
 context_builder.py — assembles the LLM context for {duple_id}.chat.reply.
@@ -438,7 +420,7 @@ Returns a dict with:
     context_history str   — empty string (history travels via `history` list)
     tools_enabled   list  — from agent_profiles.tools_enabled
     history         list  — {{role, content}} turns for prompt_builder
-{_watchlist_doc}
+    watchlist       list  — [] by default; extend in this file if needed
     system_lang     str   — UI language (e.g. "TH")
 
 Edit this file to customize how {persona_name} uses user data.
@@ -577,7 +559,7 @@ def _fetch_user_profile(duply_id: str) -> dict:
         rows = _supabase_get(
             f"/rest/v1/user_profiles"
             f"?duply_id=eq.{{duply_id}}"
-            f"&select={_profile_select}"
+            f"&select=nickname,tier,system_lang,knowledge_level,closeness,goal"
             f"&limit=1"
         )
         return rows[0] if rows else {{}}
@@ -629,17 +611,17 @@ async def build_context_async(duply_id: str, agent_id: str = AGENT_ID) -> dict:
     agent_prompt = get_agent_prompt(agent_id)
     duple_persona = get_duple_persona(DUPLE_ID)
 
-{_watchlist_fetch}    return {{
+    return {{
         "system_prompt": _build_system_prompt(
             agent_prompt.get("system_prompt") or {{}}, duple_persona
         ),
         "tools_enabled": agent_prompt.get("tools_enabled") or [],
         "context_user": _build_context_user(profile),
         "context_memory": memory_topics,
-        "context_market": "",   # TODO: wire market data (SET price feed) when ready
+        "context_market": "",   # TODO: wire real-time context here (price, events, etc.)
         "context_history": "",
         "history": history_raw,
-{_watchlist_return}
+        "watchlist": [],        # TODO: fetch from profile if your Duple needs it
         "system_lang": profile.get("system_lang") or "TH",
     }}
 
