@@ -9,8 +9,9 @@ A Duple is composed of domains. Each domain is a distinct capability with its ow
 **What it does:** Handles every incoming LINE message. Classifies intent, routes to AI lane (LLM reply), card lane (pre-built response), or service lane (data mutation like watchlist update). Writes to `interact_log` after every turn. Dispatches `memory.noter` in the background.
 
 **What you configure:**
-- `duple_prompt` in `agent_profiles` for `chat.reply` — your persona, instructions, tool guidance, coverage scope
-- `router_config.yaml` — routing rules (which phrases trigger cards vs AI)
+- `system_prompt` in `{schema}.agent_profiles` for `chat.reply` — persona, instructions, tool guidance, coverage scope. Add any blocks you want; all keys are included in the prompt automatically.
+- `chat/reply/context_builder.py` — how your Duple assembles per-turn context (user profile, memory, history, real-time data). Unique to `chat` because each turn needs live context; reach/memory agents don't.
+- `chat/router/router_config.yaml` — routing rules (which phrases trigger cards vs AI)
 - `CHAT.gate_roles` in `duple_settings.py` — who can chat (default: `"all"`)
 
 **Tools available to your Duple**
@@ -60,8 +61,12 @@ If your finance Duple covers both markets, the team can add both packs.
 
 **What you configure:**
 - `REACH.gate_roles` in `duple_settings.py` — who receives alerts (default: `"creator"` during testing)
-- `REACH.enabled_triggers` — which trigger types your Duple supports (e.g. `["price_above", "price_below"]`)
-- `duple_prompt` in `agent_profiles` for `reach.alert` — how alert messages are phrased
+- `REACH.enabled_triggers` in `duple_settings.py` — which trigger types your Duple checks. Leave `[]` to disable all triggers. Fill in only the types your Duple monitors:
+  ```python
+  "enabled_triggers": ["price_above", "price_below"]   # price alerts (finance)
+  ```
+  Available trigger types depend on your archetype — ask the Duply team what's registered for yours.
+- `system_prompt` in `{schema}.agent_profiles` for `reach.alert` — how alert messages are phrased. Add any blocks you want (coverage, tone, examples, etc.) — all keys are included in the prompt automatically.
 
 **Rollout pattern:** Start with `gate_roles: "creator"` (you only) → test with `gate_roles: "tester"` → open with `gate_roles: "all"`.  
 Gate change requires editing `duple_settings.py` + a rebuild (contact Duply team).

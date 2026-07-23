@@ -307,10 +307,7 @@ def _generate_scaffold(duple_id: str, archetype: str, cfg: dict) -> None:
 
     persona = cfg["persona"]
     gates = cfg.get("gates", {})
-    reach_triggers = cfg.get("reach", {}).get(
-        "enabled_triggers",
-        ["price_above", "price_below"] if archetype == "finance" else []
-    )
+    reach_triggers = cfg.get("reach", {}).get("enabled_triggers", [])
 
     # duple_settings.py
     _write(root / "duple_settings.py", _render_duple_settings(archetype, gates, reach_triggers))
