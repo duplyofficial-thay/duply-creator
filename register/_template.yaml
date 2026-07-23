@@ -5,7 +5,9 @@ persona:
   name: ""             # display name users see
   language: ""         # th | en | th+en
   description: |
-    # 2–4 sentences. Personality + purpose. Seeds your initial chat.reply prompt.
+    # Who this Duple is — personality, character, tone, values.
+    # 2–4 sentences. This seeds the initial prompt.
+    # Operational details (tools, formatting rules, coverage scope) go in Supabase after provisioning.
 
 reach:
   enabled_triggers:
