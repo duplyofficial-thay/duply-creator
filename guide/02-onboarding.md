@@ -41,6 +41,24 @@ After receiving your registration file, the Duply team:
 4. Wires LINE OA + Cloudflare tunnel on the Pi
 5. Sends you your Postgres credentials (role name + password)
 
+**Save credentials immediately** — copy `duples/.env.example` to `duples/{your_id}/.env` and fill in:
+
+```bash
+cp duples/.env.example duples/{your_id}/.env
+# then edit the file with your credentials
+```
+
+```
+POSTGRES_HOST=db.fpjevusrpausqunjhubk.supabase.co
+POSTGRES_PORT=5432
+POSTGRES_DB=postgres
+POSTGRES_SCHEMA={your_id}_ai
+POSTGRES_ROLE={your_id}_role
+POSTGRES_PASSWORD=<the password the Duply team sent you>
+```
+
+This file is git-ignored — it will never be committed. Keep it only on your machine.
+
 ---
 
 ## Step 3 — Pull and Edit
@@ -53,6 +71,7 @@ You now have `duples/{your_id}/` with these files:
 
 ```
 duples/{your_id}/
+  SPEC.md                 ← your Duple's design doc — start here
   duple_settings.py       ← domain gates, archetype, enabled triggers
   router_config.yaml      ← intent routing rules
   .env.example            ← env var reference (no real secrets here)
@@ -60,6 +79,8 @@ duples/{your_id}/
     reply/
       context_builder.py  ← how your Duple assembles context for the LLM
 ```
+
+**Start with `SPEC.md`** — write down what your Duple is, who it's for, what it should and shouldn't do. Use it to record routing decisions, prompt choices, and open questions as you build. There's no required format — it's for you.
 
 Edit these files locally with Claude Code. Key files:
 
