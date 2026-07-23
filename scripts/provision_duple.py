@@ -324,7 +324,15 @@ def _generate_scaffold(duple_id: str, archetype: str, cfg: dict) -> None:
     _write(root / "chat" / "reply" / "context_builder.py",
            _render_context_builder(duple_id, persona["name"]))
 
-    print(f"  wrote duples/{duple_id}/ (4 files)")
+    # chat/card/ — minimal stubs; always generated so reply_flow.py can import them.
+    # cards_enabled controls behaviour at runtime; the files must exist regardless.
+    (root / "chat" / "card").mkdir(parents=True, exist_ok=True)
+    fallback_msg = "ขออภัยค่ะ ระบบขัดข้อง" if persona.get("language") == "TH" else "Sorry, something went wrong."
+    _write(root / "chat" / "card" / "card_config.py", _render_card_config(fallback_msg))
+    _write(root / "chat" / "card" / "pipeline.py", _render_card_pipeline())
+    _write(root / "chat" / "card" / "dedup.py", _render_card_dedup())
+
+    print(f"  wrote duples/{duple_id}/ (7 files)")
 
 
 def _render_duple_settings(archetype: str, gates: dict, reach_triggers: list) -> str:
@@ -367,6 +375,8 @@ def _render_router_config() -> str:
 # router_config.yaml — intent routing rules
 # ticker_alias_map: map common misspellings to canonical tickers
 # chat_word_denylist: short words that route to AI, never CARD
+# mode_words: per-mode keywords that bias the router (AI lane only)
+# keyword_route_map: exact phrases → force CARD route (empty = no forced card routes)
 # NOTE: bare NO/YES must be quoted (PyYAML parses them as booleans otherwise)
 
 ticker_alias_map: {}
@@ -381,6 +391,13 @@ chat_word_denylist:
   - LOL
   - THANKS
   - TEST
+
+mode_words:
+  bf: [bf, "พื้นฐาน", funda, fundamental]
+  pt: [pt, price, "กราฟ", technical]
+  ns: [ns, news, "ข่าว"]
+
+keyword_route_map: {}
 """
 
 
@@ -434,11 +451,11 @@ from redis_contracts import (  # noqa: E402
 log = logging.getLogger(__name__)
 
 AGENT_ID = "chat.reply"
-DUPLE_ID = os.environ.get("DUPLE_ID", "{duple_id}")
+DUPLE_ID = os.environ["DUPLE_ID"]
 REDIS_URL = os.environ.get("PT_REDIS_URL", "redis://localhost:6379/0")
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "")
-SCHEMA = os.environ.get("SCHEMA_NAME", "{duple_id}_ai")
+SCHEMA = os.environ["SCHEMA_NAME"]
 
 _PROMPT_TTL = 300  # 5 min — matches Thay
 
@@ -610,6 +627,57 @@ async def build_context_async(duply_id: str, agent_id: str = AGENT_ID) -> dict:
 
 def build_context(duply_id: str, agent_id: str = AGENT_ID) -> dict:
     return asyncio.run(build_context_async(duply_id, agent_id))
+'''
+
+
+def _render_card_config(fallback_msg: str) -> str:
+    return f'''\
+from agent_loop import CardConfig, build_json_shape_hint
+
+# Minimal stub — cards not configured yet.
+# When you add card types: extend valid_card_types and ticker_required_card_types.
+CARD_CONFIG = CardConfig(
+    valid_card_types=frozenset({{None}}),
+    ticker_required_card_types=frozenset(),
+    subject_field_name="card_ticker",
+    fallback_message="{fallback_msg}",
+)
+
+REPLY_OUTPUT_PROMPT = (
+    f"JSON only, no markdown fence: {{build_json_shape_hint(CARD_CONFIG)}}\\n"
+    "card_type: null (plain text reply only — no cards configured yet)."
+)
+
+REACH_ALERT_OUTPUT_PROMPT = (
+    f"Return a JSON object exactly: {{build_json_shape_hint(CARD_CONFIG)}}\\n"
+    "No markdown fence. card_type: null only."
+)
+'''
+
+
+def _render_card_pipeline() -> str:
+    return '''\
+# Stub — no cards configured yet.
+# When you add card types: implement render_card_with_status and render_card here.
+
+
+def render_card_with_status(route, user_ctx: dict):
+    return None, "no_cards"
+
+
+def render_card(route, user_ctx: dict):
+    return None
+'''
+
+
+def _render_card_dedup() -> str:
+    return '''\
+# Stub — no card dedup needed when cards are disabled.
+# When you add cards: implement suppression logic here.
+
+
+def suppress_if_recently_shown(history, card_type, card_ticker, window=6):
+    return card_type, card_ticker
 '''
 
 

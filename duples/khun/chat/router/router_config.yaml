@@ -1,6 +1,8 @@
 # router_config.yaml — intent routing rules
 # ticker_alias_map: map common misspellings to canonical tickers
 # chat_word_denylist: short words that route to AI, never CARD
+# mode_words: per-mode keywords that bias the router (AI lane only)
+# keyword_route_map: exact phrases → force CARD route (empty = no forced card routes)
 # NOTE: bare NO/YES must be quoted (PyYAML parses them as booleans otherwise)
 
 ticker_alias_map: {}
@@ -15,3 +17,11 @@ chat_word_denylist:
   - LOL
   - THANKS
   - TEST
+  - KHUN
+
+mode_words:
+  bf: [bf, "พื้นฐาน", funda, fundamental]
+  pt: [pt, price, "กราฟ", technical]
+  ns: [ns, news, "ข่าว"]
+
+keyword_route_map: {}
