@@ -4,6 +4,30 @@ Changes to the Duply platform that affect Duple creators.
 
 ---
 
+## v0.2.0 — Domain Gate System (2026-07-23)
+
+### Domain gates are now fully enforced
+
+All four domains now have live `enabled` + `gate_roles` flags in `duple_settings.py` that the platform actually reads:
+
+| Domain | `enabled` | `gate_roles` |
+|--------|-----------|--------------|
+| `CHAT` | — (always on) | ✅ gatekeeper — controls who can message |
+| `REACH` | ✅ reach_cron exits early if False | ✅ controls who receives alerts |
+| `MEMORY` | ✅ dream skips this Duple if False | ✅ noter skips users who don't qualify |
+| `KNOWLEDGE` | ✅ ingest.py refuses to run if False | ✅ controls who can query |
+
+Previously `MEMORY.enabled` and `KNOWLEDGE.enabled` were declared in `duple_settings.py` but not enforced. Now they are.
+
+### Other changes
+
+- `duple_settings.py` — `enabled` field added to `REACH`, `MEMORY`, `KNOWLEDGE` blocks in the generated scaffold
+- Editing files in `duples/` now only requires a **container restart**, not a rebuild (bind mount added to all webhook services)
+- `system_prompt` — corrected terminology in guide (was incorrectly called `duple_prompt` in some docs)
+- Guide: team post-provisioning checklist added to `guide/03-domains.md` (docker-compose entry, cron, Cloudflare, LINE Console steps)
+
+---
+
 ## v0.1.0 — Platform Launch (2026-07-23)
 
 Initial release. The following is available for new Duples from day one.
@@ -45,6 +69,6 @@ Initial release. The following is available for new Duples from day one.
 
 - Native Postgres role isolation per Duple schema — role cannot access other Duples' data
 - Per-Duple `duple_settings.py` for domain gates and enabled triggers
-- `agent_profiles.duple_prompt` — creator-editable prompt layer, no redeploy needed
+- `agent_profiles.system_prompt` — creator-editable prompt layer, no redeploy needed
 - `agent_call_log` — LLM call log per schema (cost, latency, cache hit rate)
 - Telegram alerting for platform errors (Duply team only)
