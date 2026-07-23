@@ -130,16 +130,15 @@ my_card_meta:
 
 ```python
 elif card_type == "my_type":
-    return fetch_my_data(card_ticker)
+    return fetch_my_data(data.get("card_subject"))
 ```
 
-### What to send the team
+### What to do
 
-1. Push your renderer + metadata + data_fetcher changes
-2. Tell the team which new `card_type` string to add to `card_config.py`'s `valid_card_types`
-3. Tell the team whether your card requires a `card_ticker` value from the LLM (like stock cards do) or is ticker-less (like watchlist/sector cards)
-4. If it's LLM-triggered: tell the team what to add to `REPLY_OUTPUT_PROMPT` so the LLM knows when to use it
-5. If it's router-triggered only: tell the team what pattern to add to `router_config.yaml`
+1. Add your new `card_type` string to `valid_card_types` in `duples/{duple_id}/chat/card/card_config.py`
+2. If the LLM needs a subject value (like a ticker, product name, etc.), it will pass it as `card_subject` — update `REPLY_OUTPUT_PROMPT` in `card_config.py` to tell the LLM when to use the new type and what to put in `card_subject`
+3. Push your changes — the container picks them up on next restart (no rebuild needed)
+4. If router-triggered: add the keyword pattern to `router_config.yaml`
 
 ---
 

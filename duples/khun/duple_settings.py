@@ -1,9 +1,7 @@
 ARCHETYPE = "finance"
 
 CHAT = {
-    "enabled": True,
     "gate_roles": "all",
-    "cards_enabled": True,
 }
 
 REACH = {
@@ -19,5 +17,5 @@ MEMORY = {
 
 KNOWLEDGE = {
     "enabled": False,
-    "gate_roles": "all",
+    "gate_roles": "creator",
 }

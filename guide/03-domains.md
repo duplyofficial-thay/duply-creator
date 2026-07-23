@@ -12,7 +12,7 @@ A Duple is composed of domains. Each domain is a distinct capability with its ow
 - `system_prompt` in `{schema}.agent_profiles` for `chat.reply` — persona, instructions, tool guidance, coverage scope. Add any blocks you want; all keys are included in the prompt automatically.
 - `chat/reply/context_builder.py` — how your Duple assembles per-turn context (user profile, memory, history, real-time data). Unique to `chat` because each turn needs live context; reach/memory agents don't.
 - `chat/router/router_config.yaml` — routing rules (which phrases trigger cards vs AI)
-- `CHAT.gate_roles` in `duple_settings.py` — who can chat (default: `"all"`)
+- `CHAT.gate_roles` in `duple_settings.py` — who can chat (default: `"creator"` — change to `"all"` to open)
 
 **Tools available to your Duple**
 
@@ -37,19 +37,19 @@ If your finance Duple covers both markets, the team can add both packs.
 
 ### memory.noter (per-turn extraction)
 
-**What it does:** After every AI-lane reply, extracts facts, preferences, and context from the conversation and writes them to `{schema}.memory_topics`. Runs in a background thread — never delays the reply.
+**What it does:** After every AI-lane reply, extracts facts, preferences, and context from the conversation and writes them to `{schema}.memory_topics`. Runs in a background thread — never delays the reply. Only fires for users who pass `MEMORY.gate_roles`.
 
 **What you configure:**
-- `duple_prompt` in `agent_profiles` for `memory.noter` — extraction focus, what to track, what to ignore
+- `system_prompt` in `agent_profiles` for `memory.noter` — extraction focus, what to track, what to ignore
+- `MEMORY.gate_roles` in `duple_settings.py` — which users get memory extracted (default: `"creator"`)
 
 ### memory.dream (nightly consolidation)
 
 **What it does:** Nightly job (04:00 BKT). Reads all `pending` memory rows accumulated that day, consolidates into long-term topics, updates/archives/creates entries. This is what makes the Duple feel like it "remembers" across sessions.
 
 **What you configure:**
-- `duple_prompt` in `agent_profiles` for `memory.dream` — consolidation style, topic taxonomy, retention rules
-
-**Note:** dream runs automatically on all Duples each night. No gate needed.
+- `system_prompt` in `agent_profiles` for `memory.dream` — consolidation style, topic taxonomy, retention rules
+- `MEMORY.enabled` in `duple_settings.py` — set to `False` to skip dream entirely for this Duple (default: `True`)
 
 ---
 
@@ -60,6 +60,7 @@ If your finance Duple covers both markets, the team can add both packs.
 **What it does:** Sends proactive LINE push messages when user-configured triggers fire — e.g. a price alert the user set via `set_alert`. Runs on a cron every 15 minutes on market days.
 
 **What you configure:**
+- `REACH.enabled` in `duple_settings.py` — set to `False` to stop the cron from running at all (default: `True`)
 - `REACH.gate_roles` in `duple_settings.py` — who receives alerts (default: `"creator"` during testing)
 - `REACH.enabled_triggers` in `duple_settings.py` — which trigger types your Duple checks. Leave `[]` to disable all triggers. Fill in only the types your Duple monitors:
   ```python
@@ -69,7 +70,7 @@ If your finance Duple covers both markets, the team can add both packs.
 - `system_prompt` in `{schema}.agent_profiles` for `reach.alert` — how alert messages are phrased. Only these keys are read: `coverage`, `stance`, `goal`, `philosophy`, `examples`. Other keys are ignored.
 
 **Rollout pattern:** Start with `gate_roles: "creator"` (you only) → test with `gate_roles: "tester"` → open with `gate_roles: "all"`.  
-Gate change requires editing `duple_settings.py` + a rebuild (contact Duply team).
+Gate change requires editing `duple_settings.py` + a container restart (contact Duply team).
 
 ### reach.broadcast (admin push)
 
@@ -84,10 +85,52 @@ Gate change requires editing `duple_settings.py` + a rebuild (contact Duply team
 **What it does:** Ingests documents you provide → stores as vector embeddings in `{schema}.knowledge_chunks` → the `get_knowledge` tool retrieves relevant chunks when the LLM needs them.
 
 **What you configure:**
-- Content: send documents to the Duply team, who run `knowledge/ingest.py`
-- `KNOWLEDGE.gate_roles` in `duple_settings.py`
+- `KNOWLEDGE.enabled` in `duple_settings.py` — must be `True` before sending docs to ingest (default: `False`)
+- `KNOWLEDGE.gate_roles` in `duple_settings.py` — who can query knowledge (default: `"creator"`)
+- Content: send documents to the Duply team, who run `knowledge/ingest.py` on your behalf
 
-**Status:** Pipeline is live. Ingestion is manual (CLI). No self-serve upload UI yet.
+**Status:** Pipeline is live. Ingestion is currently team-run (CLI). No self-serve upload UI yet.
+
+**To activate knowledge for your Duple:**
+1. Set `KNOWLEDGE.enabled = True` in `duple_settings.py`
+2. Send your documents (text files) + source URLs to the Duply team
+3. Make sure `get_knowledge` is in `tools_enabled` for `chat.reply` (team adds during provisioning if finance pack)
+4. Update your `tools` block in `system_prompt` to tell the LLM when to call it
+
+---
+
+## Team post-provisioning steps
+
+After the Duply team provisions a new Duple, they also need to:
+
+1. **Add the webhook service to `infra/platform/docker-compose.yml`** on Pi:
+   ```yaml
+   {duple_id}-line-webhook-service:
+     image: duply-platform:latest
+     container_name: {duple_id}-line-webhook-service
+     restart: always
+     network_mode: host
+     working_dir: /app/platform/chat
+     command: ["python3", "line_webhook_service.py"]
+     env_file:
+       - ../../.env.platform
+       - ../../.env.archetype.{archetype}
+       - ../../duples/{duple_id}/.env
+     volumes:
+       - ../../duples:/app/duples:ro
+   ```
+   Then: `docker compose -f infra/platform/docker-compose.yml up -d {duple_id}-line-webhook-service`
+
+2. **Add a reach cron entry** (if REACH.enabled=True):
+   ```
+   2,17,32,47 * * * 1-5  set -a; . /home/duply/duply-agents/.env; . /home/duply/duply-agents/duples/{duple_id}/.env; set +a; /usr/bin/python3 /home/duply/duply-agents/platform/reach/reach_cron.py >> /home/duply/duply-agents/platform/reach/reach_{duple_id}.log 2>&1
+   ```
+
+3. **Cloudflare Zero Trust** → Tunnels → Edit → Public Hostnames → Add:
+   `webhook-{duple_id}.duply.org` → `http://localhost:{PORT}`
+
+4. **LINE Console** → Messaging API → Webhook URL:
+   `https://webhook-{duple_id}.duply.org/webhook` (enable + verify)
 
 ---
 
@@ -95,7 +138,6 @@ Gate change requires editing `duple_settings.py` + a rebuild (contact Duply team
 
 | Feature | Status |
 |---|---|
-| Custom card types | Currently Thay-specific. Contact Duply team if your Duple needs stock cards or custom card layouts |
 | `memory.invest` (portfolio manager) | Not built |
 | `meta` agent (self-improving) | Not built |
 | Social publishing (Facebook, Instagram) | Not built |

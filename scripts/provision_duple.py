@@ -325,7 +325,6 @@ def _generate_scaffold(duple_id: str, archetype: str, cfg: dict) -> None:
            _render_context_builder(duple_id, persona["name"]))
 
     # chat/card/ — minimal stubs; always generated so reply_flow.py can import them.
-    # cards_enabled controls behaviour at runtime; the files must exist regardless.
     (root / "chat" / "card").mkdir(parents=True, exist_ok=True)
     fallback_msg = "ขออภัยค่ะ ระบบขัดข้อง" if persona.get("language") == "TH" else "Sorry, something went wrong."
     _write(root / "chat" / "card" / "card_config.py", _render_card_config(fallback_msg))
@@ -348,6 +347,7 @@ def _render_duple_settings(archetype: str, gates: dict, reach_triggers: list) ->
         f"}}\n"
         f"\n"
         f"REACH = {{\n"
+        f'    "enabled": True,\n'
         f'    "gate_roles": "{reach_gate}",\n'
         f'    "enabled_triggers": {reach_triggers!r},\n'
         f"}}\n"
