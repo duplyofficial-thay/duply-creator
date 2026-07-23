@@ -322,7 +322,7 @@ def _generate_scaffold(duple_id: str, archetype: str, cfg: dict) -> None:
     # chat/reply/context_builder.py
     (root / "chat" / "reply").mkdir(parents=True, exist_ok=True)
     _write(root / "chat" / "reply" / "context_builder.py",
-           _render_context_builder(duple_id, persona["name"]))
+           _render_context_builder(duple_id, persona["name"], archetype))
 
     # chat/card/ — minimal stubs; always generated so reply_flow.py can import them.
     # cards_enabled controls behaviour at runtime; the files must exist regardless.
@@ -401,7 +401,28 @@ keyword_route_map: {}
 """
 
 
-def _render_context_builder(duple_id: str, persona_name: str) -> str:
+def _render_context_builder(duple_id: str, persona_name: str, archetype: str) -> str:
+    is_finance = archetype == "finance"
+    _profile_select = (
+        "nickname,tier,system_lang,knowledge_level,closeness,goal,archetype_data"
+        if is_finance else
+        "nickname,tier,system_lang,knowledge_level,closeness,goal"
+    )
+    _watchlist_doc = (
+        "    watchlist       list  — raw user watchlist (for card dedup reuse)"
+        if is_finance else
+        "    watchlist       list  — always [] (extend in this file if needed)"
+    )
+    _watchlist_fetch = (
+        '    watchlist = (profile.get("archetype_data") or {}).get("watchlist") or []\n\n'
+        if is_finance else
+        ""
+    )
+    _watchlist_return = (
+        '        "watchlist": watchlist,'
+        if is_finance else
+        '        "watchlist": [],'
+    )
     return f'''\
 """
 context_builder.py — assembles the LLM context for {duple_id}.chat.reply.
@@ -417,7 +438,7 @@ Returns a dict with:
     context_history str   — empty string (history travels via `history` list)
     tools_enabled   list  — from agent_profiles.tools_enabled
     history         list  — {{role, content}} turns for prompt_builder
-    watchlist       list  — raw user watchlist (for card dedup reuse)
+{_watchlist_doc}
     system_lang     str   — UI language (e.g. "TH")
 
 Edit this file to customize how {persona_name} uses user data.
@@ -556,7 +577,7 @@ def _fetch_user_profile(duply_id: str) -> dict:
         rows = _supabase_get(
             f"/rest/v1/user_profiles"
             f"?duply_id=eq.{{duply_id}}"
-            f"&select=nickname,tier,system_lang,knowledge_level,closeness,goal,archetype_data"
+            f"&select={_profile_select}"
             f"&limit=1"
         )
         return rows[0] if rows else {{}}
@@ -608,9 +629,7 @@ async def build_context_async(duply_id: str, agent_id: str = AGENT_ID) -> dict:
     agent_prompt = get_agent_prompt(agent_id)
     duple_persona = get_duple_persona(DUPLE_ID)
 
-    watchlist = (profile.get("archetype_data") or {{}}).get("watchlist") or []
-
-    return {{
+{_watchlist_fetch}    return {{
         "system_prompt": _build_system_prompt(
             agent_prompt.get("system_prompt") or {{}}, duple_persona
         ),
@@ -620,7 +639,7 @@ async def build_context_async(duply_id: str, agent_id: str = AGENT_ID) -> dict:
         "context_market": "",   # TODO: wire market data (SET price feed) when ready
         "context_history": "",
         "history": history_raw,
-        "watchlist": watchlist,
+{_watchlist_return}
         "system_lang": profile.get("system_lang") or "TH",
     }}
 
