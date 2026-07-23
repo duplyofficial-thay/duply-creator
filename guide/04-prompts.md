@@ -64,19 +64,61 @@ The agents you'll edit most:
 | `memory.dream` | How to consolidate memories into long-term topics |
 | `reach.alert` | How alert messages are written |
 
-Thay's `chat.reply` keys as a reference:
+**`chat.reply` key reference:**
+
+| Key | Required | What it controls |
+|---|---|---|
+| `philosophy` | ✅ | Investment/domain philosophy, decision-making stance, personality under pressure |
+| `platform` | ✅ | LINE-specific formatting rules — bubble length, line breaks, emoji use |
+| `tools` | ✅ | When and how to call each tool. List your tools by priority order |
+| `coverage` | ✅ | What topics this Duple covers and what falls outside its scope |
+| `bond` | ✅ | How tone shifts with closeness score (0–10 scale in `user_profiles`) |
+| `business` | optional | Business model, subscription info, paid features — leave empty if not relevant |
+| `examples` | optional | List of `{user, <name>}` example Q&A pairs in your Duple's language/style |
+
+Every key is injected into the prompt as `[KEY]\nvalue`. You can add custom keys — they'll appear in the same format. The one key you must never add here: **`output`** — that's a hardcoded code constant, not read from DB.
+
+**Finance Duple (Thay) example:**
 ```json
 {
   "philosophy": "GARP + early-stage growth with catalysts. Small/mid caps fair game...",
   "platform":   "LINE chat. Lead with the point. 1-2 sentences per bubble, max 3 bubbles...",
-  "tools":      "Priority: get_stock_us → get_macro_us. get_search only if asked...",
-  "coverage":   "US-listed stocks and ETFs only.",
-  "bond":       "0-1: new, guide gently. 3-6: direct. 6+: casual, roast ok...",
+  "tools":      "Priority: get_stock → get_macro. Use get_watchlist when user asks 'what should I watch'. get_search only if they ask for news.",
+  "coverage":   "US-listed stocks and ETFs only. Crypto only on direct ask.",
+  "bond":       "0-1: new, guide gently. 3-6: direct. 6+: casual, roast ok.",
   "examples":   [{"user": "ASTS น่าซื้อมั้ย", "thay": "RSI 51 เพิ่งเด้งจาก EMA50..."}]
 }
 ```
 
-Keys are flexible — add, remove, or rename to fit your Duple.
+**Non-finance Duple (lifestyle/commerce) — same keys, different values:**
+```json
+{
+  "philosophy": "Practical and warm. Help users find what suits them, not what's trending. No pressure.",
+  "platform":   "LINE chat. Short and conversational. 1-2 sentences per bubble.",
+  "tools":      "Use get_search when user asks about something specific or recent. Use get_memories before recommending — check what they've liked before.",
+  "coverage":   "Fashion, wellness, food in Thailand. Finance and medical advice: acknowledge and redirect.",
+  "bond":       "0-2: helpful stranger. 3-6: friend who knows your taste. 7+: casual, personal, know their style.",
+  "examples":   []
+}
+```
+
+The `tools` block is the most important difference across archetypes — describe exactly the tools your Duple actually has (check `tools_enabled` in Supabase).
+
+---
+
+**`reach.alert` key reference:**
+
+Unlike `chat.reply`, the reach agent reads only these specific keys. Extra keys are ignored.
+
+| Key | What it controls |
+|---|---|
+| `coverage` | What this Duple sends alerts about — which assets, which event types |
+| `stance` | Tone: factual, cautious, energetic, etc. |
+| `goal` | What a good alert achieves for the user |
+| `philosophy` | High-level approach — what's worth interrupting the user for |
+| `examples` | List of example alert messages (optional but useful for style consistency) |
+
+**`output`** is code-locked — never set it here.
 
 ---
 

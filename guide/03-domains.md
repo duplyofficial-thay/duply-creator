@@ -13,23 +13,43 @@ A Duple is composed of domains. Each domain is a distinct capability with its ow
 - `router_config.yaml` — routing rules (which phrases trigger cards vs AI)
 - `CHAT.gate_roles` in `duple_settings.py` — who can chat (default: `"all"`)
 
-**Tools available (archetype = finance):**
+**Tools available to your Duple**
+
+Tools are assigned per Duple in `{schema}.agent_profiles.tools_enabled`. Check yours:
+```sql
+SELECT agent_id, tools_enabled FROM {schema}.agent_profiles WHERE agent_id = 'chat.reply';
+```
+
+Tools are organised into packs. The packs your Duple has depend on your archetype and what the Duply team added after provisioning.
+
+**Generic pack** — available to all archetypes:
 
 | Tool | What it does |
 |---|---|
-| `get_stock` | PT + BF + NS analysis for one or more tickers |
+| `get_search` | Search recent news by keyword |
+| `get_memories` | Fetch user's long-term memory topics |
+| `get_knowledge` | Search ingested documents (requires knowledge enabled) |
+| `set_alert` | Set a price alert for a ticker (requires reach.alert enabled) |
+
+**Finance generic pack** (`finance.generic`) — added to all finance Duples by default:
+
+| Tool | What it does |
+|---|---|
 | `get_watchlist` | User's saved tickers with current price and tags |
 | `get_earnings` | Upcoming earnings dates, EPS, beat/miss |
 | `get_calendar` | This week's earnings + high-impact economic events |
 | `get_sector` | Overview of all major market sectors |
 | `get_macro` | Macro price data or macro news |
-| `get_theme` | 21 market themes (tech, energy, etc.) |
-| `set_alert` | Set a price alert for a ticker (requires reach.alert enabled) |
-| `get_search` | Search recent news by keyword |
-| `get_memories` | Fetch user's long-term memory topics |
-| `get_knowledge` | Search ingested documents (requires knowledge enabled) |
+| `get_theme` | 21 market themes (tech, energy, defence, etc.) |
 
-Tools available to all archetypes: `get_search`, `get_memories`, `get_knowledge`, `set_alert`
+**Finance market packs** — one of these is added by the Duply team after provisioning, depending on your Duple's market focus:
+
+| Pack | Tool | What it does |
+|---|---|---|
+| `finance.set` | `get_stock` | Full price + technical + fundamental + news analysis for SET-listed tickers |
+| `finance.us` | `get_stock` | Same analysis for US-listed tickers |
+
+If your finance Duple covers both markets, the team can add both packs.
 
 ---
 
