@@ -336,10 +336,10 @@ def _generate_scaffold(duple_id: str, archetype: str, cfg: dict) -> None:
 
 
 def _render_duple_settings(archetype: str, gates: dict, reach_triggers: list) -> str:
-    chat_gate = gates.get("chat", "all")
+    chat_gate = gates.get("chat", "creator")
     reach_gate = gates.get("reach", "creator")
-    memory_gate = gates.get("memory", "all")
-    knowledge_gate = gates.get("knowledge", "all")
+    memory_gate = gates.get("memory", "creator")
+    knowledge_gate = gates.get("knowledge", "creator")
     reach_enabled = bool(reach_triggers)
     cards_enabled = False
 
