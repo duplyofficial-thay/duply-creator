@@ -397,6 +397,7 @@ def _render_duple_settings(archetype: str, gates: dict, reach_triggers: list) ->
         f"CHAT = {{\n"
         f'    "gate_roles": "{chat_gate}",\n'
         f'    "cards_enabled": False,\n'
+        f'    "dump_prompt": False,\n'
         f"}}\n"
         f"\n"
         f"REACH = {{\n"
@@ -895,8 +896,11 @@ Send credentials to {owner} via a secure channel.
          - ../../.env.platform
          - ../../.env.archetype.finance
          - ../../duples/{duple_id}/.env
+       environment:
+         AGENT_LOOP_DEBUG_LOG: /app/logs/debug_parse_failures.jsonl
        volumes:
          - ../../duples:/app/duples:ro
+         - ../../platform/chat/logs:/app/logs:rw
 
   7. Cloudflare Zero Trust → Tunnels → Edit → Public Hostnames → Add:
        webhook-{duple_id}.duply.org → http://localhost:<PORT>

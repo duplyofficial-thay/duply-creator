@@ -74,9 +74,11 @@ The agents you'll edit most:
 | `coverage` | ✅ | What topics this Duple covers and what falls outside its scope |
 | `bond` | ✅ | How tone shifts with closeness score (0–10 scale in `user_profiles`) |
 | `business` | optional | Business model, subscription info, paid features — leave empty if not relevant |
-| `examples` | optional | List of `{user, <name>}` example Q&A pairs in your Duple's language/style |
+| `examples` | optional | List of `{user, <name>}` example Q&A pairs. **The reply field (`thay`, `grace`, etc.) must be a JSON string** matching the output schema — see format below. |
 
 Every key is injected into the prompt as `[KEY]\nvalue`. You can add custom keys — they'll appear in the same format. The one key you must never add here: **`output`** — that's a hardcoded code constant, not read from DB.
+
+> **`examples` format rule:** The reply field value must be a JSON string (not plain text) matching the output schema: `{"messages": ["bubble1"], "card_type": "pt"|null, "card_ticker": "TICKER"|null}`. Show multi-bubble by including multiple strings in `messages`. Use `card_type: null` for social/opinion turns, the correct card type for stock/market turns. The model learns its output format from these examples — plain text examples teach the wrong format and break parsing.
 
 **Finance Duple (Thay) example:**
 ```json
@@ -86,7 +88,10 @@ Every key is injected into the prompt as `[KEY]\nvalue`. You can add custom keys
   "tools":      "Priority: get_stock → get_macro. Use get_watchlist when user asks 'what should I watch'. get_search only if they ask for news.",
   "coverage":   "US-listed stocks and ETFs only. Crypto only on direct ask.",
   "bond":       "0-1: new, guide gently. 3-6: direct. 6+: casual, roast ok.",
-  "examples":   [{"user": "ASTS น่าซื้อมั้ย", "thay": "RSI 51 เพิ่งเด้งจาก EMA50..."}]
+  "examples":   [
+    {"user": "ASTS น่าซื้อมั้ย", "thay": "{\"messages\":[\"catalyst ดาวเทียม 17 มิ.ย. ยังมีอยู่ EMA50 ยังรับ\",\"ถ้าจะเข้าตอนนี้ตั้ง SL ไว้ด้วยนะ\"],\"card_type\":\"pt\",\"card_ticker\":\"ASTS\"}"},
+    {"user": "นอนก่อนนะ", "thay": "{\"messages\":[\"ฝันดีครับ 😴\"],\"card_type\":null,\"card_ticker\":null}"}
+  ]
 }
 ```
 
