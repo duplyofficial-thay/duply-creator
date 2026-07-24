@@ -355,6 +355,12 @@ def _generate_scaffold(duple_id: str, archetype: str, cfg: dict) -> None:
     gates = cfg.get("gates", {})
     reach_triggers = cfg.get("reach", {}).get("enabled_triggers", [])
 
+    # __init__.py (makes duples/{duple_id}/ a package for importlib)
+    _write(root / "__init__.py", "")
+
+    # mem_config.py
+    _write(root / "mem_config.py", _render_mem_config(archetype, duple_id))
+
     # duple_settings.py
     _write(root / "duple_settings.py", _render_duple_settings(archetype, gates, reach_triggers))
 
@@ -383,7 +389,36 @@ def _generate_scaffold(duple_id: str, archetype: str, cfg: dict) -> None:
     _write(root / "chat" / "card" / "card_primitives.py",_render_card_primitives())
     _write(root / "chat" / "card" / "card_metadata.yaml",_render_card_metadata(duple_id))
 
-    print(f"  wrote duples/{duple_id}/ (10 files)")
+    print(f"  wrote duples/{duple_id}/ (13 files)")
+
+
+def _render_mem_config(archetype: str, duple_id: str) -> str:
+    if archetype == "finance":
+        return (
+            'from archetypes import MemConfig\n'
+            '\n'
+            'MEM_CONFIG = MemConfig(\n'
+            '    default_topics=["personal_facts", "investment_pattern", "holding_thesis"],\n'
+            '    observable_fields=frozenset({\n'
+            '        "risk_appetite",\n'
+            '        "trading_style",\n'
+            '        "time_horizon",\n'
+            '        "investment_style",\n'
+            '    }),\n'
+            '    holdings_topic="holding_thesis",  # finance only\n'
+            ')\n'
+        )
+    return (
+        'from archetypes import MemConfig\n'
+        '\n'
+        '# observable_fields: add archetype-specific JSONB fields from user_profiles.archetype_data\n'
+        '# that dream/noter should be allowed to observe and update.\n'
+        'MEM_CONFIG = MemConfig(\n'
+        '    default_topics=["personal_facts"],\n'
+        '    observable_fields=frozenset(),\n'
+        '    holdings_topic=None,\n'
+        ')\n'
+    )
 
 
 def _render_duple_settings(archetype: str, gates: dict, reach_triggers: list) -> str:
