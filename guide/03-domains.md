@@ -35,21 +35,67 @@ If your finance Duple covers both markets, the team can add both packs.
 
 ## memory — Memory System
 
+### mem_config.py — per-Duple memory schema
+
+`duples/{duple_id}/mem_config.py` tells the memory agents what your Duple's memory schema looks like. It is generated automatically by `provision_duple.py` — you normally don't need to touch it unless you're adding custom profile fields.
+
+```python
+MEM_CONFIG = MemConfig(
+    default_topics=["personal_facts", "investment_pattern", "holding_thesis"],
+    observable_fields=frozenset({
+        "risk_appetite", "trading_style", "time_horizon", "investment_style",
+    }),
+    holdings_topic="holding_thesis",  # finance only — set to None if not applicable
+)
+```
+
+| Field | What it controls |
+|---|---|
+| `default_topics` | Topics dream/noter will always maintain. Protected — can't be deactivated by the LLM. |
+| `observable_fields` | Archetype-specific JSONB fields in `user_profiles.archetype_data` that dream/noter are allowed to observe and update. |
+| `holdings_topic` | If set, create/update actions on this topic may include a `tickers: [...]` list that syncs to `archetype_data.holdings`. Finance-only. |
+
+Platform-level fields (`knowledge_level`, `goal`, `behavior.tags`, `preferences.response_length`, `preferences.tone`) are always observable for every Duple — they don't need to be listed in `observable_fields`.
+
+A change to `mem_config.py` requires a Docker rebuild (`docker compose build dream-agent`).
+
 ### memory.noter (per-turn extraction)
 
-**What it does:** After every AI-lane reply, extracts facts, preferences, and context from the conversation and writes them to `{schema}.memory_topics`. Runs in a background thread — never delays the reply. Only fires for users who pass `MEMORY.gate_roles`.
+**What it does:** After every AI-lane reply, extracts facts, preferences, and context from the conversation and writes them to `{schema}.user_memories` as `pending` rows. Runs in a background thread — never delays the reply. Only fires for users who pass `MEMORY.gate_roles`.
 
 **What you configure:**
-- `system_prompt` in `agent_profiles` for `memory.noter` — extraction focus, what to track, what to ignore
 - `MEMORY.gate_roles` in `duple_settings.py` — which users get memory extracted (default: `"creator"`)
+- `focus_areas` block in `{schema}.agent_profiles.system_prompt` for `memory.noter` — Duple-specific extraction guidance: what topics to prioritize, what to ignore, personas-specific signals. Leave empty to use the platform default.
+
+**Blocks noter reads from `system_prompt`** (platform template provides all required ones — you only need `focus_areas`):
+
+| Block | Required | What it does |
+|---|---|---|
+| `output_format` | ✅ platform | JSON schema for the LLM's output |
+| `instructions` | ✅ platform | Core extraction rules |
+| `importance_guide` | ✅ platform | How to score importance 1–10 |
+| `bond_rules` | ✅ platform | Closeness/rapport delta rules |
+| `focus_areas` | optional | Your Duple's specific extraction focus |
+
+All required blocks come from the locked platform template in `public.agent_profiles`. You only add `focus_areas` in your schema's `agent_profiles` row if you want custom guidance.
 
 ### memory.dream (nightly consolidation)
 
-**What it does:** Nightly job (04:00 BKT). Reads all `pending` memory rows accumulated that day, consolidates into long-term topics, updates/archives/creates entries. This is what makes the Duple feel like it "remembers" across sessions.
+**What it does:** Nightly job (04:00 BKT). Reads all `pending` rows accumulated since the last run, consolidates into long-term memories (create/update/deactivate actions), updates user profile observations. This is what makes the Duple feel like it "remembers" across sessions.
 
 **What you configure:**
-- `system_prompt` in `agent_profiles` for `memory.dream` — consolidation style, topic taxonomy, retention rules
 - `MEMORY.enabled` in `duple_settings.py` — set to `False` to skip dream entirely for this Duple (default: `True`)
+- `focus_areas` block in `{schema}.agent_profiles.system_prompt` for `memory.dream` — Duple-specific consolidation guidance: which topics matter most, how to handle conflicting signals. Optional — platform template is self-sufficient.
+
+**Blocks dream reads from `system_prompt`** (same pattern as noter):
+
+| Block | Required | What it does |
+|---|---|---|
+| `instructions` | ✅ platform | Core consolidation logic |
+| `output_format` | ✅ platform | JSON schema for memory actions + observations |
+| `focus_areas` | optional | Your Duple's custom topic priorities |
+
+Dream works even if your Duple has no `agent_profiles` row — the platform template alone is enough to run.
 
 ---
 

@@ -108,9 +108,19 @@ _DEFAULT_PROMPTS: dict[str, dict] = {
         "philosophy": "Be direct. No filler, no speculation.",
         "examples": [],
     },
-    "memory.noter":      {"note": "Configure extraction rules in Supabase."},
-    "memory.dream":      {"note": "Configure consolidation rules in Supabase."},
-    "knowledge.extract": {"note": "Configure knowledge extraction rules in Supabase."},
+    # memory.noter reads: output_format, instructions, importance_guide, bond_rules (all required),
+    # focus_areas (optional — Duple-specific extraction guidance).
+    # Fill these in Supabase after provisioning. Platform template handles the rest.
+    "memory.noter": {
+        "focus_areas": "",
+    },
+    # memory.dream reads: instructions, output_format (required), focus_areas (optional).
+    # Platform template in public.agent_profiles is self-sufficient — only add
+    # focus_areas here if you need Duple-specific consolidation guidance.
+    "memory.dream": {
+        "focus_areas": "",
+    },
+    "knowledge.extract": {},
 }
 
 # ─── SQL helpers ─────────────────────────────────────────────────────────────
