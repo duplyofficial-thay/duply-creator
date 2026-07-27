@@ -368,8 +368,10 @@ def _generate_scaffold(duple_id: str, archetype: str, cfg: dict) -> None:
     # __init__.py (makes duples/{duple_id}/ a package for importlib)
     _write(root / "__init__.py", "")
 
-    # mem_config.py
-    _write(root / "mem_config.py", _render_mem_config(archetype, duple_id))
+    # memory/mem_config.py
+    (root / "memory").mkdir(parents=True, exist_ok=True)
+    _write(root / "memory" / "__init__.py", "")
+    _write(root / "memory" / "mem_config.py", _render_mem_config(archetype, duple_id))
 
     # duple_settings.py
     _write(root / "duple_settings.py", _render_duple_settings(archetype, gates, reach_triggers))
@@ -399,7 +401,7 @@ def _generate_scaffold(duple_id: str, archetype: str, cfg: dict) -> None:
     _write(root / "chat" / "card" / "card_primitives.py",_render_card_primitives())
     _write(root / "chat" / "card" / "card_metadata.yaml",_render_card_metadata(duple_id))
 
-    print(f"  wrote duples/{duple_id}/ (13 files)")
+    print(f"  wrote duples/{duple_id}/ (14 files)")
 
 
 def _render_mem_config(archetype: str, duple_id: str) -> str:
