@@ -4,6 +4,96 @@ Changes to the Duply platform that affect Duple creators.
 
 ---
 
+## v0.3.0 — yaml-driven router + per-Duple service wording (2026-07-28)
+
+### `router_config.yaml` — new sections
+
+The router now reads two additional sections from your Duple's
+`router_config.yaml`. Previously SERVICE and postback patterns were hardcoded
+in platform code; they are now fully creator-configurable.
+
+**`service_routes`** — text patterns that route to the SERVICE lane:
+```yaml
+service_routes:
+  # Always include LANG_UPDATE so users can switch TH/EN
+  - patterns: ["TH", "EN", "TH LANG", "EN LANG"]
+    match: exact
+    type: LANG_UPDATE
+    payload: self
+
+  # Uncomment to enable watchlist add/remove:
+  # - patterns: ["ADD "]
+  #   match: prefix
+  #   type: PROFILE_UPDATE
+  #   op: add
+  #   field: watchlist
+  #   max: 5
+  #   payload: rest_words
+```
+
+**`postback_routes`** — LINE card button callbacks (finance Duples only):
+```yaml
+postback_routes:
+  - patterns: ["TAG|"]
+    match: prefix
+    card_type: tag_info
+    payload: rest
+```
+
+**`ticker_regex`** — now optional. Omit it (or set it to nothing) for
+non-finance Duples and the router will never try to match tickers:
+```yaml
+ticker_regex: "^[A-Z][A-Z0-9.]{0,9}$"   # SET market (DR tickers up to 10 chars)
+# ticker_regex: "^[A-Z][A-Z0-9.]{0,5}$"  # US market (max 6 chars)
+# omit entirely → no ticker routing
+```
+
+`provision_duple.py` scaffolds `service_routes` with LANG_UPDATE pre-wired
+and PROFILE_UPDATE commented as an example.
+
+### New file: `chat/service/service_messages.py`
+
+SERVICE lane reply wording is now per-Duple. A new file
+`duples/<id>/chat/service/service_messages.py` provides
+`render_service_messages(result)` — the function that turns a `run_service()`
+result dict into user-facing LINE message strings.
+
+`provision_duple.py` generates this file automatically (Thai wording default).
+Edit it to customize confirmation messages for your Duple's language and persona.
+
+```python
+# Example: change the add-to-watchlist confirmation text
+if op == "add":
+    if added:
+        lines.append(f"เพิ่ม {', '.join(added)} เรียบร้อยครับ ({n}/{mx})")
+```
+
+### PROFILE_UPDATE action (replaces WATCHLIST_ADD / WATCHLIST_DEL)
+
+The SERVICE lane action types `WATCHLIST_ADD` and `WATCHLIST_DEL` have been
+renamed to `PROFILE_UPDATE`. If you have any custom code that pattern-matches
+on `result["action"]`, update those checks:
+
+```python
+# Before
+if result["action"] == "WATCHLIST_ADD": ...
+
+# After
+if result["action"] == "PROFILE_UPDATE" and result["op"] == "add": ...
+```
+
+The result shape also changed:
+
+| Field | Before | After |
+|-------|--------|-------|
+| action | `"WATCHLIST_ADD"` / `"WATCHLIST_DEL"` | `"PROFILE_UPDATE"` |
+| list key | `"watchlist"` | `"list"` (generic) |
+| count key | `"watchlist_count"` | `"count"` |
+| `op` | — | `"add"` / `"remove"` |
+| `field` | — | `"watchlist"` (or any archetype_data field) |
+
+---
+
 ## v0.2.0 — Domain Gate System (2026-07-23)
 
 ### Domain gates are now fully enforced

@@ -1,0 +1,15 @@
+# card/card_metadata.yaml -- Khun (SET market).
+# sector_meta, macro_meta, theme_labels are empty -- Khun uses pt/wl cards only.
+# Populate when adding sector/macro/theme cards for SET market.
+
+sector_meta: {}
+
+sector_to_theme_keyword: {}
+
+macro_order: []
+
+macro_meta: {}
+
+theme_labels: {}
+
+benchmark_labels: {}

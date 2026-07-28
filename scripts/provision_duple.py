@@ -381,12 +381,17 @@ def _generate_scaffold(duple_id: str, archetype: str, cfg: dict) -> None:
 
     # chat/router/router_config.yaml
     (root / "chat" / "router").mkdir(parents=True, exist_ok=True)
-    _write(root / "chat" / "router" / "router_config.yaml", _render_router_config())
+    _write(root / "chat" / "router" / "router_config.yaml", _render_router_config(archetype))
 
     # chat/reply/context_builder.py
     (root / "chat" / "reply").mkdir(parents=True, exist_ok=True)
     _write(root / "chat" / "reply" / "context_builder.py",
            _render_context_builder(duple_id, persona["name"]))
+
+    # chat/service/service_messages.py — per-Duple wording for SERVICE lane replies
+    (root / "chat" / "service").mkdir(parents=True, exist_ok=True)
+    _write(root / "chat" / "service" / "service_messages.py",
+           _render_service_messages(persona.get("language", "TH")))
 
     # chat/card/ — stubs; always generated so reply_flow.py can import them
     # and so future card authors know the required interface.
@@ -401,7 +406,7 @@ def _generate_scaffold(duple_id: str, archetype: str, cfg: dict) -> None:
     _write(root / "chat" / "card" / "card_primitives.py",_render_card_primitives())
     _write(root / "chat" / "card" / "card_metadata.yaml",_render_card_metadata(duple_id))
 
-    print(f"  wrote duples/{duple_id}/ (14 files)")
+    print(f"  wrote duples/{duple_id}/ (15 files)")
 
 
 def _render_mem_config(archetype: str, duple_id: str) -> str:
@@ -465,16 +470,90 @@ def _render_duple_settings(archetype: str, gates: dict, reach_triggers: list) ->
     )
 
 
-def _render_router_config() -> str:
-    return """\
+def _render_service_messages(language: str) -> str:
+    # Generate Thai wording by default; edit the file for EN-only Duples.
+    del language  # reserved for future use
+    return (
+        '"""\n'
+        'service_messages.py — per-Duple wording for SERVICE lane confirmations.\n'
+        '\n'
+        'render_service_messages(result) takes the dict returned by run_service()\n'
+        'and returns a list of user-facing strings to send back on LINE.\n'
+        '\n'
+        'Future: move wording to Supabase (agent_profiles) for live editing.\n'
+        '"""\n'
+        '\n'
+        '\n'
+        'def render_service_messages(result: dict) -> list[str]:\n'
+        '    if result.get("status") != "ok":\n'
+        '        return ["ขออภัยครับ ไม่สามารถดำเนินการได้ในขณะนี้"]\n'
+        '\n'
+        '    action = result.get("action")\n'
+        '\n'
+        '    if action == "PROFILE_UPDATE":\n'
+        '        op = result.get("op")\n'
+        '        n = result.get("count", 0)\n'
+        '        mx = result.get("max", 5)\n'
+        '        lines = []\n'
+        '\n'
+        '        if op == "add":\n'
+        '            added = result.get("added") or []\n'
+        '            skipped = result.get("skipped") or []\n'
+        '            rejected = result.get("rejected") or []\n'
+        '            if added:\n'
+        '                lines.append(f"เพิ่ม {\', \'.join(added)} เรียบร้อยครับ ({n}/{mx})")\n'
+        '            if skipped:\n'
+        '                lines.append(f"{\', \'.join(skipped)} มีอยู่ใน Watchlist อยู่แล้วครับ")\n'
+        '            if rejected:\n'
+        '                lines.append(f"ไม่สามารถเพิ่ม {\', \'.join(rejected)} ได้ครับ "\n'
+        '                             f"Watchlist เต็มแล้ว (สูงสุด {mx} ตัว)")\n'
+        '\n'
+        '        elif op == "remove":\n'
+        '            removed = result.get("removed") or []\n'
+        '            not_found = result.get("not_found") or []\n'
+        '            if removed:\n'
+        '                lines.append(f"ลบ {\', \'.join(removed)} เรียบร้อยครับ (เหลือ {n}/{mx})")\n'
+        '            if not_found:\n'
+        '                lines.append(f"{\', \'.join(not_found)} ไม่อยู่ใน Watchlist ครับ")\n'
+        '\n'
+        '        return ["\\n".join(lines)] if lines else ["ดำเนินการเรียบร้อยครับ"]\n'
+        '\n'
+        '    if action == "LANG_UPDATE":\n'
+        '        lang = result.get("system_lang", "TH")\n'
+        '        return ["ตั้งค่าเป็นภาษาไทยเรียบร้อยครับ" if lang == "TH"\n'
+        '                else "Language set to English."]\n'
+        '\n'
+        '    if action == "WATCHLIST_GET":\n'
+        '        wl = result.get("watchlist") or []\n'
+        '        n = result.get("watchlist_count", 0)\n'
+        '        mx = result.get("max", 5)\n'
+        '        if not wl:\n'
+        '            return [f"Watchlist ยังว่างอยู่ครับ (0/{mx})"]\n'
+        '        return [f"Watchlist ตอนนี้: {\', \'.join(wl)} ({n}/{mx})"]\n'
+        '\n'
+        '    return ["ดำเนินการเรียบร้อยครับ"]\n'
+    )
+
+
+def _render_router_config(archetype: str) -> str:
+    postback_block = ""
+    if archetype == "finance":
+        postback_block = """
+# ─── POSTBACK ROUTES ───────────────────────────────────────────────────────────
+postback_routes:
+  - patterns: ["TAG|"]
+    match: prefix
+    card_type: tag_info
+    payload: rest
+"""
+    return f"""\
 # router_config.yaml — intent routing rules
-# ticker_alias_map: map common misspellings to canonical tickers
-# chat_word_denylist: short words that route to AI, never CARD
-# mode_words: per-mode keywords that bias the router (AI lane only)
-# keyword_route_map: exact phrases → force CARD route (empty = no forced card routes)
+# ticker_regex:       optional — omit for non-finance Duples (defaults to no ticker routing)
+# ticker_alias_map:   misspellings → canonical tickers
+# chat_word_denylist: short words that always fall to AI even if they match ticker_regex
 # NOTE: bare NO/YES must be quoted (PyYAML parses them as booleans otherwise)
 
-ticker_alias_map: {}
+ticker_alias_map: {{}}
 
 chat_word_denylist:
   - HI
@@ -487,9 +566,34 @@ chat_word_denylist:
   - THANKS
   - TEST
 
-mode_words: {}   # add keyword groups here if your Duple has analysis modes
+# ─── SERVICE ROUTES ────────────────────────────────────────────────────────────
+service_routes:
+  - patterns: ["TH", "EN", "TH LANG", "EN LANG"]
+    match: exact
+    type: LANG_UPDATE
+    payload: self
 
-keyword_route_map: {}
+  # Uncomment to enable watchlist add/remove:
+  # - patterns: ["ADD "]
+  #   match: prefix
+  #   type: PROFILE_UPDATE
+  #   op: add
+  #   field: watchlist
+  #   max: 5
+  #   payload: rest_words
+  #
+  # - patterns: ["DEL "]
+  #   match: prefix
+  #   type: PROFILE_UPDATE
+  #   op: remove
+  #   field: watchlist
+  #   max: 5
+  #   payload: rest_words
+{postback_block}
+# ─── CARD KEYWORD ROUTES ───────────────────────────────────────────────────────
+mode_words: {{}}   # add keyword groups here if your Duple has analysis modes
+
+keyword_route_map: {{}}
 """
 
 

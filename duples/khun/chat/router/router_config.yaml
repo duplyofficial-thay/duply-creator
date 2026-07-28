@@ -1,9 +1,7 @@
-# router_config.yaml — intent routing rules
-# ticker_alias_map: map common misspellings to canonical tickers
-# chat_word_denylist: short words that route to AI, never CARD
-# mode_words: per-mode keywords that bias the router (AI lane only)
-# keyword_route_map: exact phrases → force CARD route (empty = no forced card routes)
-# NOTE: bare NO/YES must be quoted (PyYAML parses them as booleans otherwise)
+# router_config.yaml — Khun (SET market finance)
+
+# SET market — DR tickers append digits e.g. NUARA23 (7 chars), allow up to 10
+ticker_regex: "^[A-Z][A-Z0-9.]{0,9}$"
 
 ticker_alias_map: {}
 
@@ -19,7 +17,38 @@ chat_word_denylist:
   - TEST
   - KHUN
 
+# ─── SERVICE ROUTES ────────────────────────────────────────────────────────────
+service_routes:
+  - patterns: ["ADD "]
+    match: prefix
+    type: PROFILE_UPDATE
+    op: add
+    field: watchlist
+    max: 5
+    payload: rest_words
+
+  - patterns: ["DEL "]
+    match: prefix
+    type: PROFILE_UPDATE
+    op: remove
+    field: watchlist
+    max: 5
+    payload: rest_words
+
+  - patterns: ["TH", "EN", "TH LANG", "EN LANG"]
+    match: exact
+    type: LANG_UPDATE
+    payload: self
+
+# ─── POSTBACK ROUTES ───────────────────────────────────────────────────────────
+postback_routes:
+  - patterns: ["TAG|"]
+    match: prefix
+    card_type: tag_info
+    payload: rest
+
+# ─── CARD KEYWORD ROUTES ───────────────────────────────────────────────────────
 mode_words:
-  pt: [pt, price, "กราฟ", technical]
+  pt: [pt, price, technical]
 
 keyword_route_map: {}
