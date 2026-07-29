@@ -1,0 +1,152 @@
+# family_tool_catalog.yaml — DRAFT proposal, not merged into data/tool_catalog.yaml yet.
+#
+# To adopt: append the `tools:` entries below into data/tool_catalog.yaml's `tools:` list,
+# then the Duply team wires each into platform/tools/registry.py + _PACK_MAP (these are all
+# NEW custom tools — nothing like them exists in the registry today), then run:
+#   python scripts/gen_tool_catalog.py
+#
+# owner_scope: "family" (archetype-level, same convention as "finance"/"finance.us").
+# family.parent tools are further role-gated (parent-only) INSIDE the tool implementation
+# itself — re-checking family_members.role == 'parent' server-side — per the platform rule
+# "LLM proposes → Python decides → DB writes". owner_scope alone does not enforce that;
+# it only controls which archetype gets the pack at all.
+#
+# Every one of these must follow guide/05-extending.md's custom-tool contract: always
+# returns a plain string, never raises, returns "[ERROR] ..." on failure.
+
+tools:
+  # ── family.quest pack ───────────────────────────────────────────────────────
+
+  - name: get_quests
+    pack: family.quest
+    owner_scope: family
+    description: "Fetch the user's quest_instances assigned for today (title, status, xp/coin reward, due date)."
+    args:
+      - {name: duply_id, type: string, required: true, description: "User ID"}
+
+  - name: submit_quest
+    pack: family.quest
+    owner_scope: family
+    description: "Record a quest submission (self-report path). Photo-proof submissions arrive as LINE image messages handled by the platform's webhook handler directly, not this tool."
+    args:
+      - {name: quest_instance_id, type: string, required: true,  description: "The quest_instances.id being submitted"}
+      - {name: proof_type,        type: string, required: true,  description: "\"photo\" or \"self_report\""}
+      - {name: note,              type: string, required: false, description: "Optional note from the child"}
+
+  - name: get_wallet
+    pack: family.quest
+    owner_scope: family
+    description: "Fetch the user's coin balance, total XP, and current level."
+    args:
+      - {name: duply_id, type: string, required: true, description: "User ID"}
+
+  - name: get_leaderboard
+    pack: family.quest
+    owner_scope: family
+    description: "Fetch a ranked list by total XP, either across all families (global) or within the user's own family guild."
+    args:
+      - {name: duply_id, type: string, required: true, description: "User ID (used to resolve their guild for scope=family)"}
+      - {name: scope,    type: string, required: true, description: "\"global\" or \"family\""}
+
+  - name: get_rewards
+    pack: family.quest
+    owner_scope: family
+    description: "Fetch the active reward_catalog entries for a family guild."
+    args:
+      - {name: guild_id, type: string, required: true, description: "family_guilds.id"}
+
+  - name: redeem_reward
+    pack: family.quest
+    owner_scope: family
+    description: "Create a reward redemption request; deducts coins immediately (refunded if a parent rejects it)."
+    args:
+      - {name: duply_id,  type: string, required: true, description: "User ID"}
+      - {name: reward_id, type: string, required: true, description: "reward_catalog.id"}
+
+  - name: get_schedule
+    pack: family.quest
+    owner_scope: family
+    description: "Fetch the user's active daily routine entries (bedtime, homework start, etc.)."
+    args:
+      - {name: duply_id, type: string, required: true, description: "User ID"}
+
+  # ── family.guild pack ───────────────────────────────────────────────────────
+
+  - name: create_family
+    pack: family.guild
+    owner_scope: family
+    description: "Create a new family_guilds room; the creator becomes its first parent member. Returns the invite_code."
+    args:
+      - {name: duply_id, type: string, required: true, description: "User ID of the creating parent"}
+      - {name: name,     type: string, required: true, description: "Family/guild display name"}
+
+  - name: join_family
+    pack: family.guild
+    owner_scope: family
+    description: "Join an existing family guild via its invite_code. Defaults the new member's role to 'child'."
+    args:
+      - {name: duply_id,    type: string, required: true, description: "User ID of the joining member"}
+      - {name: invite_code, type: string, required: true, description: "The family_guilds.invite_code to join"}
+
+  - name: get_family_members
+    pack: family.guild
+    owner_scope: family
+    description: "List a family guild's members with roles and today's quest-completion stats."
+    args:
+      - {name: duply_id, type: string, required: true, description: "User ID (used to resolve their guild)"}
+
+  # ── family.parent pack (parent-role-gated, see note above) ─────────────────
+
+  - name: create_quest
+    pack: family.parent
+    owner_scope: family
+    description: "Author a new quest_templates entry for the family (parent-only)."
+    args:
+      - {name: duply_id,       type: string,  required: true,  description: "User ID of the authoring parent"}
+      - {name: guild_id,       type: string,  required: true,  description: "family_guilds.id"}
+      - {name: title,          type: string,  required: true,  description: "Quest title"}
+      - {name: category,       type: string,  required: true,  description: "\"homework\", \"chore\", \"habit\", or \"custom\""}
+      - {name: difficulty,     type: string,  required: true,  description: "\"easy\", \"medium\", or \"hard\""}
+      - {name: xp_reward,      type: int,     required: true,  description: "XP granted on approval"}
+      - {name: coin_reward,    type: int,     required: true,  description: "Coins granted on approval"}
+      - {name: recurrence,     type: string,  required: true,  description: "\"once\", \"daily\", \"weekly\", or \"custom\""}
+      - {name: requires_proof, type: boolean, required: true,  description: "Whether a photo must be approved before reward is granted"}
+
+  - name: review_submission
+    pack: family.parent
+    owner_scope: family
+    description: "Approve or reject a quest_submissions entry (parent-only). Approve credits the wallet in the same transaction."
+    args:
+      - {name: duply_id,      type: string, required: true,  description: "User ID of the reviewing parent"}
+      - {name: submission_id, type: string, required: true,  description: "quest_submissions.id"}
+      - {name: decision,      type: string, required: true,  description: "\"approve\" or \"reject\""}
+      - {name: note,          type: string, required: false, description: "Optional note back to the child"}
+
+  - name: review_redemption
+    pack: family.parent
+    owner_scope: family
+    description: "Approve/fulfill or reject a reward_redemptions request (parent-only). Reject refunds the coins."
+    args:
+      - {name: duply_id,      type: string, required: true, description: "User ID of the reviewing parent"}
+      - {name: redemption_id, type: string, required: true, description: "reward_redemptions.id"}
+      - {name: decision,      type: string, required: true, description: "\"approve\", \"fulfilled\", or \"reject\""}
+
+  - name: create_reward
+    pack: family.parent
+    owner_scope: family
+    description: "Author a new reward_catalog entry for the family (parent-only)."
+    args:
+      - {name: duply_id,   type: string, required: true, description: "User ID of the authoring parent"}
+      - {name: guild_id,   type: string, required: true, description: "family_guilds.id"}
+      - {name: title,      type: string, required: true, description: "Reward title"}
+      - {name: cost_coins, type: int,    required: true, description: "Coin cost to redeem"}
+
+  - name: set_schedule
+    pack: family.parent
+    owner_scope: family
+    description: "Set or update a child's routine entry (parent-only by default)."
+    args:
+      - {name: duply_id,      type: string, required: true, description: "User ID of the child this schedule entry is for"}
+      - {name: label,         type: string, required: true, description: "e.g. \"bedtime\", \"homework_start\""}
+      - {name: time_of_day,   type: string, required: true, description: "24h HH:MM"}
+      - {name: days_of_week,  type: string, required: true, description: "Comma-separated 0-6 (0=Sun..6=Sat), e.g. \"0,1,2,3,4,5,6\""}
