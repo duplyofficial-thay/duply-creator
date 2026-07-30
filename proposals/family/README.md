@@ -31,6 +31,10 @@ for exactly what changed and how this package was adjusted.
 | `duple/schedule/*.py` | New custom domain: daily bedtime/routine/quest-due nudges | Engine logic + cron entry point drafted; DB/LINE-push calls marked TODO |
 | `prompts/*` | Persona + `chat.reply` + `schedule.nudge` + `memory.noter`/`memory.dream` system_prompt drafts | Ready to seed after provisioning; `examples` already in the required JSON-string format |
 | `platform_changes/provision_duple_notes.md` | Exact line-level diffs needed in `scripts/provision_duple.py`, plus one open design question | For the Duply team to review/implement/answer |
+| `platform_changes/message_to_team.md` | Draft message summarizing the PR + the open question | Copy/paste to whoever owns the platform code |
+| `content/starter_quests_seed.sql` | 15 global starter quest_templates (guild_id NULL) across homework/chore/habit | Run once against `dom_ai` after provisioning |
+| `content/xp_coin_level_design.md` | Difficulty→XP/coin tiers, level threshold table, reward-pricing guidance | First-pass numbers, easy to retune post-launch |
+| `content/starter_reward_examples.md` | Example reward-catalog entries for parents (not seeded centrally — guild-scoped by design) | Inspiration to hand to test families |
 
 ## What's still needed before this can move
 
