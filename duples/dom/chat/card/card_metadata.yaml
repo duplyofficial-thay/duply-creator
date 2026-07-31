@@ -1,0 +1,17 @@
+# card/card_metadata.yaml — display metadata for cards (icons, colors, labels).
+#
+# Add entries here when implementing card types in card_renderer.py.
+# See duples/thay/chat/card/card_metadata.yaml for the full reference format.
+#
+# Example structure:
+#
+# sector_meta:
+#   XLK: {name_en: Technology, name_th: "เทคโนโลยี", icon: XLK.png, color: "#6366F1"}
+#
+# macro_meta:
+#   SPY: {name_en: Market, name_th: "ภาพรวมตลาด", icon: macro_market.png, color: "#1D4ED8", has_tag: true}
+#
+# theme_labels:
+#   TECH: TECHNOLOGY
+#
+# This file is intentionally empty until cards are configured for dom.

@@ -1,0 +1,47 @@
+# router_config.yaml — intent routing rules
+# ticker_regex:       optional — omit for non-finance Duples (defaults to no ticker routing)
+# ticker_alias_map:   misspellings → canonical tickers
+# chat_word_denylist: short words that always fall to AI even if they match ticker_regex
+# NOTE: bare NO/YES must be quoted (PyYAML parses them as booleans otherwise)
+
+ticker_alias_map: {}
+
+chat_word_denylist:
+  - HI
+  - HEY
+  - OK
+  - "NO"
+  - "YES"
+  - WOW
+  - LOL
+  - THANKS
+  - TEST
+
+# ─── SERVICE ROUTES ────────────────────────────────────────────────────────────
+service_routes:
+  - patterns: ["TH", "EN", "TH LANG", "EN LANG"]
+    match: exact
+    type: LANG_UPDATE
+    payload: self
+
+  # Uncomment to enable watchlist add/remove:
+  # - patterns: ["ADD "]
+  #   match: prefix
+  #   type: PROFILE_UPDATE
+  #   op: add
+  #   field: watchlist
+  #   max: 5
+  #   payload: rest_words
+  #
+  # - patterns: ["DEL "]
+  #   match: prefix
+  #   type: PROFILE_UPDATE
+  #   op: remove
+  #   field: watchlist
+  #   max: 5
+  #   payload: rest_words
+
+# ─── CARD KEYWORD ROUTES ───────────────────────────────────────────────────────
+mode_words: {}   # add keyword groups here if your Duple has analysis modes
+
+keyword_route_map: {}

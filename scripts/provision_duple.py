@@ -223,7 +223,7 @@ def provision(duple_id: str, supabase_dir: Path) -> None:
         f"NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT;",
         supabase_dir,
     )
-    run_sql(f"GRANT USAGE ON SCHEMA {schema} TO {role};", supabase_dir)
+    run_sql(f"GRANT USAGE, CREATE ON SCHEMA {schema} TO {role};", supabase_dir)
     run_sql(
         f"ALTER DEFAULT PRIVILEGES IN SCHEMA {schema} "
         f"GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO {role};",
@@ -246,6 +246,27 @@ def provision(duple_id: str, supabase_dir: Path) -> None:
         f"GRANT SELECT ON TABLES TO anon, authenticated;",
         supabase_dir,
     )
+    # Auto-grant service_role/anon on tables created by the duple role itself
+    run_sql(
+        f"""CREATE OR REPLACE FUNCTION {schema}.auto_grant_on_create()
+RETURNS event_trigger LANGUAGE plpgsql SECURITY DEFINER AS $$
+DECLARE obj record;
+BEGIN
+  FOR obj IN
+    SELECT schema_name, object_identity
+    FROM pg_event_trigger_ddl_commands()
+    WHERE schema_name = '{schema}' AND object_type = 'table'
+  LOOP
+    EXECUTE format('GRANT ALL ON %s TO service_role', obj.object_identity);
+    EXECUTE format('GRANT SELECT ON %s TO anon, authenticated', obj.object_identity);
+  END LOOP;
+END;
+$$;
+CREATE EVENT TRIGGER {schema}_auto_grant
+  ON ddl_command_end WHEN TAG IN ('CREATE TABLE')
+  EXECUTE FUNCTION {schema}.auto_grant_on_create();""",
+        supabase_dir,
+    )
     # Append schema to pgrst.db_schemas (idempotent — skips if already present)
     # Must read from pg_db_role_setting, not current_setting() which returns the session value
     run_sql(
@@ -264,7 +285,7 @@ BEGIN
     END IF;
   END LOOP;
   IF position('{schema}' IN cur) = 0 THEN
-    EXECUTE format('ALTER ROLE authenticator SET pgrst.db_schemas TO %%L', cur || ',{schema}');
+    EXECUTE 'ALTER ROLE authenticator SET pgrst.db_schemas TO ' || quote_literal(cur || ',{schema}');
   END IF;
 END $$;
 NOTIFY pgrst, 'reload config';
