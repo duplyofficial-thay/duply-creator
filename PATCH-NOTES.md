@@ -4,6 +4,43 @@ Changes to the Duply platform that affect Duple creators.
 
 ---
 
+## v0.4.0 — Dom provisioned + creator schema autonomy (2026-07-31)
+
+### Dom (`dom_ai`) provisioned
+
+Dom is live in Supabase. Schema, role, base tables, and 5 agent_profiles are ready.
+Credentials sent separately — connect via psql or TablePlus with the `dom_role` connection string.
+
+### Creators can now manage their own schema
+
+`dom_role` (and all future Duple roles) now has `CREATE` privilege on its own schema.
+You can `CREATE TABLE`, `DROP TABLE`, `ALTER TABLE` in `dom_ai` directly — no need to
+wait for the Duply team to run migrations for you.
+
+An event trigger (`auto_grant_on_create`) is installed automatically: any table you
+create is immediately accessible to the platform (`service_role`, `anon`, `authenticated`)
+without any extra `GRANT` step on your end.
+
+This means you can iterate on your schema freely via psql or any Postgres client.
+
+### reach.schedule — coming to platform (not yet shipped)
+
+Dom's `schedule/` domain (bedtime reminders, quest-due nudges) will be absorbed into
+the platform as `reach_schedule_engine` — a third handler in `reach_cron` alongside
+`alert` and `broadcast`. This covers the "time-based recurring push" pattern generically,
+so Dom and any future Duple can use it without building their own cron infrastructure.
+
+A new `reach_schedules` table will be added to `schema_template.sql` when this ships.
+**Dom: hold off on building `duple/schedule/` for now** — use `reach_schedules` instead
+once it's available. We'll update here when it's ready.
+
+### provision_duple.py bug fix
+
+`pgrst.db_schemas` update step now uses `quote_literal()` instead of `format()/%L`
+(the Supabase API was rejecting `%` in SQL strings). No impact on existing Duples.
+
+---
+
 ## v0.3.0 — yaml-driven router + per-Duple service wording (2026-07-28)
 
 ### `router_config.yaml` — new sections
