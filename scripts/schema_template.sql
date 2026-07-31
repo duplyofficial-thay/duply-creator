@@ -142,16 +142,19 @@ CREATE TABLE __SCHEMA__.knowledge_entries (
     created_at      TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE TABLE __SCHEMA__.reach_custom_rules (
-    id          SERIAL PRIMARY KEY,
-    duply_id    TEXT NOT NULL,
-    ticker      TEXT NOT NULL,
-    condition   TEXT NOT NULL,
-    threshold   DOUBLE PRECISION NOT NULL,
-    status      TEXT NOT NULL DEFAULT 'active',
-    created_at  TIMESTAMPTZ DEFAULT now(),
-    fired_at    TIMESTAMPTZ
+CREATE TABLE __SCHEMA__.reach_user_rules (
+    id            SERIAL PRIMARY KEY,
+    duply_id      TEXT NOT NULL,
+    trigger_type  TEXT NOT NULL DEFAULT 'price_alert',
+    condition     JSONB NOT NULL,
+    status        TEXT NOT NULL DEFAULT 'active',
+    fired_at      TIMESTAMPTZ,
+    created_at    TIMESTAMPTZ DEFAULT now()
 );
+CREATE INDEX idx_reach_user_rules_active
+  ON __SCHEMA__.reach_user_rules (status) WHERE status = 'active';
+CREATE INDEX idx_reach_user_rules_duply
+  ON __SCHEMA__.reach_user_rules (duply_id, status);
 
 CREATE TABLE __SCHEMA__.reach_alert_log (
     id           SERIAL PRIMARY KEY,

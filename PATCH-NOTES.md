@@ -4,6 +4,49 @@ Changes to the Duply platform that affect Duple creators.
 
 ---
 
+## v0.5.0 — Per-Duple reach hooks + reach_user_rules (2026-07-31)
+
+### Platform reach is now archetype-agnostic
+
+Finance logic has been moved out of `platform/reach/reach_alert_engine.py` into
+`duples/thay/reach/hooks.py`. The platform only handles dedup, delivery, and logging.
+
+**What changed for you:**
+- Your Duple's reach triggers now live in `duples/<id>/reach/hooks.py`
+- `reach_custom_rules` → `reach_user_rules` (see migration below)
+- Crontab changes: `1-5` → `*` (runs every day to support schedule triggers)
+
+### reach_user_rules — replaces reach_custom_rules
+
+`reach_custom_rules` has been replaced by `reach_user_rules` with a JSONB
+`condition` column. This allows storing any trigger type (price alerts, future
+schedule/reminder triggers) in one table without schema changes.
+
+**Migration required** — run `scripts/migrate_reach_user_rules.sql` in Supabase
+SQL editor before deploying the new code to the Pi:
+
+```sql
+-- The migration script creates reach_user_rules, copies existing rows,
+-- and drops reach_custom_rules. Run for thay_ai + khun_ai.
+-- Full SQL: duply-creator/scripts/migrate_reach_user_rules.sql
+```
+
+**Migration order:** run SQL first → scp new files to Pi → cron picks up automatically.
+For `line-webhook-service` (uses `set_alert` tool): `docker compose build` + `up -d --force-recreate`.
+
+### hooks.py — per-Duple reach plugins
+
+Each Duple gets `duples/<id>/reach/hooks.py` exposing:
+- `EVENT_TRIGGERS = [...]` — classes with `check(context) → list[dict]`
+- `SCHEDULE_TRIGGERS = [...]` — time-based (`ScheduleTrigger` from `reach_engine`)
+- `generate_message(duply_id, fires, profile, system_lang)` — LLM call
+- `fallback_message(fires)` — cheap no-LLM text for capped/quiet logging
+
+`provision_duple.py` now generates a `reach/hooks.py` stub automatically.
+Dom and Khun stubs are in `duply-creator/duples/<id>/reach/hooks.py`.
+
+---
+
 ## v0.4.0 — Dom provisioned + creator schema autonomy (2026-07-31)
 
 ### Dom (`dom_ai`) provisioned

@@ -427,7 +427,38 @@ def _generate_scaffold(duple_id: str, archetype: str, cfg: dict) -> None:
     _write(root / "chat" / "card" / "card_primitives.py",_render_card_primitives())
     _write(root / "chat" / "card" / "card_metadata.yaml",_render_card_metadata(duple_id))
 
-    print(f"  wrote duples/{duple_id}/ (15 files)")
+    # reach/hooks.py — per-Duple reach trigger stub
+    (root / "reach").mkdir(parents=True, exist_ok=True)
+    _write(root / "reach" / "hooks.py", _render_reach_hooks_stub(duple_id))
+
+    print(f"  wrote duples/{duple_id}/ (16 files)")
+
+
+def _render_reach_hooks_stub(duple_id: str) -> str:
+    return (
+        '"""\n'
+        f'hooks.py — {duple_id} reach triggers.\n'
+        '\n'
+        'Add EVENT_TRIGGERS (subclass EventTrigger from reach_engine) for\n'
+        'event-based pushes, or SCHEDULE_TRIGGERS (ScheduleTrigger) for\n'
+        'time-based recurring pushes. Both lists are empty by default.\n'
+        '"""\n'
+        '\n'
+        'EVENT_TRIGGERS = []\n'
+        'SCHEDULE_TRIGGERS = []\n'
+        '\n'
+        '\n'
+        'def generate_message(duply_id, fires, profile, system_lang):\n'
+        '    """Called by reach_engine._deliver when fires have no pre-built messages.\n'
+        '    Return (list[str], card_dict|None) or (None, None) on failure.\n'
+        '    Import LLM helpers from reach_engine or implement inline."""\n'
+        '    return None, None\n'
+        '\n'
+        '\n'
+        'def fallback_message(fires):\n'
+        '    """Cheap no-LLM text for capped/quiet-hours logging. Never pushed."""\n'
+        '    return ["\\U0001f514"]\n'
+    )
 
 
 def _render_mem_config(archetype: str, duple_id: str) -> str:
