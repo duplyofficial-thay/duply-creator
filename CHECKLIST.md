@@ -21,15 +21,17 @@ Quick reference for the Duply team. Detail for each step → `guide/02-onboardin
 - [ ] Review `context_builder.py` — wire any real-time context the Duple needs
 - [ ] Edit `router_config.yaml` for Duple-specific keywords / service routes
 
-## Team — Deploy infra (needs LINE OA creds from creator first)
+## Team — Deploy infra
 
-- [ ] Add `{duple_id}-line-webhook-service` to `infra/platform/docker-compose.yml` on Pi
+- [ ] Create LINE Official Account for this Duple
+- [ ] Get LINE Channel Access Token + Secret from LINE Console
 - [ ] Create `duples/{duple_id}/.env` on Pi with LINE creds
 - [ ] `scp duples/{duple_id}/` to Pi
+- [ ] Add `{duple_id}-line-webhook-service` to `infra/platform/docker-compose.yml` on Pi
 - [ ] `docker compose up -d {duple_id}-line-webhook-service`
-- [ ] Add reach cron entry (if `REACH.enabled = True` and Duple has triggers)
 - [ ] Cloudflare: `webhook-{duple_id}.duply.org` → `http://localhost:{PORT}`
 - [ ] LINE Console: set webhook URL → verify
+- [ ] Add reach cron entry (if `REACH.enabled = True` and Duple has triggers)
 
 ## Team + Creator — Test
 
