@@ -73,9 +73,11 @@ the platform as `reach_schedule_engine` — a third handler in `reach_cron` alon
 `alert` and `broadcast`. This covers the "time-based recurring push" pattern generically,
 so Dom and any future Duple can use it without building their own cron infrastructure.
 
-A new `reach_schedules` table will be added to `schema_template.sql` when this ships.
-**Dom: hold off on building `duple/schedule/` for now** — use `reach_schedules` instead
-once it's available. We'll update here when it's ready.
+~~A new `reach_schedules` table will be added to `schema_template.sql` when this ships.~~
+~~**Dom: hold off on building `duple/schedule/` for now.**~~
+
+**Update (v0.5.0):** `ScheduleTrigger` in `reach_engine.py` covers this. Add time-based triggers
+directly to `duples/dom/reach/hooks.py` — no `reach_schedules` table needed for code-defined schedules.
 
 ### provision_duple.py bug fix
 
