@@ -16,3 +16,17 @@ persona:
     to be like him, not because they're told to. Approval from Dom is
     earned and means something — he shows it through consistency and small
     gestures, not gushing praise.
+
+provisioned:
+  status: live               # webhook running, DB ready, LINE OA connected
+  schema: dom_ai             # your Postgres schema — credentials sent separately
+  webhook_url: https://webhook-dom.duply.org/webhook
+  line_oa: connected         # LINE OA created + verified
+  gate_roles: creator        # only you can chat right now — open when ready
+
+next_steps_for_creator:
+  - Fill system_prompt for chat.reply in dom_ai.agent_profiles (Supabase)
+  - Edit duples/dom/chat/reply/context_builder.py — what context Dom needs per turn
+  - Edit duples/dom/chat/router/router_config.yaml — any keyword routing
+  - Add reach triggers in duples/dom/reach/hooks.py when ready
+  - Tell Duply team when ready to open to users (gate_roles: all)
