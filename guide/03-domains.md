@@ -103,7 +103,7 @@ Dream works even if your Duple has no `agent_profiles` row — the platform temp
 
 ### reach.alert (event-triggered push)
 
-**What it does:** Sends proactive LINE push messages when user-configured triggers fire — e.g. a price alert the user set via `set_alert`. Runs on a cron every 15 minutes on market days.
+**What it does:** Sends proactive LINE push messages when configured triggers fire. Runs on a cron every 15 minutes. Event triggers (e.g. price alerts) handle their own market-state checks internally; schedule triggers fire based on time, any day.
 
 **What you configure:**
 - `REACH.enabled` in `duple_settings.py` — set to `False` to stop the cron from running at all (default: `True`)
@@ -160,7 +160,7 @@ After the Duply team provisions a new Duple, they also need to:
      command: ["python3", "line_webhook_service.py"]
      env_file:
        - ../../.env.platform
-       - ../../.env.archetype.{archetype}
+       # add ../../.env.archetype.finance if this is a finance Duple
        - ../../duples/{duple_id}/.env
      volumes:
        - ../../duples:/app/duples:ro
@@ -169,7 +169,7 @@ After the Duply team provisions a new Duple, they also need to:
 
 2. **Add a reach cron entry** (if REACH.enabled=True):
    ```
-   2,17,32,47 * * * 1-5  set -a; . /home/duply/duply-agents/.env; . /home/duply/duply-agents/duples/{duple_id}/.env; set +a; /usr/bin/python3 /home/duply/duply-agents/platform/reach/reach_cron.py >> /home/duply/duply-agents/platform/reach/reach_{duple_id}.log 2>&1
+   2,17,32,47 * * * *  set -a; . /home/duply/duply-agents/.env; . /home/duply/duply-agents/duples/{duple_id}/.env; set +a; /usr/bin/python3 /home/duply/duply-agents/platform/reach/reach_cron.py >> /home/duply/duply-agents/platform/reach/reach_{duple_id}.log 2>&1
    ```
 
 3. **Cloudflare Zero Trust** → Tunnels → Edit → Public Hostnames → Add:
