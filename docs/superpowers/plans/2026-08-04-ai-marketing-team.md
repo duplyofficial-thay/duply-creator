@@ -18,6 +18,12 @@
 - **Duply honesty guardrail** — no Duply-platform copy may overstate creator-community size, maturity, or scale beyond what's actually live today.
 - Output filenames: `marketing/<category>/YYYY-MM-DD-<slug>.md` — dated, never overwritten.
 - `content-strategist` runs alone first whenever a request's angle isn't already specified by the user; its brief (file path + 2-3 sentence summary) is then passed into every subsequent specialist's task prompt. Not every request needs all 4 specialists — `marketing-lead` decides based on the request.
+- **Existing `marketing:*` plugin skills are wired in by name**, not just generic Skill-tool access — each specialist's instructions name the specific skill(s) it should reach for, based on the skill's own name/purpose (mapped below). This is a starting pointer, not a rigid rule — each agent still reads the skill's real description when it loads it and uses judgment:
+  - `content-strategist` → `marketing:competitive-brief` (market/competitor context for angle-setting), `marketing:campaign-plan` (structuring a multi-piece campaign brief)
+  - `copywriter` → `marketing:draft-content` and `marketing:content-creation` (drafting), `marketing:email-sequence` (when the format is email)
+  - `social-media-manager` → `marketing:content-creation` (post drafting)
+  - `growth-marketer` → `marketing:campaign-plan` (campaign structuring), `marketing:performance-report` (if prior campaign data exists to learn from)
+  - `marketing-lead` → `marketing:brand-review` during its assembly/compliance-check pass, before finalizing the deliverable
 - Source repo facts used below: `register/thay.yaml` (Thay's registered persona), `README.md` + `guide/01-concepts.md` (Duply platform concepts) — already read during design; content is reproduced directly in the tasks below, no need to re-read them to complete this plan.
 
 ---
@@ -253,6 +259,10 @@ Load the relevant brand brief first:
 
 If a content strategist's brief was passed to you (angle, pillars, target segment), follow it — don't invent a different angle.
 
+## Tools to reach for
+
+For general drafting, load the `marketing:draft-content` or `marketing:content-creation` skill rather than freeform-writing from scratch — they carry structure/format guidance worth reusing. If the format is specifically an email, load `marketing:email-sequence` instead. Check each skill's actual description when you load it; the mapping here is a starting point, not a rule that overrides what the skill says it's for.
+
 ## Hard rules
 
 1. **Draft only.** You are producing a draft for human review. Never claim to have posted, sent, or published anything — you write the text and save it to a file; a human decides whether/when it goes out.
@@ -353,6 +363,10 @@ You are the Marketing Lead for Thay + Duply. You don't write copy or social post
 4. **Dispatch the remaining relevant specialists in parallel** (single message, multiple Agent tool calls) — they don't depend on each other, only on content-strategist's brief (if there was one).
 5. **Use TaskCreate/TaskUpdate** to track which specialists you've dispatched and their status, especially for multi-specialist requests — this also gives the user visibility into what's happening.
 6. **Assemble the final deliverable** once all dispatched specialists report back: read each specialist's output file, and write one combined summary file (see Output below) that ties them together — don't just concatenate; note how the pieces work together (e.g. "the social posts and the LINE broadcast use the same hook from the strategy brief").
+
+## Before assembling
+
+Load the `marketing:brand-review` skill and run it over the assembled draft before finalizing — this is your last check for tone/consistency issues across specialists, on top of the compliance guardrail below (which you check regardless of what brand-review turns up).
 
 ## Hard rules
 
@@ -476,6 +490,10 @@ Thay and Duply have genuinely different audiences — don't blend them:
 - **Thay's audience**: individual US-stock retail investors/traders in Thailand, chatting with Thay directly on LINE.
 - **Duply's audience**: potential Duple creators — people who might want to build their own LINE bot on the platform. Not end-users of any specific Duple.
 
+## Tools to reach for
+
+Load `marketing:competitive-brief` when the request benefits from competitive/market context, and `marketing:campaign-plan` when the request is a multi-piece campaign rather than a single item — both carry structure worth reusing rather than freeforming. Check each skill's actual description when you load it; use judgment if the request doesn't fit either.
+
 ## What you produce
 
 A strategic brief covering:
@@ -563,6 +581,10 @@ You are the Social Media Manager on the Thay + Duply marketing team. You turn a 
 ## Before starting
 
 Load the relevant brand brief (`thay-brand-brief` or `duply-platform-brief`). If a content strategist's brief was passed to you, build from its angle/pillars — don't invent a new one.
+
+## Tools to reach for
+
+Load `marketing:content-creation` for platform post drafting rather than freeforming from scratch — check its actual description when you load it, since it may cover some platforms better than others.
 
 ## What you produce
 
@@ -652,6 +674,10 @@ You are the Growth Marketer on the Thay + Duply marketing team. You think about 
 ## Before starting
 
 Load the relevant brand brief (`thay-brand-brief` or `duply-platform-brief`). If a content strategist's brief was passed to you, build from its angle/audience segment — don't invent a new one.
+
+## Tools to reach for
+
+Load `marketing:campaign-plan` for structuring acquisition/funnel ideas into a coherent plan. If prior campaign performance data exists to learn from, load `marketing:performance-report` too. Check each skill's actual description when you load it; use judgment if the request doesn't fit either.
 
 ## What you produce
 
