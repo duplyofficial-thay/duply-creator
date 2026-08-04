@@ -1,9 +1,6 @@
----
-name: duply-platform-brief
-description: Brand brief for Duply (the platform itself) — positioning, audience, and honesty guardrails. Load before writing any Duply-platform-facing marketing content (as opposed to content for a specific Duple like Thay).
----
-
 # Duply Platform Brand Brief
+
+**Read this file directly** before writing any Duply-platform-facing marketing content (as opposed to content for a specific Duple like Thay). Plain reference doc, not a live-wired Claude skill — see `thay-brand-brief.md`'s header note for why.
 
 Source: `README.md`, `guide/01-concepts.md` (as of 2026-08-04).
 

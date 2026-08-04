@@ -1,5 +1,17 @@
 # AI Marketing Team for Thay + Duply
 
+> **2026-08-04 correction (post-implementation):** this spec originally assumed
+> `.claude/agents/*.md` and `.claude/skills/*/SKILL.md` would be live-wired
+> (dynamically discoverable via the `Agent`/`Skill` tools). A fresh-session
+> test proved otherwise — this environment only recognizes a fixed built-in
+> agent/skill set. The actual implementation moved everything to plain
+> reference playbooks under `marketing/team/` and `marketing/brand/`,
+> invoked by `Read`ing the file and either following it in the same context
+> or pasting it into a `general-purpose` subagent dispatch. Content/roles/
+> guardrails below are unchanged — only the invocation mechanism differs
+> from what's described here. See `marketing/team/marketing-lead.md` for
+> the real mechanism.
+
 ## Context
 
 The user wants a small team of Claude Code subagents and skills — modeled as

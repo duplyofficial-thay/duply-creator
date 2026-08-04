@@ -2,6 +2,21 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+> **2026-08-04 correction, applied mid-execution (after Task 4's smoke test):**
+> a fresh-session test proved `.claude/agents/*.md` and `.claude/skills/*/SKILL.md`
+> are NOT dynamically discovered in this environment — `Agent type 'marketing-lead'
+> not found` / `Agent type 'copywriter' not found`, and `Unknown skill:
+> thay-brand-brief`, all confirmed in a genuinely fresh session with the files
+> present on disk. Tasks 1-4 as originally written below target `.claude/agents/`
+> and `.claude/skills/` — those paths are superseded. The actual final locations
+> are `marketing/team/*.md` (5 playbooks, no frontmatter) and `marketing/brand/*.md`
+> (2 brand briefs, no frontmatter), invoked by `Read`ing the file directly rather
+> than via `Agent`/`Skill` tool dispatch by name. Tasks 5-9 below were completed
+> against the corrected paths/mechanism, not the original ones — treat every
+> `.claude/agents/<name>.md` reference in Tasks 5-7's text as
+> `marketing/team/<name>.md` with no frontmatter, and every "load `Skill`" as
+> "`Read` the file directly."
+
 **Goal:** Build a 5-agent marketing team (1 lead + 4 specialists) and 2 supporting brand-brief skills in the `duply-creator` repo, so Claude Code sessions there can produce draft marketing content for Thay and Duply on request.
 
 **Architecture:** `marketing-lead` is a subagent that dispatches other custom subagents (`content-strategist`, `copywriter`, `social-media-manager`, `growth-marketer`) via the Agent tool — content-strategist first when the angle isn't already clear, then the remaining relevant specialists in parallel off its brief. Each specialist loads a shared brand-brief skill (`thay-brand-brief` or `duply-platform-brief`) before writing anything, and writes its output to a dated file under `marketing/`.

@@ -1,9 +1,6 @@
----
-name: thay-brand-brief
-description: Brand brief for Thay (the US-stock finance Duple) — persona, tone, audience, and compliance guardrails. Load before writing any Thay-facing marketing content.
----
-
 # Thay Brand Brief
+
+**Read this file directly** before writing any Thay-facing marketing content. This is a plain reference doc, not a live-wired Claude skill — this environment's `Skill` tool doesn't auto-discover project-level skill files, confirmed 2026-08-04. Use the `Read` tool on this file, then proceed.
 
 Source: `register/thay.yaml` (as of 2026-08-04 — this is a snapshot; Thay's live persona lives in Supabase and may have been tuned since registration. If a marketing task seems to hinge on exact current wording, flag that to the user rather than assuming this brief is fully current).
 
