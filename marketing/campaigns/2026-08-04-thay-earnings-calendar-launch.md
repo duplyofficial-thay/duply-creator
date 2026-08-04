@@ -10,6 +10,8 @@ All four pieces build from one strategy brief and stay coherent: instead of pitc
 
 ## Deliverables
 
+*Note: `marketing/social/2026-08-04-earnings-calendar-launch.md` is the canonical social-post source for this campaign. The social-post piece under `copy/` is a copywriter-lane variant kept for comparison, not a second canonical version — see the lane-boundary note in `marketing/team/copywriter.md`.*
+
 - Strategy brief: `marketing/briefs/2026-08-04-earnings-calendar-launch.md`
 - Copy: `marketing/copy/2026-08-04-thay-earnings-launch-line-broadcast.md`, `marketing/copy/2026-08-04-thay-earnings-launch-social-post.md`
 - Social: `marketing/social/2026-08-04-earnings-calendar-launch.md`

@@ -12,6 +12,10 @@ Language: Thai + English mixed (th+en) — matches how Thai retail traders actua
 
 Positioning line: "Your expert lens on U.S. markets."
 
+## Name spelling in Thai copy
+
+Use Latin script "Thay" even inside Thai-language sentences — don't switch to ทาย. This matches how the product is actually registered (`register/thay.yaml` has `name: Thay`) and follows the common convention of keeping brand names in Latin script inside Thai copy (the same way "iPhone" or "Facebook" stay untransliterated). This is a reasonable default, not confirmed against Thay's actual live LINE message history — flag it to the user the same way this file flags its other snapshot-not-live-truth caveats if precision here turns out to matter.
+
 ## Tone rules for marketing copy
 
 - Direct and dry, not hype-y or exclamation-heavy

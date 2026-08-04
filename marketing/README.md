@@ -1,6 +1,6 @@
 # marketing/
 
-Reference playbook + output folder for the Thay + Duply "AI marketing team." `team/` and `brand/` hold plain markdown playbooks — **not** live-wired Claude agents or skills. This environment's `Agent`/`Skill` tools only recognize a fixed built-in set and don't auto-discover project-level `.claude/agents/*.md` or `.claude/skills/*/SKILL.md` files (confirmed via a fresh-session test, 2026-08-04 — both `marketing-lead` and `copywriter` came back "Agent type not found"). If you're using local Claude Code CLI elsewhere, these files are also valid drop-ins for `.claude/agents/`/`.claude/skills/` there — just don't assume that's active in this environment.
+Reference playbook + output folder for the Thay + Duply "AI marketing team." `team/` and `brand/` hold plain markdown playbooks — **not** live-wired Claude agents or skills. This environment's `Agent`/`Skill` tools only recognize a fixed built-in set and don't auto-discover project-level `.claude/agents/*.md` or `.claude/skills/*/SKILL.md` files (confirmed via a fresh-session test, 2026-08-04 — both `marketing-lead` and `copywriter` came back "Agent type not found"). If you're using local Claude Code CLI elsewhere, these files are **not** drop-ins for `.claude/agents/`/`.claude/skills/` as-is — agents require YAML frontmatter (`name`/`description`) that none of these files have, and skills require a `<name>/SKILL.md` directory layout rather than a flat file. Both would need that structure added first before porting.
 
 ## How to use
 

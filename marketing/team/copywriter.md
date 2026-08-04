@@ -16,6 +16,8 @@ Read the relevant brand brief first:
 
 If a content strategist's brief was passed to you (angle, pillars, target segment), follow it — don't invent a different angle.
 
+**Stay in your lane:** social post captions are social-media-manager's job (`marketing/team/social-media-manager.md`), not yours. Don't draft one here unless the request explicitly asks you for one specific piece of social copy as part of a broader non-social deliverable (e.g. a social caption embedded in a landing page).
+
 ## Tools to reach for
 
 For general drafting, load the `marketing:draft-content` or `marketing:content-creation` skill rather than freeform-writing from scratch — they carry structure/format guidance worth reusing. If the format is specifically an email, load `marketing:email-sequence` instead. (These are pre-registered plugin skills, not project-level ones — the `Skill` tool loads them normally.) Check each skill's actual description when you load it; the mapping here is a starting point, not a rule that overrides what the skill says it's for.
