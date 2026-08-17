@@ -1,7 +1,9 @@
 # Tawan (ตะวัน) — Commerce Archetype, Phase 1 Design
 
-**Status:** Draft — pending user review
-**Owner:** arriyathanasak@gmail.com
+> **Superseded on 2026-08-18.** This historical draft describes an earlier single-store scope and phase model. Do not implement it directly. The approved source of truth is [`docs/tawan/PRODUCT_SPEC.md`](../../tawan/PRODUCT_SPEC.md), with architecture, data, security, decisions, and implementation planning in the same directory.
+
+**Status:** Superseded historical draft
+**Owner:** [arriyathanasak@gmail.com](mailto:arriyathanasak@gmail.com)
 **Scope:** Phase 1 of 4 (catalog + dual-role sales chat + checkout). Phases 2–4 (escalation loop, learning pipeline, cross-store dashboard) are separate future specs.
 
 ---
@@ -122,6 +124,7 @@ Order `items` is a snapshot (not a live join to `products`) so historical orders
 New entries in `data/tool_catalog.yaml`, following the existing pack convention:
 
 **`commerce.generic` pack** (both agents):
+
 | Tool | Purpose |
 |---|---|
 | `search_catalog(query, category?)` | Keyword/category product search |
@@ -131,6 +134,7 @@ New entries in `data/tool_catalog.yaml`, following the existing pack convention:
 | `get_order_status(order_id)` | Look up an existing order |
 
 **`commerce.staff` pack** (`chat.staff` only, gated by `employee` role):
+
 | Tool | Purpose |
 |---|---|
 | `get_low_stock()` | Products below `low_stock_threshold` |
@@ -151,6 +155,7 @@ New entries in `data/tool_catalog.yaml`, following the existing pack convention:
 | Context builder | `duples/tawan/chat/reply/context_builder.py` — customer profile, order history | `duples/tawan/chat/staff/context_builder.py` — today's low-stock, pending manual-review slips |
 
 **Staff onboarding (self-serve, two-step):** an owner realistically doesn't know a staff member's raw LINE user ID, so onboarding can't be a one-shot `STAFF ADD <line_id>` command. Instead:
+
 1. Staff member sends a fixed phrase (e.g. `สมัครพนักงาน`) to the store's LINE OA → Tawan sets their `roles` to `pending_staff` and sends the owner a direct push naming them (LINE display name)
 2. Owner replies `STAFF APPROVE <name>` (new `router_config.yaml` service route, owner-only via `roles` containing `owner`) → `pending_staff` swapped to `employee`
 
@@ -167,6 +172,7 @@ Today, a Duple's LINE webhook always resolves to one fixed `agent_id`. Running t
 ## 9. Sales conversation flow
 
 **เซลส์ mode:**
+
 1. Customer asks about a product → `search_catalog`/`get_product` → real price/stock, never a guess
 2. Follow-ups (material, fit, delivery) → soft facts from `knowledge_entries` if ingested, otherwise natural conversation within persona
 3. Customer commits → Tawan collects item(s)/qty/variant/address → `create_order`. Python re-checks `stock_qty` at write time (not the number quoted earlier — stock can move between quote and commit)
@@ -175,6 +181,7 @@ Today, a Duple's LINE webhook always resolves to one fixed `agent_id`. Running t
 6. Clean match → `orders.status = paid`, customer confirmed, staff notified for fulfillment. No match → `payment_slips.match_status = manual_review`, customer told to wait, staff picks it up via `chat.staff`
 
 **เลขา mode:**
+
 - "วันนี้ขายไปเท่าไหร่" → `get_sales_summary`; "อะไรใกล้หมด" → `get_low_stock`
 - Direct conversational mutation ("เพิ่มสต็อกเสื้อแดง 20 ตัว") → `update_stock`
 - "มีสลิปที่ต้องเช็คไหม" → lists `manual_review` rows → `verify_payment_slip`

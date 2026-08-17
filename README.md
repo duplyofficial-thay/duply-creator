@@ -35,3 +35,4 @@ Users talk to Duples via **LINE**. Each Duple has its own persona, tools, and me
 | `guide/03-domains.md` | What each domain does and what you can configure |
 | `guide/04-prompts.md` | How to edit your Duple's persona and prompts |
 | `PATCH-NOTES.md` | Platform changelog |
+| `docs/tawan/PRODUCT_SPEC.md` | Approved Tawan commerce product baseline and related design documents |
