@@ -68,13 +68,14 @@ Use Notion as a readable collaboration mirror, never as the technical authority.
 
 Before publishing or refreshing Notion:
 
-1. Read the canonical Git documents, record the source commit, and verify that commit is reachable from the canonical `origin` remote. Do not label or publish a local-only commit as GitHub state.
+1. Read the canonical Git documents and record the full 40-character source commit SHA. Verify that commit is reachable from the canonical remote's default branch or another permanent protected ref. Do not label or publish a local-only or temporary-branch commit as GitHub state.
 2. Search for the exact parent page and consult its Sync Registry before creating anything. Reuse registered page IDs; never create a second tree merely because search is incomplete.
 3. Update only the `Generated Snapshot (managed)` section of registered pages. Preserve `Human Review (preserved)`, comments, and all blocks outside the managed section.
-4. Put `Source: GitHub`, the remote-reachable source commit, sync date, and actual generator at the top of every managed section.
-5. Leave unavailable owner, status, or other metadata blank or mark it `Unspecified`; never infer it.
-6. Move approved decisions into Git first, push the commit with authorization, then refresh Notion from that remote state.
-7. Mark a Notion page `Out of sync` when its recorded commit differs from the approved remote commit.
+4. Put `Source: GitHub`, the full 40-character SHA from the default or permanent protected branch, sync date, and actual generator at the top of every managed section.
+5. Regenerate a `Markdown Sources` subsection inside `Generated Snapshot (managed)` with full-SHA GitHub links to every canonical Markdown file used for that page. Include the handoff skill and continuity snapshot on the hub page. Re-read the saved Notion section and verify each link in the intended friend/AI access context before marking the page synchronized; otherwise mark the handoff blocked.
+6. Leave unavailable owner, status, or other metadata blank or mark it `Unspecified`; never infer it.
+7. Move approved decisions into Git first, push the commit with authorization, then refresh Notion from that remote state.
+8. Mark a Notion page `Out of sync` when its recorded commit differs from the approved remote commit.
 
 ## Continuation Brief
 
@@ -86,4 +87,4 @@ Before implementation, produce a short brief containing:
 - **Risks:** privacy, cross-store isolation, commercial authority, tier access, cost, and dependency concerns.
 - **Next action:** smallest safe milestone, impacted files/repositories, checks, and any owner decision required.
 
-When handing work to another account or tool, update the repository documents and commit first. The receiving agent must repeat this workflow instead of trusting a prose summary alone.
+When handing work to another account or tool, update the repository documents, commit, and push to the canonical default or permanent protected branch with authorization. Verify the receiving person and intended AI integration can open the pinned sources before declaring the handoff ready. The receiving agent must repeat this workflow instead of trusting a prose summary alone.
