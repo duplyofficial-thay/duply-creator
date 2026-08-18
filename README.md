@@ -37,4 +37,5 @@ Users talk to Duples via **LINE**. Each Duple has its own persona, tools, and me
 | `PATCH-NOTES.md` | Platform changelog |
 | `docs/tawan/PRODUCT_SPEC.md` | Approved Tawan commerce product baseline and related design documents |
 | `docs/tawan/TASK_BREAKDOWN.md` | Atomic Tawan tasks, dependencies, status, and acceptance evidence |
+| `docs/tawan/notion-import/` | Validated Tawan task and Sprint CSV package for safe Notion synchronization |
 | `.agents/skills/tawan-project-handoff/` | Portable AI handoff workflow for resuming Tawan work from Git |

@@ -282,4 +282,5 @@
 - [Security](SECURITY.md)
 - [Decision log](DECISIONS.md)
 - [Implementation plan](IMPLEMENTATION_PLAN.md)
+- [Notion import package](notion-import/README.md)
 - [Thai PDPA research](../research/2026-08-17-thailand-pdpa-tawan-data.md)

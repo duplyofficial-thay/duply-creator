@@ -1,0 +1,25 @@
+Sprint,Start Date,End Date,Goal,Status
+Sprint 4,2026-09-07,2026-09-13,"Build Store Context, roles, schema isolation, settings, and audit foundation",Planned
+Sprint 5,2026-09-14,2026-09-20,"Complete MFA, rate limits, monitoring, access review, keys, and security exit",Planned
+Sprint 6,2026-09-21,2026-09-27,"Build source ingestion, parsing, approval, onboarding templates, and OCR",Planned
+Sprint 7,2026-09-28,2026-10-04,"Complete Customer Memory, retention, poisoning tests, and knowledge exit",Planned
+Sprint 8,2026-10-05,2026-10-11,"Build Journeys, Tasks, Approvals, events, and lifecycle safety",Planned
+Sprint 9,2026-10-12,2026-10-18,"Build Customer Tiers, owner controls, notifications, and milestone exit",Planned
+Sprint 10,2026-10-19,2026-10-25,"Build catalog, pricing, Orders, and stock reservation",Planned
+Sprint 11,2026-10-26,2026-11-01,"Build PromptPay, payment review, inbound LINE, and fulfilment safety",Planned
+Sprint 12,2026-11-02,2026-11-08,"Complete LINE delivery, retrieval, orchestration, staging journey, and cost ledger",Planned
+Sprint 13,2026-11-09,2026-11-15,"Build dashboard foundation, overview, Customers, and approval queue",Planned
+Sprint 14,2026-11-16,2026-11-22,"Build Transaction, Catalog, Memory, Tier, Task, and approval views",Planned
+Sprint 15,2026-11-23,2026-11-29,Build Settings and Brain views and complete dashboard verification,Planned
+Sprint 16,2026-11-30,2026-12-06,"Establish Standard analytics events, projections, response, and workload measures",Planned
+Sprint 17,2026-12-07,2026-12-13,"Complete Standard measures, dashboard, reconciliation, and analytics exit",Planned
+Sprint 18,2026-12-14,2026-12-20,"Validate restaurant, beauty, wholesale, and construction business modules",Planned
+Sprint 19,2026-12-21,2026-12-27,"Prepare processing inventory, privacy notices, DPA, retention, incident, and provider artifacts",Planned
+Sprint 20,2026-12-28,2027-01-03,"Complete counsel review, rights intake, export, retention, marketing, and offboarding terms",Planned
+Sprint 21,2027-01-04,2027-01-10,"Implement rights fulfilment, deletion evidence, recovery, and incident tests",Planned
+Sprint 22,2027-01-11,2027-01-17,Complete independent reviews and Phase 1 pilot acceptance,Planned
+Sprint 23,2027-01-18,2027-01-24,Implement the optional Custom B2B export and separately approve Pro scope,Planned
+Sprint 24,2027-01-25,2027-01-31,"Build Pro entitlement, consent controls, Campaign approval, audience, and scheduling",Planned
+Sprint 25,2027-02-01,2027-02-07,"Build Campaign delivery, attribution, segmentation, affinity, and basket intelligence",Planned
+Sprint 26,2027-02-08,2027-02-14,"Build lifetime value, cohort, churn, and next-best-offer intelligence",Planned
+Sprint 27,2027-02-15,2027-02-21,"Complete benchmark safeguards, advanced recommendations, Pro safety tests, and acceptance",Planned
