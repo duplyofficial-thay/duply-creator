@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tawan Project Handoff"
+  short_description: "Resume Tawan work from its canonical records"
+  default_prompt: "Use $tawan-project-handoff to load the approved Tawan context and identify the next safe action."
