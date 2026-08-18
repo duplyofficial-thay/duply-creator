@@ -253,7 +253,8 @@ This milestone is read-only until a proposed integration change is approved.
 ### Deliverables
 
 - Overview action queue and operational measures.
-- Customers, Sales Journeys, Transactions, Tasks, Catalog/Services, Campaigns, Tawan Brain, Analytics, and Settings areas.
+- Customers, Sales Journeys, Transactions, Tasks, Catalog/Services, Tawan Brain, Analytics, and Settings areas.
+- A subscription-aware navigation boundary that does not expose Campaign execution to Standard stores.
 - Customer Memory correction, Customer Tier override, consent, special price, and audit views.
 - Knowledge Candidate review and conflict comparison.
 - Responsive phone and desktop layouts.
@@ -272,35 +273,24 @@ This milestone is read-only until a proposed integration change is approved.
 
 - A non-technical Store Owner can operate the full fashion demo from a phone without database access.
 
-## 12. Milestone 8 - Campaigns And Standard Analytics
+## 12. Milestone 8 - Standard Analytics
 
-### Campaigns
-
-- draft, review, Approval, schedule, send, complete, and analyze;
-- permission by store, Customer, purpose, and Channel;
-- immediate opt-out suppression;
-- quiet hours, caps, cooldowns, expiry, and idempotent delivery;
-- owner-fixed commercial envelope and Tawan personalization.
-
-### Standard analytics
+### Deliverables
 
 - normalized view, interest, checkout, purchase, refund, and promotion events;
 - hourly operational aggregates;
 - store-local daily close;
-- revenue, Transaction count, units, average value, refunds, cancellations, funnel, repeat rate, unresolved Journeys, response/escalation, top items, stock movement, Campaign attribution, and staff workload.
+- revenue, Transaction count, units, average value, refunds, cancellations, funnel, repeat rate, unresolved Journeys, response/escalation, top items, stock movement, and staff workload.
 
 ### Verification
 
-- opted-out Customer is never scheduled or sent;
-- repeated scheduler run does not duplicate delivery;
-- expired Campaign cannot send;
 - revenue reconciles to completed/refunded Transactions;
 - hourly projection and daily close are distinguishable;
-- attribution window and reason are inspectable.
+- Standard Store Workspaces cannot access Campaign drafting, scheduling, delivery, or attribution interfaces.
 
 ### Exit criteria
 
-- Owner-approved synthetic Campaign produces measurable, reconcilable outcomes without violating contact policy.
+- Standard operational measures are store-isolated, reproducible, and reconcilable without Campaign processing.
 
 ## 13. Milestone 9 - Multi-Business Validation
 
@@ -366,12 +356,17 @@ Use synthetic scenarios, not production claims.
 - Cost per store and per conversation is measured.
 - Product owner and Duply technical owner approve the pilot release.
 
-## 15. Post-Phase-1 Milestone 11 - Higher-Tier Intelligence
+## 15. Post-Phase-1 Milestone 11 - Pro Campaigns And Intelligence
 
-This milestone is not a Phase 1 pilot dependency. It starts only after the Phase 1 transition gate is met and receives separate product approval.
+This Pro-only milestone is not a Phase 1 pilot dependency. It starts only after the Phase 1 transition gate is met and receives separate product approval.
 
 ### Deliverables
 
+- Campaign draft, review, Approval, schedule, send, complete, and analysis workflow;
+- permission by Store Workspace, Customer, purpose, and Channel;
+- immediate opt-out suppression, quiet hours, caps, cooldowns, expiry, and idempotent delivery;
+- owner-fixed commercial envelope with Tawan audience selection and personalization;
+- inspectable Campaign attribution;
 - RFM and configurable segmentation;
 - lifetime value and cohort retention;
 - churn and next-best-offer recommendations;
@@ -392,6 +387,7 @@ This milestone is not a Phase 1 pilot dependency. It starts only after the Phase
 
 ### Exit criteria
 
+- An Owner-approved synthetic Campaign produces measurable, reconcilable outcomes without violating contact policy.
 - Recommendations can be traced to store-local evidence and require human action.
 - Shared benchmark dataset contains no linkable Customer or store-confidential small cells.
 

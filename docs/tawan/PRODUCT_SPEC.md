@@ -152,6 +152,8 @@ Critical changes require immediate approval. Tawan also prepares a daily change 
 
 ## 9. Campaigns And Proactive Sales
 
+Outbound Campaign activity is a Pro-tier capability. Standard stores retain customer-service messaging, consent and objection records, and operational analytics, but cannot draft, schedule, send, or analyse proactive Campaigns.
+
 Marketing permission is tracked per Store Workspace, Customer, purpose, and Channel. Buying from one store or consenting on one Channel does not authorize another store or Channel.
 
 Campaign workflow:
@@ -172,7 +174,7 @@ The dashboard contains:
 - **Transactions:** shared view with module-specific names and status.
 - **Tasks:** queue, assignment, priority, due time, escalation, and history.
 - **Catalog/Services:** approved commercial facts and availability.
-- **Campaigns:** approval, scheduling, delivery, suppression, and results.
+- **Campaigns (Pro):** approval, scheduling, delivery, suppression, and results. Standard plans do not expose Campaign execution controls.
 - **Tawan Brain:** uploads, Knowledge Candidates, conflicts, approvals, sources, and review digest.
 - **Analytics:** operational and subscription-tier reporting.
 - **Settings:** business, staff capabilities, payment, Channels, retention, notifications, consent, and closing schedule.
@@ -191,13 +193,13 @@ Operational records update in real time. Dashboard aggregates refresh hourly. Da
 - unresolved Sales Journeys and response completion;
 - human escalation and response time;
 - top products, services, and stock movement;
-- Campaign-attributed Transactions;
 - staff workload.
 
-### Higher-tier intelligence
+### Pro Campaigns and intelligence
 
-Higher-tier intelligence is post-Phase-1 work and requires separate product approval after the Phase 1 transition gate.
+Pro Campaign activity and higher-tier intelligence are post-Phase-1 work and require separate product approval after the Phase 1 transition gate.
 
+- Campaign planning, owner approval, scheduling, delivery, suppression, and results;
 - customer segmentation and RFM;
 - customer lifetime value and cohort retention;
 - churn risk and next-best offer;
@@ -228,6 +230,8 @@ The latter four first validate the shared model with realistic synthetic scenari
 - A standard introductory first-month offer after a qualified Customer sees the product's value.
 - Final pricing follows a documented cost model covering AI, messaging, support, storage, and onboarding.
 - Standard plans use the Tawan identity.
+- Standard plans exclude outbound Campaign activity and Campaign intelligence.
+- Pro plans may add owner-approved Campaign execution, segmentation, personalization, attribution, and higher-tier intelligence.
 - Custom identity, branding, workflow, migration, and white-label work are direct B2B engagements.
 - Custom pricing, setup fees, recurring service, ownership, and support terms are negotiated case by case; no default buyout or recurring structure is promised by this specification.
 
@@ -245,7 +249,7 @@ Phase 1 delivers:
 - LINE OA integration with Channel fields preserved for future adapters;
 - consent, export, audit, retention, and security controls.
 
-Phase 1 excludes automatic payment approval, autonomous price or Campaign changes, production-complete secondary modules, unrestricted cross-store analytics, and additional Channels.
+Phase 1 excludes outbound Campaign execution, automatic payment approval, autonomous price changes, production-complete secondary modules, unrestricted cross-store analytics, and additional Channels.
 
 Phase 2 may start after one realistic journey completes from Customer question through accurate answer, Order, payment-review Task, staff action, and completed outcome, with an independent security review confirming no cross-store leakage.
 

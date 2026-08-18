@@ -69,3 +69,7 @@ Fashion is the first production-complete module. Restaurant/bakery, beauty salon
 ## 2026-08-18 - Phase transition requires an end-to-end proof
 
 Phase 2 may begin after a realistic Customer question progresses through accurate response, Order, payment-review Task, staff action, and completion, and an independent security review confirms no cross-store leakage. Blocked private-platform or legal work remains explicitly incomplete.
+
+## 2026-08-18 - Campaign activity is Pro-only
+
+Outbound Campaign drafting, scheduling, delivery, personalization, attribution, and Campaign intelligence are Pro-tier capabilities delivered after the Phase 1 transition gate. Standard plans retain customer-service messaging, store- and Channel-specific consent and objection records, and operational commerce analytics, but do not execute proactive Campaigns. This decision supersedes the earlier implementation-plan placement of Campaign execution alongside Phase 1 Standard analytics.

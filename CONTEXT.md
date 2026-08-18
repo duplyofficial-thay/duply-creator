@@ -119,7 +119,7 @@ A transparent store-specific classification such as Standard, Regular, VIP, or W
 _Avoid_: Hidden AI score
 
 **Campaign**:
-An owner-approved promotion with fixed products or services, commercial terms, audience rules, channels, dates, and contact limits.
+An owner-approved Pro-tier promotion with fixed products or services, commercial terms, audience rules, channels, dates, and contact limits.
 _Avoid_: Autonomous AI promotion
 
 **Store Analytics**:

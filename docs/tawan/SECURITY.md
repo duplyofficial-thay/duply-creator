@@ -142,6 +142,8 @@ Ordinary store export includes existing store-controlled Customer, operational, 
 
 ## 8. Direct Marketing
 
+Outbound Campaign execution is enabled only for Pro Store Workspaces after the Phase 1 transition gate. Consent, objection, and immediate suppression controls remain shared foundations and must already be enforced for any permitted customer communication.
+
 - Permission and objection are scoped by Store Workspace, Customer, purpose, and Channel.
 - Transaction processing and marketing permission are separate.
 - Record notice wording/version, source, actor, time, and evidence.

@@ -372,6 +372,8 @@ Use the existing published knowledge table if its runtime contract is confirmed.
 
 ## 11. Campaigns And Analytics
 
+Campaign records and delivery processing are post-Phase-1 Pro capabilities. Standard operational analytics use `analytics_events` and `daily_store_metrics` without enabling outbound Campaign execution. Consent and objection records remain available to every plan for lawful customer communication and future upgrade continuity.
+
 ### `campaigns`
 
 Stores the approved commercial envelope, audience rules, Channel, dates, frequency policy, status, approver, and attribution window.

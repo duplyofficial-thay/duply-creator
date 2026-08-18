@@ -118,6 +118,8 @@ The module hides notification routing and history maintenance. A caller requests
 
 Campaign selection and personalization cannot change approved products, prices, dates, eligibility, budget, or frequency limits.
 
+This module is a post-Phase-1 Pro capability. Standard plans keep the shared consent and objection foundation but do not receive Campaign drafting, scheduling, delivery, or attribution interfaces.
+
 ### Analytics Module
 
 **Interface:** Accept normalized business events, produce store-scoped measures, and emit approved anonymous aggregates.
@@ -185,6 +187,8 @@ Platform Administrator support access uses a separate path with reason, duration
 
 ### Campaign
 
+This flow runs only for a Pro Store Workspace after the Phase 1 transition gate.
+
 1. Tawan drafts a Campaign and proposed audience.
 2. Store Owner approves commercial and contact constraints.
 3. Campaign Module removes Customers without valid permission or within cooldown.
@@ -204,7 +208,7 @@ Platform Administrator support access uses a separate path with reason, duration
 ## 7. Scheduling
 
 - Real time: inbound interactions, Tasks, approvals, availability, Transaction state, payment state, consent, and suppression.
-- Hourly: dashboard aggregates and Campaign progress.
+- Hourly: dashboard aggregates and, for Pro stores, Campaign progress.
 - Store-local daily close: final daily operational totals.
 - Daily or weekly: advanced models and owner-selected knowledge review.
 - Policy driven: reservation expiry, retention deletion, exports, backup expiry, and legal holds.
