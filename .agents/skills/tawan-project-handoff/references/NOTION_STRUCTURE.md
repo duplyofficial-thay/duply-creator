@@ -48,6 +48,13 @@ Superseded drafts and closed planning material.
 
 Maintain one database under the parent page with `Page Key`, Notion page ID/URL, Git source path, source commit, sync status, and last sync. Reuse these records on every refresh. Creating a replacement page requires explicit human approval and archives the previous registry record.
 
+Before reconciling task database records:
+
+1. Match stable `TWN-*` identifiers exactly.
+2. Produce a dry-run report for title-only or meaning-based matches.
+3. Obtain explicit owner approval before merging, archiving, or replacing any human-maintained record.
+4. Preserve comments, history, and links during approved updates.
+
 ## Generated Page Header
 
 Create two top-level sections on every generated page:
@@ -74,6 +81,7 @@ The hub page must always link:
 - `docs/tawan/DATA_MODEL.md`
 - `docs/tawan/SECURITY.md`
 - `docs/tawan/IMPLEMENTATION_PLAN.md`
+- `docs/tawan/TASK_BREAKDOWN.md`
 - `.agents/skills/tawan-project-handoff/SKILL.md`
 - `.agents/skills/tawan-project-handoff/references/HANDOFF.md`
 
@@ -81,6 +89,7 @@ Require the commit to be reachable from the canonical remote's default branch or
 
 ## Task Board Properties
 
+- `Task ID`: unique text value using the stable `TWN-*` identifier; a title prefix is a legacy fallback only
 - `Task`: title
 - `Type`: Epic, Task, Bug, Research, Decision, or Review
 - `Status`: Backlog, Ready, In Progress, Blocked, Review, or Done

@@ -271,4 +271,5 @@ Real customer data must not enter production until:
 - [Security and privacy](SECURITY.md)
 - [Decision log](DECISIONS.md)
 - [Implementation plan](IMPLEMENTATION_PLAN.md)
+- [Task breakdown](TASK_BREAKDOWN.md)
 - [Thai PDPA research](../research/2026-08-17-thailand-pdpa-tawan-data.md)
