@@ -73,3 +73,7 @@ Phase 2 may begin after a realistic Customer question progresses through accurat
 ## 2026-08-18 - Campaign activity is Pro-only
 
 Outbound Campaign drafting, scheduling, delivery, personalization, attribution, and Campaign intelligence are Pro-tier capabilities delivered after the Phase 1 transition gate. Standard plans retain customer-service messaging, store- and Channel-specific consent and objection records, and operational commerce analytics, but do not execute proactive Campaigns. This decision supersedes the earlier implementation-plan placement of Campaign execution alongside Phase 1 Standard analytics.
+
+## 2026-08-20 - Initial Tawan test toolchain
+
+The initial `TWN-0201` test baseline uses Python's standard-library `unittest` runner plus `compileall` so a clean local checkout can produce unit and syntax evidence without downloading packages. Real provisioning still requires `PyYAML`, and database/LINE/Supabase tests remain blocked until Duply confirms the private runtime and verification environment.

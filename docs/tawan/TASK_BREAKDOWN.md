@@ -67,7 +67,7 @@
 
 | ID | Task | Type | Plan | Area | Priority | Status | Depends On | Acceptance |
 |---|---|---|---|---|---|---|---|---|
-| TWN-0201 | Select and document the repository test toolchain | Decision | Shared | Platform | Critical | Backlog | TWN-0108 | One supported unit/integration command is documented and runnable locally |
+| TWN-0201 | Select and document the repository test toolchain | Decision | Shared | Platform | Critical | Review | TWN-0108 | `python3 -m unittest discover -s tests -p "test_*.py"` and `PYTHONPYCACHEPREFIX=/tmp/duply-creator-pycache python3 -m compileall scripts duples` are documented in `docs/tawan/TESTING.md` and pass locally |
 | TWN-0202 | Create a rollback-capable commerce migration runner and manifest | Task | Shared | Data | Critical | Backlog | TWN-0201 | Migrations apply, report versions, roll back, and reject incompatible ordering |
 | TWN-0203 | Create a disposable Postgres verification environment | Task | Shared | Data | Critical | Backlog | TWN-0202 | A clean database can be created, migrated, rolled back, and recreated automatically |
 | TWN-0204 | Create synthetic fixtures for two stores and five demo businesses | Task | Shared | Data | High | Backlog | TWN-0203 | Fixtures contain no real credentials or personal data and cover required module differences |

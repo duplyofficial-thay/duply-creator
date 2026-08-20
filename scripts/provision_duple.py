@@ -23,7 +23,10 @@ import sys
 import tempfile
 from pathlib import Path
 
-import yaml  # pip install pyyaml
+try:
+    import yaml  # type: ignore[import-untyped]
+except ImportError:  # pragma: no cover - exercised by local environments without PyYAML
+    yaml = None
 
 # ─── Paths ───────────────────────────────────────────────────────────────────
 
@@ -169,6 +172,9 @@ def provision(duple_id: str, supabase_dir: Path) -> None:
         _die("duple_id must be 2–30 chars: lowercase letters, digits, underscores; start with a letter.")
 
     # 1. Parse + validate YAML
+    if yaml is None:
+        _die("pyyaml is required to provision a Duple. Install it with: python3 -m pip install pyyaml")
+
     reg_file = REGISTER_DIR / f"{duple_id}.yaml"
     if not reg_file.exists():
         _die(f"register/{duple_id}.yaml not found.")
