@@ -317,9 +317,12 @@ NOTIFY pgrst, 'reload schema';""",
 
     run_sql(sql, supabase_dir)
 
-    # 4b. Grant on existing tables (DEFAULT PRIVILEGES only covers future tables)
+    # 4b. Grant on existing tables/sequences (DEFAULT PRIVILEGES only covers future objects)
     run_sql(f"GRANT ALL ON ALL TABLES IN SCHEMA {schema} TO service_role;", supabase_dir)
     run_sql(f"GRANT SELECT ON ALL TABLES IN SCHEMA {schema} TO anon, authenticated;", supabase_dir)
+    run_sql(f"GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA {schema} TO service_role;", supabase_dir)
+    run_sql(f"ALTER DEFAULT PRIVILEGES IN SCHEMA {schema} GRANT USAGE, SELECT ON SEQUENCES TO service_role;", supabase_dir)
+    run_sql(f"GRANT ALL ON ALL FUNCTIONS IN SCHEMA {schema} TO service_role;", supabase_dir)
 
     # 5. Seed public.duply_duples
     _step("Seeding public.duply_duples")

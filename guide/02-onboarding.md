@@ -49,25 +49,23 @@ After receiving your registration file, the Duply team runs `scripts/provision_d
 - Registers `https://webhook-{duple_id}.duply.org/webhook` in LINE Console as the webhook URL
 
 **You receive:**
-- Postgres credentials (role name + password) — see below
+- `secrets/{your_id}.yaml` — all credentials in one file (sent directly by the Duply team, never committed)
 
-**Save credentials immediately** — copy `duples/.env.example` to `duples/{your_id}/.env` and fill in:
-
-```bash
-cp duples/.env.example duples/{your_id}/.env
-# then edit the file with your credentials
-```
+**Save it immediately** — place it at `secrets/{your_id}.yaml` in your local repo clone. It is git-ignored and will never be committed.
 
 ```
-POSTGRES_HOST=db.fpjevusrpausqunjhubk.supabase.co
-POSTGRES_PORT=5432
-POSTGRES_DB=postgres
-POSTGRES_SCHEMA={your_id}_ai
-POSTGRES_ROLE={your_id}_role
-POSTGRES_PASSWORD=<the password the Duply team sent you>
+secrets/{your_id}.yaml
+  db.connection_string    ← Postgres, scoped to {your_id}_ai only
+  supabase.url            ← Supabase project URL
+  supabase.service_role_key ← REST API key (platform-wide — keep secure)
 ```
 
-This file is git-ignored — it will never be committed. Keep it only on your machine.
+Two ways to connect to your schema:
+
+| Tool | What to use | Scope |
+|---|---|---|
+| TablePlus / DBeaver / psql | `db.connection_string` from `secrets/` | tawan_ai only ✅ |
+| Supabase REST API / scripts | `supabase.url` + `supabase.service_role_key` | All schemas ⚠️ keep secret |
 
 ---
 

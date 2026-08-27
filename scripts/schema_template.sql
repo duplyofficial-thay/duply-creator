@@ -238,3 +238,21 @@ CREATE TABLE __SCHEMA__.stock_universe (
     updated_at      TIMESTAMPTZ DEFAULT now()
 );
 -- END FINANCE
+
+-- ── Functions ─────────────────────────────────────────────────────────────────
+
+CREATE OR REPLACE FUNCTION __SCHEMA__.increment_interact_count(p_duply_id TEXT, p_lane TEXT)
+RETURNS void
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    UPDATE __SCHEMA__.user_profiles
+    SET
+        interaction_count       = interaction_count + 1,
+        ai_interact_count       = ai_interact_count + CASE WHEN p_lane = 'chat' THEN 1 ELSE 0 END,
+        card_interact_count     = card_interact_count + CASE WHEN p_lane = 'card' THEN 1 ELSE 0 END,
+        service_interact_count  = service_interact_count + CASE WHEN p_lane = 'service' THEN 1 ELSE 0 END
+    WHERE duply_id = p_duply_id;
+END;
+$$;
+GRANT EXECUTE ON FUNCTION __SCHEMA__.increment_interact_count(TEXT, TEXT) TO service_role;
