@@ -33,6 +33,17 @@ and tests is not accepted as part of the integration. Card rendering, data
 fetching, and reach hooks remain stubs until the Duply runtime contracts are
 verified.
 
+## 2026-09-03 - Close operational data-model gaps from team review
+
+The team review identified pilot-critical gaps around staff takeover, outbound
+message evidence, usage cost, order amendments, shipping/COD/returns, schema
+drift, branch hours, scheduled-job evidence, entitlements, tax foundations,
+and cross-border processing records. These are now represented in the
+store-scoped `0030_tawan_operational_safety` migration and explained in
+`TEAM_DATA_MODEL_GAP_REVIEW.md`. Cross-store payment-slip fingerprinting and
+Thai legal treatment of external AI transfers remain explicit platform/legal
+decisions; they are not enabled implicitly by the store schema.
+
 ## 2026-08-18 - Knowledge is staged before publication
 
 The ingestion agent creates Knowledge Candidates with provenance, confidence, validity, and conflicts. Staff may review and recommend, but permanent Store Knowledge never becomes customer-facing until the Store Owner approves it. This preserves the rule that Tawan must not invent or silently change store facts.
