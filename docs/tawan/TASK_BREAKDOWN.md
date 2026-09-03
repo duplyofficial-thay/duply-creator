@@ -2,9 +2,11 @@
 
 **Status:** Canonical task manifest for Git and Notion synchronization
 
-**Updated:** 2026-08-18
+**Updated:** 2026-09-03
 
 **Source:** Approved Tawan product, architecture, data, security, legal-research, decision, and implementation documents
+
+**Current roll-up:** [CURRENT_TASK_STATUS.md](CURRENT_TASK_STATUS.md) summarizes all 149 cards, current evidence, blockers, required help, and the next execution order.
 
 ## 1. How To Use This Manifest
 

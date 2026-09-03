@@ -37,6 +37,7 @@ Users talk to Duples via **LINE**. Each Duple has its own persona, tools, and me
 | `PATCH-NOTES.md` | Platform changelog |
 | `docs/tawan/PRODUCT_SPEC.md` | Approved Tawan commerce product baseline and related design documents |
 | `docs/tawan/TASK_BREAKDOWN.md` | Atomic Tawan tasks, dependencies, status, and acceptance evidence |
+| `docs/tawan/CURRENT_TASK_STATUS.md` | Current status of all 149 Tawan cards, blockers, help needed, and next order |
 | `docs/tawan/PHASE_1_ROADBLOCKS.md` | Duply platform blockers and phase-by-phase feature plan |
 | `docs/tawan/TESTING.md` | Supported local test commands and current Tawan test scope |
 | `docs/tawan/notion-import/` | Validated Tawan task and Sprint CSV package for safe Notion synchronization |
