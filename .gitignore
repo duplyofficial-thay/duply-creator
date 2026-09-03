@@ -1,5 +1,4 @@
 duples/*/.env
-secrets/*
-!secrets/tawan.yaml
+secrets/
 __pycache__/
 .DS_Store
