@@ -1,10 +1,18 @@
 # Tawan Data Model
 
-**Status:** Logical model approved for implementation planning
+**Status:** Logical model approved; executable store-scoped migration foundation added
 
-**Updated:** 2026-08-18
+**Updated:** 2026-09-03
 
-This document defines entities, relationships, invariants, and migration intent. It is not executable SQL. Physical design must be reconciled with the real Supabase and `duply-agents` runtime before migrations are written.
+This document defines entities, relationships, invariants, and migration intent. The executable store-scoped migration is maintained separately. Physical design must still be reconciled with the target Supabase project and Duply runtime before production application.
+
+The creator kit now contains a local, reviewable physical migration at
+`scripts/migrations/0020_tawan_commerce_data_layers.sql`. It covers the
+store-scoped identity, memory, consent, reply-progress, task, approval,
+commerce, knowledge-source, analytics, and audit layers described here. It is
+not yet approved for production application; the target Supabase project,
+role grants, migration runner, retention jobs, and backup process still need
+to be verified.
 
 ## 1. Tenancy Model
 

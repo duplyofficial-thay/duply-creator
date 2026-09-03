@@ -14,13 +14,28 @@ class MigrationRunnerTests(unittest.TestCase):
         cls.migrations = load_migrations(REPO_ROOT / "scripts" / "migrations")
 
     def test_manifest_is_ordered_and_reversible(self):
-        self.assertEqual([migration.version for migration in self.migrations], [10])
-        self.assertTrue(self.migrations[0].up_sql)
-        self.assertTrue(self.migrations[0].down_sql)
+        self.assertEqual([migration.version for migration in self.migrations], [10, 20])
+        self.assertTrue(all(migration.up_sql and migration.down_sql for migration in self.migrations))
+
+    def test_commerce_migration_contains_all_owned_data_layers(self):
+        rendered = render_sql(self.migrations[1].up_sql, "tawan_demo_ai", "tawan_demo")
+        for table in (
+            "store_settings", "customers", "customer_memories", "consent_records",
+            "interaction_events", "sales_journeys", "tasks", "approvals",
+            "catalog_items", "inventory_balances", "price_rules", "transactions",
+            "payments", "payment_evidence", "knowledge_candidates",
+            "analytics_events", "audit_events",
+        ):
+            self.assertIn(f"tawan_demo_ai.{table}", rendered)
+        self.assertNotIn("__SCHEMA__", rendered)
 
     def test_plan_applies_missing_and_rolls_back_above_target(self):
-        self.assertEqual([action for action, _ in plan(self.migrations, set())], ["apply"])
-        self.assertEqual([action for action, _ in plan(self.migrations, {10}, target=0)], ["rollback"])
+        self.assertEqual([action for action, _ in plan(self.migrations, set())], ["apply", "apply"])
+        self.assertEqual([action for action, _ in plan(self.migrations, {10, 20}, target=0)], ["rollback", "rollback"])
+
+    def test_plan_rejects_skipping_a_migration(self):
+        with self.assertRaises(ValueError):
+            plan(self.migrations, {20})
 
     def test_render_sql_rejects_unsafe_identifiers(self):
         with self.assertRaises(ValueError):

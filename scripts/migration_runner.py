@@ -59,6 +59,10 @@ def plan(migrations: list[Migration], applied: set[int], target: int | None = No
     unknown = applied - versions
     if unknown:
         raise ValueError(f"applied versions are absent from manifest: {sorted(unknown)}")
+    ordered_versions = [migration.version for migration in migrations]
+    expected_applied = set(ordered_versions[: len(applied)])
+    if applied != expected_applied:
+        raise ValueError("applied migrations must form a complete ordered prefix")
     target = target if target is not None else (migrations[-1].version if migrations else 0)
     if target not in {0, *versions}:
         raise ValueError(f"target version is absent from manifest: {target:04d}")
