@@ -103,3 +103,14 @@ Outbound Campaign drafting, scheduling, delivery, personalization, attribution, 
 ## 2026-08-20 - Initial Tawan test toolchain
 
 The initial `TWN-0201` test baseline uses Python's standard-library `unittest` runner plus `compileall` so a clean local checkout can produce unit and syntax evidence without downloading packages. Real provisioning still requires `PyYAML`, and database/LINE/Supabase tests remain blocked until Duply confirms the private runtime and verification environment.
+
+## 2026-09-03 - Approved additive schema applied to Supabase
+
+With explicit owner approval, the up sections of migrations `0010`, `0020`,
+and `0030` were applied to project `fpjevusrpausqunjhubk`, schema `tawan_ai`,
+through the signed-in Supabase SQL Editor. The transaction completed
+successfully. Verification found 59 tables total: 12 expected Tawan table
+checks plus the 12 existing platform tables, with 96 indexes. Existing
+platform tables and data were preserved. The migration was executed without
+RLS after Supabase presented its warning; RLS policies and runtime authorization
+are a required follow-up before customer data is exposed.

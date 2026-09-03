@@ -24,9 +24,11 @@ python3 scripts/migration_runner.py list
 python3 scripts/migration_runner.py plan --applied 0010 --target 0
 ```
 
-This produces an apply/rollback plan only. Applying migrations to Supabase is
-blocked until Duply confirms the authoritative runner, rollback policy, and
-non-production database described by `TWN-0107`.
+This produces an apply/rollback plan only. The migration up sections have also
+been applied successfully through the signed-in Supabase SQL Editor to the
+approved project `fpjevusrpausqunjhubk`, schema `tawan_ai`. This is evidence of
+schema creation, not evidence that the Duply runtime's authoritative runner,
+rollback process, or non-production recovery environment is complete.
 
 The complete local plan applies migrations `0010`, `0020`, and `0030` in that
 order. Migration `0030` adds takeover, outbound provenance, usage controls,
@@ -61,11 +63,14 @@ Install that runtime dependency before provisioning:
 python3 -m pip install pyyaml
 ```
 
-Do not run live provisioning, Supabase migrations, LINE calls, or paid API calls from this test baseline. Those require the Duply platform owner to confirm the target environment and credentials first.
+Do not use this local test baseline to run live provisioning, LINE calls, or
+paid API calls. The approved Supabase schema application is complete for this
+project, but future migration runs still require the platform owner to confirm
+the target environment and credentials.
 
 ## Next Test Milestones
 
-- `TWN-0202`: migration manifest and rollback-order validation are now present; execution remains platform-blocked.
-- `TWN-0203`: add disposable Postgres verification once the local database approach is confirmed.
+- `TWN-0202`: migration manifest and rollback-order validation are now present; authoritative runtime-runner integration remains to be verified.
+- `TWN-0203`: live schema creation is verified; add disposable Postgres replay and rollback verification.
 - `TWN-0204`: six synthetic multi-business store fixtures are now present; add domain-specific records after the commerce schema is verified.
 - `TWN-0205`: extend registration validation and migration replay tests for finance, lifestyle, and commerce.

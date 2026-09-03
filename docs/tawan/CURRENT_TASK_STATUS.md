@@ -98,6 +98,14 @@ The reviewed Tawan foundation is merged to `origin/main` via PR #4 at
 canonical Markdown files at that immutable commit. The local checkout still
 has unrelated uncommitted user files; they were not included in the merge.
 
-Current verification: 21 unit tests pass and Python compilation passes. The
-SQL migrations have been statically planned and rendered, but not applied to a
-live Supabase project.
+Current verification: 21 unit tests pass and Python compilation passes. On
+2026-09-03, the approved `0010`, `0020`, and `0030` migration up sections were
+applied successfully to the signed-in Supabase project
+`fpjevusrpausqunjhubk`, schema `tawan_ai`. A read-only verification returned 59
+tables total, all 12 expected new-table checks, all 12 pre-existing platform
+tables, and 96 indexes. No existing platform table definitions were changed.
+
+Supabase warned that the new tables were created without Row Level Security;
+the migration was run unchanged and without RLS to preserve the approved
+scope. RLS policies and runtime authorization must be completed before storing
+customer data or exposing these tables through client keys.
