@@ -1,18 +1,20 @@
 # Tawan Data Model
 
-**Status:** Logical model approved; executable store-scoped migration foundation added
+**Status:** Logical model approved; additive store-scoped migration applied and live-verified
 
 **Updated:** 2026-09-03
 
 This document defines entities, relationships, invariants, and migration intent. The executable store-scoped migration is maintained separately. Physical design must still be reconciled with the target Supabase project and Duply runtime before production application.
 
-The creator kit now contains a local, reviewable physical migration at
-`scripts/migrations/0020_tawan_commerce_data_layers.sql`. It covers the
-store-scoped identity, memory, consent, reply-progress, task, approval,
-commerce, knowledge-source, analytics, and audit layers described here. It is
-not yet approved for production application; the target Supabase project,
-role grants, migration runner, retention jobs, and backup process still need
-to be verified.
+The creator kit contains local, reviewable physical migrations at
+`scripts/migrations/0010_tawan_commerce_foundation.sql`,
+`scripts/migrations/0020_tawan_commerce_data_layers.sql`, and
+`scripts/migrations/0030_tawan_operational_safety.sql`. Together they cover
+the store-scoped identity, memory, consent, reply-progress, task, approval,
+commerce, knowledge-source, analytics, and audit layers described here. The up
+sections were applied to the approved Supabase project and verified at the
+table/index level. The Duply runtime's role grants, retention jobs, backup
+process, and authoritative migration runner still need to be verified.
 
 ## 1. Tenancy Model
 
@@ -447,7 +449,7 @@ Tracks ordinary store exports, data-subject exports, paid migration work, status
 5. Run isolation, transition, pricing, reservation, deletion, and export tests.
 6. Provision a non-production Tawan Store Workspace.
 7. Rehearse migration, rollback, backup, and restore.
-8. Obtain explicit approval before any production schema change.
+8. Obtain explicit approval before any further production schema change.
 
 ## Related Documents
 
