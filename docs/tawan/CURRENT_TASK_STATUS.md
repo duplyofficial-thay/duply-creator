@@ -11,10 +11,10 @@ There are 149 tracked Tawan cards in the local canonical manifest:
 
 | Status | Count | Meaning |
 |---|---:|---|
-| Done | 3 | Committed and verified complete |
+| Done | 5 | Committed and verified complete |
 | Review | 15 | Local implementation or evidence exists; final integration/acceptance remains |
 | Ready | 1 | Can start as soon as the required human access is granted |
-| Blocked | 10 | External dependency prevents responsible execution |
+| Blocked | 8 | External dependency prevents responsible execution |
 | Backlog | 120 | Planned work waiting for earlier cards or a later phase |
 
 ## Done
@@ -22,6 +22,8 @@ There are 149 tracked Tawan cards in the local canonical manifest:
 - `TWN-0002`: canonical product and technical documents.
 - `TWN-0003`: Thai PDPA research and counsel questions.
 - `TWN-0004`: portable Tawan handoff skill.
+- `TWN-0005`: approved Tawan foundation merged to canonical `main` in PR #4.
+- `TWN-0006`: commit-pinned Markdown handoff links added to the Notion hub.
 
 ## Review: Local Evidence Exists
 
@@ -41,12 +43,16 @@ the manifest.
 - `TWN-0101`: obtain read-only access to the Duply runtime, data/Supabase,
   dashboard, and deployment repositories.
 
+## Review: External Board Reconciliation Still Needed
+
+- `TWN-0001`: historical Notion reconciliation remains a review item.
+- `TWN-0007`: existing Notion Board records still require an owner-approved dry run before any bulk update.
+
 ## Explicitly Blocked
 
 | Cards | Blocker | Help needed |
 |---|---|---|
-| `TWN-0005` | GitHub push approval | Owner confirms the reviewed local branch may be published |
-| `TWN-0006` to `0007` | Notion synchronization | Authenticated Notion session/API and permission to update existing records |
+| `TWN-0007` | Existing Notion record reconciliation | Owner approval of the dry-run mapping before updating or archiving human-maintained records |
 | `TWN-0102` | LINE destination and Store Context | Duply webhook path, mapping input, and failure behavior |
 | `TWN-0103` | Runtime dispatch and tools | Read-only runtime access and agent/tool registry contract |
 | `TWN-0104` | Knowledge/vector/memory/raw-message contract | Authoritative tables, retrieval filters, retention, deletion, and owner |
@@ -74,24 +80,23 @@ the manifest.
 
 ## Current Next Order
 
-1. Owner approves publishing the local Tawan branch.
-2. Friend provides read-only access for Duply runtime, Supabase/data,
+1. Friend provides read-only access for Duply runtime, Supabase/data,
    dashboard, and deployment.
-3. Confirm a disposable Supabase/Postgres environment and apply migrations
+2. Confirm a disposable Supabase/Postgres environment and apply migrations
    `0010`, `0020`, and `0030`.
-4. Connect local policies to database transactions and the LINE adapter.
-5. Run two-store isolation and the complete fashion journey.
-6. Begin dashboard and Standard analytics after the operational API boundary is
+3. Connect local policies to database transactions and the LINE adapter.
+4. Run two-store isolation and the complete fashion journey.
+5. Begin dashboard and Standard analytics after the operational API boundary is
    known.
-7. Begin Pro Campaign work only after Phase 1 acceptance and separate Pro
+6. Begin Pro Campaign work only after Phase 1 acceptance and separate Pro
    approval.
 
 ## Git Handoff Note
 
-Local Tawan work is ahead of `origin/main` and the remote branch currently
-deletes the local Tawan documentation and implementation when compared by
-tree. Do not merge `origin/main` directly. Publish the local work through a
-reviewed branch/pull request after owner approval.
+The reviewed Tawan foundation is merged to `origin/main` via PR #4 at
+`095eb84045bdd4cbb2a349cff04d42a5cf816acf`. The Notion hub now links to the
+canonical Markdown files at that immutable commit. The local checkout still
+has unrelated uncommitted user files; they were not included in the merge.
 
 Current verification: 21 unit tests pass and Python compilation passes. The
 SQL migrations have been statically planned and rendered, but not applied to a

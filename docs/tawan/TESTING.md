@@ -1,6 +1,6 @@
 # Tawan Testing
 
-**Status:** Initial toolchain selected for `TWN-0201`
+**Status:** Resolved locally for `TWN-0201`; database and integration evidence remain environment-dependent.
 
 **Updated:** 2026-08-20
 
@@ -49,7 +49,7 @@ The initial tests cover creator-kit behavior that does not require Supabase, LIN
 - commerce archetype settings rendering;
 - finance versus non-finance memory configuration rendering.
 
-`TWN-0201` was started before `TWN-0108` is fully unblocked as an owner-approved unblocking step. This does not authorize runtime, database, LINE, or paid-service implementation before the `TWN-0104` through `TWN-0107` contracts are verified.
+`TWN-0201` is complete as a local toolchain decision. This does not authorize runtime, database, LINE, or paid-service implementation before the `TWN-0104` through `TWN-0107` contracts are verified.
 
 ## Dependency Notes
 
