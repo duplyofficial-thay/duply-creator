@@ -28,11 +28,12 @@ schemas.
 3. Apply migration `0020` in a disposable Postgres/Supabase environment.
 4. Seed synthetic fashion, food, beauty, service, wholesale, and construction stores.
 5. Test reply-time capture with one idempotency key and a repeated webhook event.
-6. Test a full fashion journey: customer question, interest, order, reservation, payment-review Task, owner decision, fulfilment, and completion.
-7. Test schema isolation with two database roles and negative cross-store queries.
-8. Add LINE adapter calls only after the inbound/outbound webhook contract is verified.
-9. Add hourly aggregate refresh and daily close after operational state is working.
-10. Add Pro Campaign tables and delivery only after the Phase 2 product gate; Standard does not send proactive campaigns.
+6. Run deterministic policy checks for takeover, capture commands, price precedence, order authority, and stock reservation.
+7. Test a full fashion journey: customer question, interest, order, reservation, payment-review Task, owner decision, fulfilment, and completion.
+8. Test schema isolation with two database roles and negative cross-store queries.
+9. Add LINE adapter calls only after the inbound/outbound webhook contract is verified.
+10. Add hourly aggregate refresh and daily close after operational state is working.
+11. Add Pro Campaign tables and delivery only after the Phase 2 product gate; Standard does not send proactive campaigns.
 
 ## Card Mapping
 

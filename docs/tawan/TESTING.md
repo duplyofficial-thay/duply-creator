@@ -33,6 +33,10 @@ order. Migration `0030` adds takeover, outbound provenance, usage controls,
 amendments, shipping/returns, drift tracking, job evidence, entitlements, tax
 foundations, and processing-activity records.
 
+Pure Tawan policy tests cover conversation takeover, reply-time command safety,
+stable idempotency keys, Standard/Pro price precedence, stock reservation, and
+owner-only payment completion without requiring Supabase or LINE.
+
 ## Current Scope
 
 The initial tests cover creator-kit behavior that does not require Supabase, LINE, private runtime repositories, or real credentials:
