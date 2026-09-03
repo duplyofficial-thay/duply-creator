@@ -44,8 +44,8 @@
 | TWN-0002 | Maintain the canonical Tawan product and technical documents | Task | Shared | Product | Critical | Done | - | Product, architecture, data, security, decisions, and implementation documents are committed and internally consistent |
 | TWN-0003 | Preserve Thai PDPA research and counsel questions | Research | Shared | Legal | High | Done | - | Research cites primary authorities and is clearly labelled as non-legal advice |
 | TWN-0004 | Maintain the portable Tawan handoff skill | Task | Shared | Operations | High | Done | TWN-0002 | A fresh AI account reconstructs tier, status, blockers, and next milestone without chat history |
-| TWN-0005 | Publish approved Tawan commits to the canonical GitHub default branch | Task | Shared | Operations | Critical | Blocked | Owner push approval | Full SHA is reachable from `origin` default branch and no unrelated files are pushed |
-| TWN-0006 | Add verified Markdown source links to the Notion hub | Task | Shared | Operations | High | Blocked | TWN-0005 | Every required link opens in the intended friend/AI context and uses the full permanent SHA |
+| TWN-0005 | Publish approved Tawan commits to the canonical GitHub default branch | Task | Shared | Operations | Critical | Done | Owner push approval | Full SHA is reachable from `origin` default branch and no unrelated files are pushed |
+| TWN-0006 | Add verified Markdown source links to the Notion hub | Task | Shared | Operations | High | Done | TWN-0005 | Every required link opens in the intended friend/AI context and uses the full permanent SHA |
 | TWN-0007 | Reconcile existing Tawan Board records by stable Task ID | Task | Shared | Operations | High | Blocked | Notion API/session access, TWN-0006 | Dry-run mapping is owner-approved before existing records are updated; no human record is merged or archived without explicit approval; comments are preserved |
 
 ## 4. Milestone 1 - Runtime And Data Discovery
@@ -269,12 +269,10 @@
 
 ## 15. Current Execution Order
 
-1. Complete `TWN-0005` after explicit GitHub push approval.
-2. Complete `TWN-0006` and verify Markdown links with the friend/AI account.
-3. Complete `TWN-0007` using the Notion API or a stable authenticated session; update existing tasks instead of creating duplicates.
-4. Start `TWN-0101`; do not start production implementation before discovery.
-5. Execute Milestones 2 through 10 in order, allowing only reviewed parallel work with disjoint ownership.
-6. Start Milestone 11 only after `TWN-1010` and separate Pro product approval.
+1. Complete `TWN-0007` using an owner-approved dry-run mapping; update existing tasks instead of creating duplicates.
+2. Start `TWN-0101`; do not start production implementation before discovery.
+3. Execute Milestones 2 through 10 in order, allowing only reviewed parallel work with disjoint ownership.
+4. Start Milestone 11 only after `TWN-1010` and separate Pro product approval.
 
 ## Related Documents
 
