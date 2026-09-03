@@ -11,7 +11,7 @@ import hashlib
 from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal
-from typing import Iterable, Mapping
+from typing import Iterable, Mapping, Sequence
 
 
 class PolicyError(ValueError):
@@ -123,3 +123,38 @@ def validate_order_transition(current: str, requested: str, actor: str) -> None:
         raise PolicyError(f"invalid order transition: {current} -> {requested}")
     if requested == "paid" and actor not in {"store_owner", "platform_admin"}:
         raise PolicyError("only an owner may mark an order paid in Phase 1")
+
+
+def marketing_allowed(consent_records: Sequence[Mapping[str, object]], channel: str) -> bool:
+    """Use the latest store- and channel-specific consent state."""
+    relevant = [record for record in consent_records if record.get("channel") == channel]
+    if not relevant:
+        return False
+    latest = max(relevant, key=lambda record: record.get("recorded_at", ""))
+    return latest.get("status") == "granted"
+
+
+def duplicate_payment_evidence(existing: Mapping[str, object], candidate: Mapping[str, object]) -> bool:
+    """Detect a store-local evidence collision before owner review."""
+    for field in ("content_hash", "normalized_fingerprint", "bank_reference"):
+        value = candidate.get(field)
+        if value and value == existing.get(field):
+            return True
+    return False
+
+
+def reservation_state(state: str, expires_at: datetime, now: datetime) -> str:
+    """Return the safe next state for an active reservation."""
+    if state != "active":
+        return state
+    return "expired" if now >= expires_at else "active"
+
+
+def validate_memory_candidate(source_type: str, confidence: Decimal, confirmed_at: datetime | None) -> None:
+    """Validate source metadata before a memory candidate is persisted."""
+    if source_type not in {"customer_stated", "staff_confirmed", "inferred", "imported"}:
+        raise PolicyError(f"unknown memory source: {source_type!r}")
+    if not Decimal("0") <= confidence <= Decimal("1"):
+        raise PolicyError("memory confidence must be between 0 and 1")
+    if source_type == "inferred" and confirmed_at is not None:
+        raise PolicyError("inferred memory cannot claim confirmation without explicit confirmation")

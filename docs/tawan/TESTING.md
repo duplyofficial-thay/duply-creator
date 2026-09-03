@@ -35,7 +35,9 @@ foundations, and processing-activity records.
 
 Pure Tawan policy tests cover conversation takeover, reply-time command safety,
 stable idempotency keys, Standard/Pro price precedence, stock reservation, and
-owner-only payment completion without requiring Supabase or LINE.
+owner-only payment completion without requiring Supabase or LINE. They also
+cover store/channel-specific consent and STOP behaviour, payment evidence
+collision blocking, reservation expiry, and memory source validation.
 
 ## Current Scope
 
