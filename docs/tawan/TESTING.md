@@ -28,6 +28,11 @@ This produces an apply/rollback plan only. Applying migrations to Supabase is
 blocked until Duply confirms the authoritative runner, rollback policy, and
 non-production database described by `TWN-0107`.
 
+The complete local plan applies migrations `0010`, `0020`, and `0030` in that
+order. Migration `0030` adds takeover, outbound provenance, usage controls,
+amendments, shipping/returns, drift tracking, job evidence, entitlements, tax
+foundations, and processing-activity records.
+
 ## Current Scope
 
 The initial tests cover creator-kit behavior that does not require Supabase, LINE, private runtime repositories, or real credentials:

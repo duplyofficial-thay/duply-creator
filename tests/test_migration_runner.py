@@ -14,7 +14,7 @@ class MigrationRunnerTests(unittest.TestCase):
         cls.migrations = load_migrations(REPO_ROOT / "scripts" / "migrations")
 
     def test_manifest_is_ordered_and_reversible(self):
-        self.assertEqual([migration.version for migration in self.migrations], [10, 20])
+        self.assertEqual([migration.version for migration in self.migrations], [10, 20, 30])
         self.assertTrue(all(migration.up_sql and migration.down_sql for migration in self.migrations))
 
     def test_commerce_migration_contains_all_owned_data_layers(self):
@@ -30,12 +30,22 @@ class MigrationRunnerTests(unittest.TestCase):
         self.assertNotIn("__SCHEMA__", rendered)
 
     def test_plan_applies_missing_and_rolls_back_above_target(self):
-        self.assertEqual([action for action, _ in plan(self.migrations, set())], ["apply", "apply"])
-        self.assertEqual([action for action, _ in plan(self.migrations, {10, 20}, target=0)], ["rollback", "rollback"])
+        self.assertEqual([action for action, _ in plan(self.migrations, set())], ["apply", "apply", "apply"])
+        self.assertEqual([action for action, _ in plan(self.migrations, {10, 20, 30}, target=0)], ["rollback", "rollback", "rollback"])
 
     def test_plan_rejects_skipping_a_migration(self):
         with self.assertRaises(ValueError):
             plan(self.migrations, {20})
+
+    def test_operational_migration_contains_pilot_safety_records(self):
+        rendered = render_sql(self.migrations[2].up_sql, "tawan_demo_ai", "tawan_demo")
+        for table in (
+            "conversation_controls", "outbound_messages", "usage_ledger",
+            "customer_contact_controls", "transaction_amendments", "shipments",
+            "returns", "schema_migration_history", "job_runs", "store_entitlements",
+            "tax_configs", "processing_activities",
+        ):
+            self.assertIn(f"tawan_demo_ai.{table}", rendered)
 
     def test_render_sql_rejects_unsafe_identifiers(self):
         with self.assertRaises(ValueError):
