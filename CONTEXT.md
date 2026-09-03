@@ -13,7 +13,7 @@ One isolated AI product registered on Duply, with its own persona, configuration
 _Avoid_: Bot, assistant account
 
 **Agent**:
-A named capability inside a Duple, such as `chat.reply`, `memory.noter`, or `knowledge.extract`.
+A named capability inside a Duple, such as `chat.reply`, `memory.capture`, or `knowledge.extract`.
 _Avoid_: Duple, bot
 
 **Tawan**:

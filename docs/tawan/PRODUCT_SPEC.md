@@ -19,7 +19,7 @@ Tawan is the standard product identity. A customer may contract directly with Du
 ## 2. Product Principles
 
 1. **Never invent store facts.** Price, stock, discount, delivery, availability, payment, policy, and project estimates must come from approved data or an authorized person.
-2. **Structured progress over transcript hoarding.** Tawan preserves Sales Journeys, Interaction Events, Customer Memory, Tasks, and outcomes. Raw messages have a short justified retention period.
+2. **Structured progress during reply.** Tawan preserves Sales Journeys, Interaction Events, Customer Memory, Tasks, and outcomes while producing the customer reply. Raw messages have a short justified retention period.
 3. **One product, isolated stores.** Shared behaviour must never create shared operational or customer data.
 4. **Human authority over commercial risk.** Owners approve campaigns, permanent knowledge, exceptional prices, uncertain payments, and material commercial changes.
 5. **Useful breadth through modules.** A shared commerce core supports optional modules instead of one table or workflow pretending every business is identical.
@@ -67,8 +67,8 @@ Store Staff receive individual capabilities rather than universal access:
 
 1. A Customer contacts the store through LINE OA.
 2. Tawan resolves the Store Workspace and Customer identity before loading data.
-3. Tawan answers from approved Store Knowledge and operational facts.
-4. Tawan records structured progress, relevant Interaction Events, and permitted Customer Memory.
+3. Tawan prepares an answer from approved Store Knowledge and operational facts.
+4. In the same reply flow, Tawan records structured progress, relevant Interaction Events, required Tasks or Approvals, and permitted Customer Memory candidates.
 5. A Sales Journey is created or advanced when there is commercial intent.
 6. Tawan creates a Transaction when the Customer commits to a supported business outcome.
 7. Tawan applies the authorized price precedence and revalidates availability.

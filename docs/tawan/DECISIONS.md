@@ -18,6 +18,12 @@ Customer, memory, Sales Journey, Task, Approval, payment, Campaign, audit, and a
 
 Tawan preserves structured Customer Memory, Interaction Events, Sales Journeys, Tasks, and outcomes. Raw conversation content is encrypted and retained only for a short justified period. This supports continuity and analytics while reducing privacy and breach exposure.
 
+## 2026-09-03 - Reply flow captures structured data inline
+
+Tawan no longer uses a separate post-conversation Noter step as the default path. The customer reply orchestration step now produces both the customer-facing response and the structured internal capture for that inbound event: Interaction Events, Sales Journey updates, Tasks, Approval requests, Order changes, and Customer Memory candidates as applicable.
+
+Structured capture must run under the verified Store Context and deterministic command validation. Writes need idempotency keys tied to the inbound channel event and reply attempt so retries cannot duplicate Tasks, Orders, or memory candidates. Permanent Store Knowledge still requires Store Owner approval, Customer Memory still needs source and confidence metadata, and raw message retention remains short.
+
 ## 2026-08-18 - Knowledge is staged before publication
 
 The ingestion agent creates Knowledge Candidates with provenance, confidence, validity, and conflicts. Staff may review and recommend, but permanent Store Knowledge never becomes customer-facing until the Store Owner approves it. This preserves the rule that Tawan must not invent or silently change store facts.

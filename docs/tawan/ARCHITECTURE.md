@@ -2,7 +2,7 @@
 
 **Status:** Approved target architecture; implementation has not started
 
-**Updated:** 2026-08-18
+**Updated:** 2026-09-03
 
 ## 1. Architectural Shape
 
@@ -21,11 +21,14 @@ flowchart LR
     CO --> M["Customer Memory Module"]
     CO --> C["Commerce Module"]
     CO --> T["Task and Approval Module"]
+    CO --> RP["Reply and Capture Plan"]
+    RP --> CA
     C --> P["Payment Adapter"]
     C --> T
     T --> N["Notification Adapter"]
     C --> A["Analytics Events"]
     M --> A
+    RP --> A
     T --> A
 ```
 
@@ -68,6 +71,8 @@ The shared interface represents text, media references, sender identity, destina
 **Interface:** Handle one normalized interaction within a Store Context and return a response plan plus validated commands.
 
 The orchestrator applies the existing rule: **LLM proposes, Python decides, database writes**. The model may propose a catalog lookup, memory candidate, Sales Journey update, Task, Transaction, or Approval request. Deterministic modules validate and execute allowed commands.
+
+The reply flow is also the structured-capture flow. Tawan does not wait for a separate post-conversation Noter pass before preserving progress. For each inbound event, the orchestrator builds one response plan containing the customer-facing reply and the store-scoped capture commands that should be committed for that event.
 
 The orchestrator never grants authorization from prompt text and never passes one Store Context into another store's adapter.
 
@@ -160,10 +165,11 @@ Platform Administrator support access uses a separate path with reason, duration
 2. Store Resolver derives Store Context from the destination.
 3. Customer Module resolves the store-specific Customer.
 4. Conversation Orchestrator retrieves published Store Knowledge and permitted Customer Memory.
-5. The model proposes a reply and optional commands.
-6. Deterministic modules validate commands.
-7. Channel Adapter delivers the response and records the outcome.
-8. Structured Interaction Events are saved; raw message retention follows policy.
+5. The model proposes a reply plus structured capture commands for the same inbound event.
+6. Deterministic modules validate authorization, command schema, idempotency, price, stock, consent, and store scope.
+7. Store-scoped writes save the allowed Interaction Events, Sales Journey changes, Tasks, Approval requests, Transaction changes, and Customer Memory candidates.
+8. Channel Adapter delivers the response, records the delivery outcome, and uses the same correlation identifiers for retry safety.
+9. Raw message retention follows policy; durable product behaviour relies on structured records, not an after-the-fact transcript summary.
 
 ### Unknown or conflicting fact
 

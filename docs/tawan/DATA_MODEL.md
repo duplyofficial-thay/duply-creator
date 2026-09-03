@@ -161,6 +161,8 @@ Structured business events such as:
 
 Each event records Customer, Channel, external conversation reference, event type, structured payload, source, actor, occurred time, and retention class. It is not a full transcript.
 
+Interaction Events are produced during the reply orchestration flow, not by a separate post-conversation Noter step. Each write should include a correlation identifier and idempotency key derived from the inbound channel event and reply attempt so duplicate webhook retries cannot duplicate Sales Journey progress, Tasks, Transactions, or memory candidates.
+
 ### Raw conversation storage
 
 The existing `interact_log` or a verified runtime message store may retain encrypted raw content for a short policy-driven period. Raw content needs purpose, expiry, access restrictions, and deletion coverage across cache, vector store, logs, exports, and backups. Long-term product behaviour must not depend on indefinite raw retention.
