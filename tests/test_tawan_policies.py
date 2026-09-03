@@ -5,10 +5,12 @@ from decimal import Decimal
 from duples.tawan.domain.policies import (
     PolicyError,
     PriceRule,
+    TierRule,
     can_bot_reply,
     idempotency_key,
     duplicate_payment_evidence,
     marketing_allowed,
+    recommend_customer_tier,
     reserve_stock,
     reservation_state,
     resolve_price,
@@ -75,6 +77,19 @@ class TawanPolicyTests(unittest.TestCase):
         validate_memory_candidate("customer_stated", Decimal("1"), None)
         with self.assertRaises(PolicyError):
             validate_memory_candidate("inferred", Decimal("0.8"), now)
+
+    def test_customer_tier_recommendation_is_local_and_explainable(self):
+        recommendation = recommend_customer_tier(
+            completed_orders=5,
+            completed_value=Decimal("12000"),
+            rules=[
+                TierRule("standard"),
+                TierRule("vip", minimum_orders=3, minimum_value=Decimal("5000")),
+                TierRule("premium", minimum_orders=10, minimum_value=Decimal("20000")),
+            ],
+        )
+        self.assertEqual(recommendation["tier"], "vip")
+        self.assertEqual(recommendation["evidence"]["completed_orders"], 5)
 
 
 if __name__ == "__main__":

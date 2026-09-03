@@ -38,6 +38,8 @@ stable idempotency keys, Standard/Pro price precedence, stock reservation, and
 owner-only payment completion without requiring Supabase or LINE. They also
 cover store/channel-specific consent and STOP behaviour, payment evidence
 collision blocking, reservation expiry, and memory source validation.
+Customer Tier recommendations are tested using store-local order/value evidence
+and never authorize a discount by themselves.
 
 ## Current Scope
 

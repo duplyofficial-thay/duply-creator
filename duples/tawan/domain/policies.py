@@ -72,6 +72,41 @@ PRICE_PRECEDENCE = {
 }
 
 
+@dataclass(frozen=True)
+class TierRule:
+    tier: str
+    minimum_orders: int = 0
+    minimum_value: Decimal = Decimal("0")
+
+
+def recommend_customer_tier(
+    completed_orders: int,
+    completed_value: Decimal,
+    rules: Iterable[TierRule],
+) -> dict[str, object]:
+    """Recommend the highest matching store-local tier with evidence."""
+    if completed_orders < 0 or completed_value < 0:
+        raise PolicyError("customer history cannot be negative")
+    candidates = [
+        rule for rule in rules
+        if completed_orders >= rule.minimum_orders and completed_value >= rule.minimum_value
+    ]
+    if not candidates:
+        raise PolicyError("no default customer tier rule")
+    selected = max(candidates, key=lambda rule: (rule.minimum_value, rule.minimum_orders))
+    return {
+        "tier": selected.tier,
+        "source_type": "rule",
+        "evidence": {
+            "completed_orders": completed_orders,
+            "completed_value": str(completed_value),
+            "minimum_orders": selected.minimum_orders,
+            "minimum_value": str(selected.minimum_value),
+        },
+        "confidence": "1.0",
+    }
+
+
 def resolve_price(rules: Iterable[PriceRule], plan: str = "standard") -> PriceRule:
     """Choose the highest-precedence active, authorized price rule."""
     candidates = []
