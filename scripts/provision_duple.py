@@ -163,6 +163,22 @@ def sq(value: str) -> str:
     return value.replace("'", "''")
 
 
+def validate_registration_config(cfg: dict, duple_id: str) -> tuple[str, dict]:
+    """Validate a registration mapping before any database operation."""
+    for field in ("duple_id", "archetype", "owner", "description", "persona"):
+        if not cfg.get(field):
+            _die(f"Missing required field in YAML: {field}")
+    if cfg["duple_id"] != duple_id:
+        _die(f"duple_id in YAML ({cfg['duple_id']!r}) must match filename ({duple_id!r}).")
+    archetype = cfg["archetype"]
+    if archetype not in ("finance", "lifestyle", "commerce"):
+        _die(f"archetype must be finance | lifestyle | commerce, got: {archetype!r}")
+    persona = cfg["persona"]
+    if not isinstance(persona, dict) or not persona.get("name"):
+        _die("persona must be a mapping with at least a 'name' key.")
+    return archetype, persona
+
+
 # ─── Provision ───────────────────────────────────────────────────────────────
 
 
@@ -182,20 +198,7 @@ def provision(duple_id: str, supabase_dir: Path) -> None:
     with open(reg_file) as f:
         cfg = yaml.safe_load(f)
 
-    for field in ("duple_id", "archetype", "owner", "description", "persona"):
-        if not cfg.get(field):
-            _die(f"Missing required field in YAML: {field}")
-
-    if cfg["duple_id"] != duple_id:
-        _die(f"duple_id in YAML ({cfg['duple_id']!r}) must match filename ({duple_id!r}).")
-
-    archetype = cfg["archetype"]
-    if archetype not in ("finance", "lifestyle", "commerce"):
-        _die(f"archetype must be finance | lifestyle | commerce, got: {archetype!r}")
-
-    persona = cfg["persona"]
-    if not isinstance(persona, dict) or not persona.get("name"):
-        _die("persona must be a mapping with at least a 'name' key.")
+    archetype, persona = validate_registration_config(cfg, duple_id)
 
     schema = f"{duple_id}_ai"
     role = f"{duple_id}_role"

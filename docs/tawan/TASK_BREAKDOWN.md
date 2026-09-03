@@ -68,10 +68,10 @@
 | ID | Task | Type | Plan | Area | Priority | Status | Depends On | Acceptance |
 |---|---|---|---|---|---|---|---|---|
 | TWN-0201 | Select and document the repository test toolchain | Decision | Shared | Platform | Critical | Review | TWN-0108 | `python3 -m unittest discover -s tests -p "test_*.py"` and `PYTHONPYCACHEPREFIX=/tmp/duply-creator-pycache python3 -m compileall scripts duples` are documented in `docs/tawan/TESTING.md` and pass locally |
-| TWN-0202 | Create a rollback-capable commerce migration runner and manifest | Task | Shared | Data | Critical | Backlog | TWN-0201 | Migrations apply, report versions, roll back, and reject incompatible ordering |
+| TWN-0202 | Create a rollback-capable commerce migration runner and manifest | Task | Shared | Data | Critical | Review | TWN-0201 | Local manifest validates ordering, renders safe schema SQL, and plans apply/rollback; live execution awaits Duply's authoritative runner |
 | TWN-0203 | Create a disposable Postgres verification environment | Task | Shared | Data | Critical | Backlog | TWN-0202 | A clean database can be created, migrated, rolled back, and recreated automatically |
-| TWN-0204 | Create synthetic fixtures for two stores and five demo businesses | Task | Shared | Data | High | Backlog | TWN-0203 | Fixtures contain no real credentials or personal data and cover required module differences |
-| TWN-0205 | Test archetype selection, registration validation, and migration replay | Task | Shared | Platform | Critical | Backlog | TWN-0202, TWN-0204 | Finance/lifestyle remain unchanged; commerce selection and repeated migrations behave deterministically |
+| TWN-0204 | Create synthetic fixtures for two stores and five demo businesses | Task | Shared | Data | High | Review | TWN-0203 | Six isolated synthetic stores cover fashion, food, beauty, services, wholesale, and construction with no real credentials or personal data |
+| TWN-0205 | Test archetype selection, registration validation, and migration replay | Task | Shared | Platform | Critical | Review | TWN-0202, TWN-0204 | Registration validation and migration plan/replay behavior are tested locally; database replay awaits Duply's disposable environment |
 | TWN-0206 | Test schema-role isolation and secret/environment safeguards | Task | Shared | Security | Critical | Backlog | TWN-0203, TWN-0204 | Each synthetic role is denied access to the other schema and secret scans pass |
 | TWN-0207 | Complete test and migration foundation exit review | Review | Shared | Operations | Critical | Backlog | TWN-0201 through TWN-0206 | Supported commands pass from a clean checkout; migration rollback, replay, fixtures, isolation, and regressions have evidence |
 

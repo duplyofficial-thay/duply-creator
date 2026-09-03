@@ -24,6 +24,15 @@ Tawan no longer uses a separate post-conversation Noter step as the default path
 
 Structured capture must run under the verified Store Context and deterministic command validation. Writes need idempotency keys tied to the inbound channel event and reply attempt so retries cannot duplicate Tasks, Orders, or memory candidates. Permanent Store Knowledge still requires Store Owner approval, Customer Memory still needs source and confidence metadata, and raw message retention remains short.
 
+## 2026-09-03 - Selective integration of GitHub Tawan scaffold
+
+The GitHub scaffold/provisioning commit is integrated selectively into the
+canonical creator-kit checkout. Approved Tawan documentation, tests, and
+decision history remain authoritative locally. Remote deletion of those docs
+and tests is not accepted as part of the integration. Card rendering, data
+fetching, and reach hooks remain stubs until the Duply runtime contracts are
+verified.
+
 ## 2026-08-18 - Knowledge is staged before publication
 
 The ingestion agent creates Knowledge Candidates with provenance, confidence, validity, and conflicts. Staff may review and recommend, but permanent Store Knowledge never becomes customer-facing until the Store Owner approves it. This preserves the rule that Tawan must not invent or silently change store facts.

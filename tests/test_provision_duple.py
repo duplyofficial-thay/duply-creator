@@ -42,6 +42,20 @@ class ProvisionDupleUnitTests(unittest.TestCase):
         self.assertIn('default_topics=["personal_facts"]', rendered)
         self.assertIn("holdings_topic=None", rendered)
 
+    def test_tawan_registration_config_is_validated_before_provisioning(self):
+        archetype, persona = self.provision_duple.validate_registration_config(
+            {
+                "duple_id": "tawan",
+                "archetype": "commerce",
+                "owner": "owner@example.com",
+                "description": "demo",
+                "persona": {"name": "Tawan"},
+            },
+            "tawan",
+        )
+        self.assertEqual(archetype, "commerce")
+        self.assertEqual(persona["name"], "Tawan")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -2,7 +2,7 @@
 
 **Status:** Working handoff for Duply platform coordination
 
-**Updated:** 2026-08-20
+**Updated:** 2026-09-03
 
 ## Purpose
 
@@ -11,6 +11,18 @@ This document summarizes what must be prepared by the Duply platform team so Pha
 ## Current Engineering Status
 
 `TWN-0201` has started the local test foundation in the creator-kit repository.
+
+The latest GitHub Tawan scaffold has been selectively integrated into this
+checkout. The approved Tawan documentation and tests remain canonical; the
+remote scaffold's intentional card stubs are not treated as completed runtime
+features.
+
+`TWN-0202` now has a local migration manifest/rollback planner and one
+non-production probe migration. It plans SQL but does not execute against
+Supabase until Duply confirms the authoritative migration runner (`TWN-0107`).
+`TWN-0204` now has six synthetic store fixtures, including fashion, food,
+beauty, services, wholesale, and construction. These fixtures contain no real
+credentials or personal data.
 
 This is an intentional unblocking exception while `TWN-0108` remains blocked. It is limited to local, no-network, no-secret creator-kit tests and does not authorize runtime, database, LINE, or paid-service implementation before `TWN-0104` through `TWN-0107` are answered by Duply platform.
 
@@ -27,6 +39,7 @@ Current evidence:
 - Script and Duple Python files compile with bytecode cache redirected to `/tmp`.
 - Real provisioning still requires `PyYAML`.
 - Supabase, LINE, private runtime, backup, queue, and object-storage tests remain blocked until Duply confirms the real interfaces.
+- Remote GitHub history contains a previously exposed `secrets/tawan.yaml`; the current tree removes it, but the Supabase password and service-role key still require rotation outside Git before any real-data test.
 
 ## Immediate Blocked Cards
 

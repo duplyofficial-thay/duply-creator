@@ -1,0 +1,10 @@
+{
+  "stores": [
+    {"store_id": "fashion_demo", "business": "fashion_accessories", "schema": "fashion_demo_ai"},
+    {"store_id": "food_demo", "business": "food_restaurant", "schema": "food_demo_ai"},
+    {"store_id": "beauty_demo", "business": "beauty_salon", "schema": "beauty_demo_ai"},
+    {"store_id": "service_demo", "business": "professional_service", "schema": "service_demo_ai"},
+    {"store_id": "wholesale_demo", "business": "wholesale", "schema": "wholesale_demo_ai"},
+    {"store_id": "construction_demo", "business": "construction", "schema": "construction_demo_ai"}
+  ]
+}
