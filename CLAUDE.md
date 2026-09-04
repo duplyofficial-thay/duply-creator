@@ -24,11 +24,31 @@ Claude Code operates as **platform team**. Don't do creator-side content work wi
 
 ---
 
-## Trello Coordination
+## Session Workflow
 
-Boards: **Duply Main**, **Duple - Thay**, **Duple - Tawan** (via `mcp-trello-advanced` MCP).
+Every session in this repo follows this sequence — no exceptions:
 
-Each active Duple's board tracks the launch journey:
+```
+1. git pull                        ← always first, friend may have pushed
+2. Check Trello for queued cards   ← know what needs doing before touching anything
+3. Do the work
+4. Update the relevant Trello card ← move to next list + comment what was done
+5. git commit + git push           ← always last
+```
+
+---
+
+## Trello Boards
+
+Three boards, two distinct purposes (via `mcp-trello-advanced` MCP):
+
+| Board | Purpose |
+|---|---|
+| **Duply** | Top-level project tracking — platform milestones, cross-Duple work, infra |
+| **Thay** | Per-Duple tracking for Thay — Thay-specific features, bugs, content |
+| **Tawan** | Per-Duple tracking for Tawan — creator ↔ team handoffs, launch progress |
+
+**Tawan board** is the active handoff layer with the creator (friend). Its lists track the launch journey:
 
 ```
 📝 Creator — กำลังทำ  →  ⏳ รอ Team  →  🔧 Team กำลัง deploy  →  ✅ Done
@@ -36,9 +56,7 @@ Each active Duple's board tracks the launch journey:
 
 **Handoff protocol:**
 - Creator finishes a step → moves card to "รอ Team"
-- Platform team finishes a step → moves card back to "Creator" or "Done" + comments what's next
-
-Check Trello first before starting any work to see what's queued.
+- Platform team finishes a step → moves card to next list + comments what's next
 
 ---
 
