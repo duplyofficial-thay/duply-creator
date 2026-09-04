@@ -98,7 +98,7 @@ PYTHONPYCACHEPREFIX=/tmp/duply-creator-pycache python3 -m compileall scripts dup
 
 ## 5. Risks and open items
 
-1. **RLS is missing on the new tables.** Per `tawan/CURRENT_TASK_STATUS.md`: *"Supabase warned that the new tables were created without Row Level Security… RLS policies and runtime authorization must be completed before storing customer data or exposing these tables through client keys."* With an unrotated, publicly-leaked `service_role_key`, this is the highest-exposure item. **Hard gate: no customer data in these tables until both are closed.**
+1. **RLS is missing on the new tables.** Recorded 3 Sep (in the since-consolidated `CURRENT_TASK_STATUS.md`, now at `9f8789a` in git history): *"Supabase warned that the new tables were created without Row Level Security… RLS policies and runtime authorization must be completed before storing customer data or exposing these tables through client keys."* With an unrotated, publicly-leaked `service_role_key`, this is the highest-exposure item. **Hard gate: no customer data in these tables until both are closed.**
 2. **Credential rotation is still open** and now riskier — the migrations landed on that same project.
 3. **Codex is building ahead of the project's own gates.** Milestone 4–6 features are implemented while Milestone 1 discovery is Blocked and Milestone 3 security is Backlog. To the team's credit these are *not* marked Done — they sit in **Review**, which is the honest call. Still needs an explicit decision: is the gating obsolete, or does this code need rework once `TWN-0104`–`0107` land?
 4. **"Auto-post X + FB" contradicts a documented rule.** The marketing team design says *"Draft only, always. Nothing this team produces gets posted, sent, or published automatically"* — written for Thay's financial-compliance exposure. The 30 Sep go/no-go must explicitly amend the rule or keep a human in the loop. See `marketing/briefs/2026-08-06-thay-content-roadmap.md`.
@@ -109,4 +109,6 @@ PYTHONPYCACHEPREFIX=/tmp/duply-creator-pycache python3 -m compileall scripts dup
 
 ---
 
-**Related:** [`trello-import/`](trello-import/) (card export) · [`tawan/README.md`](tawan/README.md) (Tawan docs index) · [`tawan/CURRENT_TASK_STATUS.md`](tawan/CURRENT_TASK_STATUS.md) (live status)
+**Related:** [`trello-import/`](trello-import/) (card export + open issue on the retired manifest) · [`tawan/REQUIREMENTS.md`](tawan/REQUIREMENTS.md) · [`tawan/DESIGN.md`](tawan/DESIGN.md) · [`tawan/DECISIONS.md`](tawan/DECISIONS.md)
+
+**Live status now lives in Trello**, not in a status doc: [Duple - Thay](https://trello.com/b/0uIg9kTv/duple-thay) · [Duple - Tawan](https://trello.com/b/HUbjHwDh/duple-tawan) · [Duply Main](https://trello.com/b/oex0CmEZ/duply-main)

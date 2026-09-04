@@ -67,13 +67,22 @@ If the destination board has fewer lists than these, keep the original status ex
 ## Caveats worth reading before importing
 
 - **Descriptions are as authored on 3–4 Sep.** Card *properties* were re-read from Notion at export time, but if anyone edited a card *body* in Notion after 4 Sep, that edit is not captured here.
-- **`TWN-*` ids are the join key.** Where a card corresponds to a manifest card, keep the id in the title so Trello, `docs/tawan/TASK_BREAKDOWN.md`, code and evidence stay linkable. Cards here that are not `TWN-*` are Duply-stream work with no manifest entry.
+- **`TWN-*` ids are the join key — but the manifest they pointed at is gone.** `docs/tawan/TASK_BREAKDOWN.md` (149 cards) was deleted by the 4 Sep docs consolidation (`4dd9461`). `DECISIONS.md` still says the ids "remain the join key to the Git task manifest", which no longer resolves. Keep the ids in card titles regardless — they still link cards to code, commits and evidence — but see the note below about the missing manifest.
 - **Don't import the Done cards into an active list.** Three are already complete and are here for history.
 - **Two cards are security gates**, not ordinary work: credential rotation and RLS. Both are `Blocked` and both must close before customer data goes into `tawan_ai`.
 
 ## Related
 
 - Plan and reasoning: [`../DUPLY_30_DAY_PLAN.md`](../DUPLY_30_DAY_PLAN.md)
-- Tawan manifest: [`../tawan/TASK_BREAKDOWN.md`](../tawan/TASK_BREAKDOWN.md) — 149 `TWN-*` cards, of which only the first eight Duply Platform cards had reached Trello as of 4 Sep
-- Live status: [`../tawan/CURRENT_TASK_STATUS.md`](../tawan/CURRENT_TASK_STATUS.md)
+- Tawan docs (consolidated 4 Sep to 4 files): [`../tawan/REQUIREMENTS.md`](../tawan/REQUIREMENTS.md) · [`../tawan/DESIGN.md`](../tawan/DESIGN.md) · [`../tawan/REFERENCE.md`](../tawan/REFERENCE.md) · [`../tawan/DECISIONS.md`](../tawan/DECISIONS.md)
+
+## ⚠️ Open issue — the 149-card manifest has no live home
+
+The 4 Sep consolidation (`4dd9461`) deleted `docs/tawan/TASK_BREAKDOWN.md` and `docs/tawan/CURRENT_TASK_STATUS.md`. Only **28 cards** were ever migrated to Trello — the 8 platform gates plus the 20 Duply-stream cards in this export. The Tawan milestone plan (Milestones 3–11, roughly 121 `TWN-*` cards with their dependency chains and acceptance criteria) is therefore in **neither** Trello nor the working tree; it exists only in git history at `9f8789a:docs/tawan/TASK_BREAKDOWN.md`.
+
+That may be deliberate — the consolidated docs are cleaner, and much of that plan was blocked behind `TWN-0101` anyway. But `DECISIONS.md` still asserts the ids "remain the join key to the Git task manifest", so the decision record and the repo currently contradict each other. Worth resolving one way or the other:
+
+- restore the manifest (or a trimmed version) so the dependency chains stay readable, **or**
+- migrate the remaining `TWN-*` cards to Trello, **or**
+- update `DECISIONS.md` to say the manifest was retired and git history is its archive.
 - Legacy Notion CSVs: [`../tawan/notion-import/`](../tawan/notion-import/)
