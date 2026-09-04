@@ -451,8 +451,20 @@ Tracks ordinary store exports, data-subject exports, paid migration work, status
 7. Rehearse migration, rollback, backup, and restore.
 8. Obtain explicit approval before any further production schema change.
 
+## 15. Data Layers Summary
+
+| Layer | Main tables | Purpose |
+|---|---|---|
+| Identity | `store_settings`, `customers`, `channel_identities` | Store setup, customers, LINE identity |
+| Memory and rights | `customer_memories`, `customer_tiers`, `consent_records`, `data_subject_requests` | Preferences, tiers, consent, rights requests |
+| Reply progress | `interaction_events`, `sales_journeys`, `journey_interests` | Durable reply outcomes without indefinite transcript storage |
+| Human work | `tasks`, `task_status_history`, `approvals` | Tasks, approvals, status history |
+| Commerce | `catalog_*`, `inventory_*`, `price_rules`, `transactions`, `payments`, `payment_evidence` | Products, orders, payments, fulfilment |
+| Knowledge | `knowledge_sources`, `knowledge_candidates`, `knowledge_entries` | Store materials and owner-approved facts |
+| Analytics and audit | `analytics_events`, `daily_store_metrics`, `audit_events` | Operational metrics, audit trail |
+
 ## Related Documents
 
-- [Architecture](ARCHITECTURE.md)
-- [Security and privacy](SECURITY.md)
-- [Implementation plan](IMPLEMENTATION_PLAN.md)
+- [Requirements](REQUIREMENTS.md)
+- [Design](DESIGN.md)
+- [Decisions](DECISIONS.md)
