@@ -1,0 +1,334 @@
+# Duply Board - Card Export
+
+**Exported:** 2026-09-04 from the (now retired) Notion Duply Agile Work Board.
+
+Destination: Trello. Notion is historical reference only.
+
+28 cards. Full descriptions below; `duply-board-cards.csv` is the flat importable form.
+
+---
+
+## Blocked (3)
+
+### Rotate leaked Supabase credentials
+
+**Type:** Task | **Priority:** Critical | **Area:** Duply Platform | **Assignee:** First (Touchap) | **Points:** 2 | **Due:** 2026-09-04 | **Tags:** blocked
+
+URGENT and still open.
+
+Commit 78a8f61 put the Postgres password, connection string and platform-wide service_role_key in plaintext on a PUBLIC GitHub repo on 27 Aug. Commit defc573 removed the file from tracking, but the values remain readable in git history and stay live until rotated.
+
+Escalated 3 Sep: migrations 0010/0020/0030 were applied to that same Supabase project (fpjevusrpausqunjhubk, schema tawan_ai) - 59 tables, 96 indexes verified. The project with publicly-exposed credentials now holds the real commerce schema.
+
+Only the Supabase project owner can do this.
+
+DONE = Postgres password rotated, service_role_key regenerated, new values distributed out-of-band (never committed), and the rotation date recorded.
+
+Blocks: every real-data test in Tawan (named explicitly in docs/tawan/PHASE_1_ROADBLOCKS.md).
+
+---
+
+### Add RLS policies to new tawan_ai tables
+
+**Type:** Task | **Priority:** Critical | **Area:** Duply Platform | **Assignee:** First (Touchap) | **Points:** 5 | **Due:** 2026-09-09 | **Tags:** blocked
+
+Surfaced by the 3 Sep migration run, recorded in docs/tawan/CURRENT_TASK_STATUS.md:
+
+"Supabase warned that the new tables were created without Row Level Security; the migration was run unchanged and without RLS to preserve the approved scope. RLS policies and runtime authorization must be completed before storing customer data or exposing these tables through client keys."
+
+Migrations 0010/0020/0030 created 12 new tables in tawan_ai with NO RLS. Combined with the still-unrotated public service_role_key, this is the highest-exposure item on the board.
+
+HARD GATE: no customer data goes into these tables, and no client key is pointed at them, until this is closed.
+
+Relates to TWN-0303 (per-store least-privilege schema roles) and TWN-0307 (cross-store adversarial tests) - this is the platform-side prerequisite for both.
+
+---
+
+### TWN-0101: grant read-only access to Duply repos
+
+**Type:** Task | **Priority:** Critical | **Area:** Duply Platform | **Assignee:** First (Touchap) | **Points:** 2 | **Due:** 2026-09-05 | **Tags:** gate
+
+The actual trigger that unblocks Milestone 1. CURRENT_TASK_STATUS.md lists this as the only card in Ready state - everything needed exists, it just needs the human access grant.
+
+Read-only access required to: Duply runtime, data/Supabase, dashboard, and deployment repositories.
+
+Unblocks TWN-0102 through TWN-0107, which unblock TWN-0108, which unblocks Milestones 3-10. Eight cards sit Blocked behind this one.
+
+Per PHASE_1_ROADBLOCKS.md: give read-only access first, and do NOT put production secrets in chat or Git - the reason that warning exists is on the credential-rotation card.
+
+Also record one named technical owner per system: runtime, data, LINE, dashboard, legal/security, operations.
+
+---
+
+## In Review (1)
+
+### Answer TWN-0104 to TWN-0107 platform interface contracts
+
+**Type:** Epic | **Priority:** Critical | **Area:** Duply Platform | **Assignee:** First (Touchap) | **Points:** 8 | **Due:** 2026-09-07 | **Tags:** gate
+
+The single largest unblock in the project. TWN-0108 waits on all four; Milestones 3-10 wait on TWN-0108.
+
+TWN-0104 knowledge / vector / memory / raw-message contracts
+TWN-0105 command authorization, idempotency, cache, queue, object storage
+TWN-0106 LINE media, Flex, image validation, delivery contracts
+TWN-0107 migration, rollback, backup, restore, cost-ledger interfaces
+
+docs/tawan/PHASE_1_ROADBLOCKS.md carries the full required-output checklist for each. TWN-0102 (LINE destination/Store Context) and TWN-0103 (runtime dispatch/tool registry) are blocked on the same access.
+
+Note: the real first step is TWN-0101, not these four. CURRENT_TASK_STATUS.md's next-order opens with "Friend provides read-only access for Duply runtime, Supabase/data, dashboard, and deployment" - so access is grantable from inside the team, not an unbounded external dependency.
+
+---
+
+## To Do (7)
+
+### UX polish: LINE Rich Menu (3 buttons)
+
+**Type:** Task | **Priority:** High | **Area:** Thay | **Assignee:** Heng (Wasu) | **Points:** 2 | **Due:** 2026-09-08 | **Tags:** quick-win
+
+Watchlist / Theme / Macro+Sector.
+
+Pure LINE config - NOT gated by the A/B test, so it can move any time capacity allows.
+
+---
+
+### UX polish: onboarding first-command examples
+
+**Type:** Task | **Priority:** High | **Area:** Thay | **Assignee:** Heng (Wasu) | **Points:** 2 | **Due:** 2026-09-09
+
+Show example first commands so a new user isn't facing an empty chat.
+
+Gated by the A/B decision - the copy and prompt wording shouldn't be tuned against a model that might be dropped.
+
+---
+
+### Invest domain: design PM to Writer architecture
+
+**Type:** Task | **Priority:** Critical | **Area:** Thay | **Assignee:** Heng (Wasu) | **Points:** 3 | **Due:** 2026-09-10
+
+PM agent (Claude Opus) makes paper-portfolio calls with reasoning captured, then Writer agent (Claude Sonnet) turns those calls into post drafts.
+
+Decide: portfolio rules, what gets tracked, how reasoning is captured, what a "call" record looks like, where state lives.
+
+---
+
+### Invest domain: build PM agent (Opus)
+
+**Type:** Task | **Priority:** Critical | **Area:** Thay | **Assignee:** Heng (Wasu) | **Points:** 5 | **Due:** 2026-09-11 | **Tags:** cost-tracked
+
+Position selection plus reasoning capture. Recurring Opus spend - ledger every call at success time.
+
+This and the Writer agent are the tightest estimates in the month. If either slips, cut scope rather than pushing the 16 Sep shadow start.
+
+---
+
+### Marketing plan: timeline + per-channel cadence
+
+**Type:** Task | **Priority:** High | **Area:** Marketing | **Assignee:** Heng (Wasu) | **Points:** 2 | **Due:** 2026-09-23
+
+Cadence per channel, sequenced against the shadow window.
+
+---
+
+### Marketing plan: finalise
+
+**Type:** Task | **Priority:** High | **Area:** Marketing | **Assignee:** Heng (Wasu) | **Points:** 3 | **Due:** 2026-09-29
+
+Now backed by two weeks of real content samples instead of assumptions.
+
+---
+
+### AI marketing team playbook
+
+**Type:** Task | **Priority:** Medium | **Area:** Tooling | **Assignee:** Heng (Wasu) | **Points:** 5
+
+Merged to main 3 Sep (bbcffef). 5 role playbooks - marketing-lead orchestrator plus content-strategist, copywriter, social-media-manager, growth-marketer - with brand briefs for Thay and Duply, and one verified end-to-end campaign as a worked example.
+
+Use: ask a Claude session in the repo to act as marketing/team/marketing-lead.md. Everything it produces is a draft for review.
+
+Design docs now live in marketing/design/.
+
+---
+
+## Backlog (14)
+
+### Invest domain: build Writer agent (Sonnet)
+
+**Type:** Task | **Priority:** Critical | **Area:** Thay | **Assignee:** Heng (Wasu) | **Points:** 5 | **Due:** 2026-09-14 | **Tags:** cost-tracked
+
+Turns PM calls into post drafts in Thay's voice - dry, calm, no hype, no guaranteed-return language, per marketing/brand/thay-brand-brief.md.
+
+Voice tuning here is gated by the A/B model decision. Recurring Sonnet spend - ledger every call.
+
+---
+
+### Invest domain: portfolio persistence + cost-ledger logging
+
+**Type:** Task | **Priority:** Critical | **Area:** Thay | **Assignee:** Heng (Wasu) | **Points:** 3 | **Due:** 2026-09-15 | **Tags:** cost-tracked
+
+Portfolio state that survives restarts, plus cost-ledger wiring for both agents.
+
+Ledger rule: log the charge at the moment the call succeeds, BEFORE parsing the response - so a downstream parse error can never leave a real charge untracked. This exact bug has happened twice historically.
+
+---
+
+### [FLAG] Invest domain: shadow mode starts
+
+**Type:** Task | **Priority:** Critical | **Area:** Thay | **Assignee:** Heng (Wasu) | **Points:** 1 | **Due:** 2026-09-16 | **Tags:** gate
+
+THE DATE THE REST OF THE MONTH HANGS ON.
+
+Shadow is 2 weeks of ELAPSED time, not effort - start on 16 Sep and it closes ~30 Sep, inside the month. Miss it and the go/no-go and the marketing plan both slide.
+
+Agent runs daily, produces drafts, publishes nothing.
+
+---
+
+### Marketing plan: channel mix research (X / FB / LINE OA)
+
+**Type:** Task | **Priority:** High | **Area:** Marketing | **Assignee:** Heng (Wasu) | **Points:** 3 | **Due:** 2026-09-17
+
+What each channel is actually for - not just "post everywhere."
+
+Run this through marketing/team/marketing-lead.md rather than writing from scratch.
+
+---
+
+### Shadow review #1 - output quality
+
+**Type:** Task | **Priority:** Medium | **Area:** Thay | **Assignee:** Heng (Wasu) | **Points:** 1 | **Due:** 2026-09-18
+
+First read of what the agent is actually producing. Early enough to change the prompt before two weeks of samples are built on a bad voice.
+
+---
+
+### Marketing plan: messaging + positioning
+
+**Type:** Task | **Priority:** High | **Area:** Marketing | **Assignee:** Heng (Wasu) | **Points:** 3 | **Due:** 2026-09-21
+
+Written against real shadow output rather than a guess at what the content will look like. Must stay inside the brand brief's compliance guardrails.
+
+---
+
+### Shadow review #2 - compliance guardrail check
+
+**Type:** Task | **Priority:** High | **Area:** Thay | **Assignee:** Heng (Wasu) | **Points:** 2 | **Due:** 2026-09-24 | **Tags:** needs-decision
+
+Check output against: AI disclosure, no guaranteed-return language, no hype.
+
+This review feeds directly into the go/no-go.
+
+---
+
+### Shadow evaluation - is auto-post actually safe?
+
+**Type:** Task | **Priority:** Critical | **Area:** Thay | **Assignee:** Heng (Wasu) | **Points:** 3 | **Due:** 2026-09-28 | **Tags:** needs-decision
+
+Assemble the evidence from two weeks of shadow output: how often did it produce something that would have been wrong, non-compliant, or off-voice if published unreviewed?
+
+---
+
+### [FLAG] GO/NO-GO: auto-post to X + FB
+
+**Type:** Task | **Priority:** Critical | **Area:** Thay | **Assignee:** Heng (Wasu) | **Points:** 1 | **Due:** 2026-09-30 | **Tags:** needs-decision
+
+THIS IS A REAL DECISION, NOT A FORMALITY.
+
+The marketing team design carries a hard rule: "Draft only, always. Nothing this team produces gets posted, sent, or published automatically" - written specifically for Thay's financial-compliance exposure.
+
+GO -> the rule is formally amended, and disclosure/guardrail checks are wired into the publishing path.
+NO-GO -> pipeline keeps a human checkpoint: auto-detect, auto-draft, human review, post.
+
+Either way, record it as a decision with reasoning in docs/tawan/DECISIONS.md. Don't leave two documents contradicting each other.
+
+---
+
+### Wire auto-post with disclosure, or human-in-loop flow
+
+**Type:** Task | **Priority:** High | **Area:** Thay | **Assignee:** Heng (Wasu) | **Points:** 5 | **Due:** 2026-10-01
+
+Whichever way the go/no-go lands, build that path.
+
+---
+
+### Monthly retro + re-plan October
+
+**Type:** Task | **Priority:** Medium | **Area:** Duply Platform | **Assignee:** Unassigned | **Points:** 2 | **Due:** 2026-10-02
+
+Both people. What actually got done vs planned, what the real velocity was, re-prioritise.
+
+---
+
+### Decide: make duply-creator repo private?
+
+**Type:** Task | **Priority:** High | **Area:** Duply Platform | **Assignee:** Unassigned | **Points:** 1 | **Tags:** needs-decision
+
+The repo is public. The credential leak happened partly because a teammate believed it was private - commit message: "Repo is private/trusted - no need to send credentials out-of-band."
+
+Rotation fixes the immediate exposure. This decides whether that assumption gets made correct, or whether public stays and everyone works accordingly.
+
+---
+
+### Khun - paused
+
+**Type:** Task | **Priority:** Low | **Area:** Khun | **Assignee:** Unassigned
+
+Registered, provisioned, live. Not in active development - Thay and Tawan are the focus. Placeholder so it isn't silently forgotten.
+
+---
+
+### Dom - paused
+
+**Type:** Task | **Priority:** Low | **Area:** Dom | **Assignee:** Unassigned
+
+Registered and provisioned. Not in active development.
+
+Before resuming: review the never-merged origin/proposal/family-archetype-dom branch - 2 commits of design thinking (quest/reward starter content, team message draft) not reflected in the current register/dom.yaml.
+
+---
+
+## Done (3)
+
+### A/B test: Gemini 3.1 Flash Lite vs GPT-5.4-mini
+
+**Type:** Task | **Priority:** Critical | **Area:** Thay | **Assignee:** Heng (Wasu) | **Points:** 3 | **Due:** 2026-09-07 | **Tags:** gate,cost-tracked
+
+GATE - no prompt polish anywhere in Thay proceeds until this resolves.
+
+Compare the two models on:
+- Thai naturalness
+- proactive weaving (does it raise things unprompted, in character)
+
+DONE = a written decision naming the model that backs chat.reply, with evidence attached, so downstream prompt work targets one model instead of hedging.
+
+Both sides are paid calls - ledger each one at success time, BEFORE parsing the response.
+
+---
+
+### Push / reconcile local Tawan commits to origin
+
+**Type:** Task | **Priority:** High | **Area:** Duply Platform | **Assignee:** First (Touchap) | **Points:** 2 | **Due:** 2026-09-05
+
+RESOLVED 3 Sep. Tawan foundation merged to origin/main via PR #4 (095eb84), then PR #5 (b49c399). Local went from ~31 ahead / 3 behind to 2 ahead / 0 behind.
+
+TWN-0005 (publish approved commits to canonical default branch) and TWN-0006 (commit-pinned Markdown links) are both Done.
+
+---
+
+### Verification baseline - what is actually proven
+
+**Type:** Task | **Priority:** Medium | **Area:** Duply Platform | **Assignee:** Unassigned | **Points:** 1
+
+Reference card. Re-run before trusting any "it works" claim.
+
+VERIFIED 4 Sep:
+  python3 -m unittest discover -s tests -p "test_*.py"   -> Ran 21 tests, OK
+  PYTHONPYCACHEPREFIX=/tmp/duply-creator-pycache python3 -m compileall scripts duples -> clean
+
+21 tests: test_migration_runner.py (7), test_provision_duple.py (5), test_tawan_policies.py (9).
+
+Schema: migrations 0010/0020/0030 applied to Supabase fpjevusrpausqunjhubk / tawan_ai. 59 tables, 12/12 expected new tables, 96 indexes, no existing platform tables changed.
+
+WHAT THIS DOES NOT PROVE: no Supabase, LINE, runtime, backup, queue or object-storage integration is tested; tests run with no network and no real credentials; schema creation is verified but the authoritative runner, rollback and recovery environment are not; new tables have no RLS. This is why 15 cards sit in Review rather than Done.
+
+---
+
