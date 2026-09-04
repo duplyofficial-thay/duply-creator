@@ -6,6 +6,16 @@
 
 Notion is no longer used for tracking. This folder is the bridge: everything that lived on the Notion board, exported so nothing is stranded there.
 
+## ✅ Migration status — complete (2026-09-04)
+
+All 28 cards are now on the **[Duple - Tawan](https://trello.com/b/HUbjHwDh/duple-tawan)** board. 8 had been migrated earlier; the remaining 20 were created on 4 Sep with full descriptions.
+
+A **Backlog** list was added to the board (it previously had only To Do / Doing / Done), because 19 not-yet-started cards would otherwise have piled into To Do. The two pre-existing cards whose descriptions already said `Status: BACKLOG` were moved into it so list and stated status agree.
+
+Final distribution: **Backlog 16 · To Do 5 · Doing 4 · Done 3.**
+
+This folder is now a historical record of the migration, not a pending action.
+
 ## Files
 
 | File | What it is |
