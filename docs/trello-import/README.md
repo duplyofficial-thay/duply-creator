@@ -8,11 +8,17 @@ Notion is no longer used for tracking. This folder is the bridge: everything tha
 
 ## ✅ Migration status — complete (2026-09-04)
 
-All 28 cards are now on the **[Duple - Tawan](https://trello.com/b/HUbjHwDh/duple-tawan)** board. 8 had been migrated earlier; the remaining 20 were created on 4 Sep with full descriptions.
+All 28 cards are on Trello, split across three boards by scope. There is one board per Duple plus a top-level board, per `CLAUDE.md`.
 
-A **Backlog** list was added to the board (it previously had only To Do / Doing / Done), because 19 not-yet-started cards would otherwise have piled into To Do. The two pre-existing cards whose descriptions already said `Status: BACKLOG` were moved into it so list and stated status agree.
+| Board | Cards | What lives here |
+|---|---:|---|
+| **[Duple - Thay](https://trello.com/b/0uIg9kTv/duple-thay)** | 17 | All Thay work: A/B model test, UX polish, the invest-domain agent, the shadow chain, the auto-post go/no-go, and the four marketing-plan cards |
+| **[Duple - Tawan](https://trello.com/b/HUbjHwDh/duple-tawan)** | 8 | Platform gates Tawan is blocked on: credential rotation, RLS, TWN-0101 access, TWN-0104→0107 contracts, plus repo-visibility and the monthly retro |
+| **[Duply Main](https://trello.com/b/oex0CmEZ/duply-main)** | 3 | Cross-Duple: the AI marketing playbook, and the Khun / Dom paused placeholders |
 
-Final distribution: **Backlog 16 · To Do 5 · Doing 4 · Done 3.**
+A **Backlog** list was added to each board — all three had only To Do / Doing / Done, and the not-yet-started cards would otherwise have piled into To Do. On the Tawan board, the two pre-existing cards whose descriptions already said `Status: BACKLOG` were moved into it so list and stated status agree.
+
+Distribution — Thay: Backlog 12 · To Do 4 · Done 1. Tawan: Backlog 2 · Doing 4 · Done 2. Duply Main: Backlog 2 · To Do 1.
 
 This folder is now a historical record of the migration, not a pending action.
 
