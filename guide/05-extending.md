@@ -2,24 +2,52 @@
 
 Three ways to add new capabilities:
 
-| What | Complexity | Requires team? |
+| What | Where you write | How it ships |
 |---|---|---|
-| **Custom tool** | Write one Python function + schema | Team wires + redeploys |
-| **Custom card** | Write renderer + metadata | Team wires + redeploys |
-| **Custom domain** | New background service | Team deploys |
-
-All of these need a code deploy — write the code in your `duples/{duple_id}/` folder, then coordinate with the Duply team.
+| **Tool** | `platform/tools/packs/{pack}/` | PR → team review → Pi deploy |
+| **Card** | `duples/{duple_id}/chat/card/` | PR → Pi restart (no rebuild) |
+| **Domain** | `duples/{duple_id}/{domain}/` | PR → team deploys |
 
 ---
 
-## 1. Custom Tools
+## 1. Tools
 
-A tool is a Python function the LLM can call mid-conversation to get real-time data or perform an action.
+A tool is a Python function the LLM can call mid-conversation to fetch data or perform an action.
 
-### Contract
+### Where tools live
+
+Tools are **platform-level** — shared across any Duple that enables them. They do not live inside your `duples/` folder.
+
+```
+platform/tools/packs/{pack_name}/
+  my_tool.py        ← your tool here
+```
+
+Pick or create a pack that matches the tool's scope:
+
+| Pack | Use for |
+|---|---|
+| `generic/` | tools useful to any Duple (search, memory, knowledge) |
+| `packs/finance/` | tools for finance-archetype Duples |
+| `packs/commerce/` | tools for commerce-archetype Duples (Tawan) |
+| `packs/{new}/` | create a new pack if no existing one fits |
+
+### Contribution process
+
+```
+1. Write your tool in platform/tools/packs/{pack}/
+2. Register it in platform/tools/registry.py
+3. Open a PR → team reviews against the checklist below
+4. Team merges + deploys to Pi
+5. You enable the tool in Supabase
+```
+
+You own steps 1–3. The team owns 4. You own 5.
+
+### Tool contract
 
 ```python
-# duples/{duple_id}/tools/my_tool.py
+# platform/tools/packs/{pack}/my_tool.py
 
 MY_TOOL_SCHEMA = {
     "name": "my_tool",
@@ -37,7 +65,7 @@ MY_TOOL_SCHEMA = {
 }
 
 
-def my_tool(query: str) -> str:
+def my_tool(query: str, **context) -> str:
     """Fetch data and return a plain string for the LLM.
     Never raises — always return '[ERROR] ...' on failure.
     """
@@ -50,43 +78,62 @@ def my_tool(query: str) -> str:
 
 Rules:
 - **Always returns a string** — the LLM reads your return value directly
-- **Never raises** — catch exceptions, return `"[ERROR] ..."` string
-- **Args come from JSON** — use basic types (str, int, float, bool, list)
-- **No side effects by default** — tools are for reading, not writing (unless it's a deliberate action tool like `update_watchlist`)
-- **Env vars** — read API keys from `os.environ.get(...)`. Add new keys to your `duples/{duple_id}/.env` and tell the team to include them in the container
+- **Never raises** — catch all exceptions, return `"[ERROR] ..."` string
+- **Auth comes from context** — never accept `store_id`, `user_id`, or role as an LLM argument; read them from `**context` which the platform injects
+- **No hardcoded secrets** — read from `os.environ.get(...)`
+- **No direct DB writes** — tools read and propose; validated Python code writes
 
-### What to send the team
+### Register in registry.py
 
-Once your tool is ready:
-1. Push `duples/{duple_id}/tools/my_tool.py` to the repo
-2. Tell the team: "add `my_tool` to the registry as `owner_tier=duple`, `owner_scope={duple_id}`"
-3. The team adds it to `platform/tools/registry.py` + rebuilds the Docker image
+```python
+# platform/tools/registry.py
 
-### After the team deploys
+from platform.tools.packs.my_pack.my_tool import my_tool, MY_TOOL_SCHEMA
 
-Add your tool to `tools_enabled` in Supabase:
+TOOL_REGISTRY["my_tool"] = {
+    "func": my_tool,
+    "schema": MY_TOOL_SCHEMA,
+    "owner_tier": "archetype",   # or "platform"
+    "owner_scope": "commerce",   # or None for generic
+}
+
+_PACK_MAP["my_pack"] = [..., "my_tool"]
+```
+
+### Team review checklist
+
+Before the team merges your PR, they check:
+
+- [ ] Tool returns a string in all code paths
+- [ ] No unhandled exceptions (bare `except` or specific + fallback)
+- [ ] `store_id` / auth read from `**context`, not from tool arguments
+- [ ] No hardcoded API keys or credentials
+- [ ] Tool name is unique across the whole registry
+- [ ] Pack placement makes sense (generic vs archetype-specific)
+- [ ] Description tells the LLM clearly when to call it
+
+### Enable after deploy
+
 ```sql
+-- Enable the tool for your agent in Supabase
 UPDATE {schema}.agent_profiles
 SET tools_enabled = tools_enabled || '["my_tool"]'
 WHERE agent_id = 'chat.reply';
 ```
 
-Then update your `tools` block in `system_prompt` to tell the LLM when to use it:
-```sql
-UPDATE {schema}.agent_profiles
-SET system_prompt = jsonb_set(system_prompt, '{tools}', '"Use my_tool when the user asks about X. Combine with get_memories to personalise the result."')
-WHERE agent_id = 'chat.reply';
-```
+Then add guidance in your `system_prompt` tools block so the LLM knows when to use it.
 
 ---
 
-## 2. Custom Cards
+## 2. Cards
 
-A card is a structured LINE flex message — a rich visual layout with data, buttons, and images instead of plain text.
+A card is a structured LINE flex message — rich layout with data, buttons, and images.
 
-Cards can be triggered two ways:
-- **Router-triggered**: a specific phrase or pattern → card sent directly, no LLM involved
-- **LLM-triggered**: the LLM decides mid-turn to attach a card (returns a JSON response with `card_type` set)
+Cards live in your Duple folder (not platform-level) because their layout and data are Duple-specific.
+
+Cards trigger two ways:
+- **Router-triggered**: keyword/pattern → card sent directly, no LLM
+- **LLM-triggered**: LLM decides mid-turn to attach a card
 
 ### Files you write
 
@@ -94,11 +141,6 @@ Cards can be triggered two ways:
 
 ```python
 def render_my_card(data: dict, lang: str = "TH") -> dict:
-    """Returns a LINE flex message dict.
-    data: whatever your data_fetcher returns for this card type.
-    lang: "TH" or "EN" — use for localised labels.
-    Returns: {"type": "flex", "altText": "...", "contents": {...}}
-    """
     return {
         "type": "flex",
         "altText": "My card",
@@ -115,7 +157,7 @@ def render_my_card(data: dict, lang: str = "TH") -> dict:
     }
 ```
 
-**`duples/{duple_id}/chat/card/card_metadata.yaml`** — display metadata:
+**`duples/{duple_id}/chat/card/card_metadata.yaml`**:
 
 ```yaml
 my_card_meta:
@@ -126,27 +168,27 @@ my_card_meta:
     color: "#6366F1"
 ```
 
-**`duples/{duple_id}/chat/card/data_fetcher.py`** — add a branch for your card type if it needs its own data source:
+**`duples/{duple_id}/chat/card/data_fetcher.py`** — add a branch for your card type:
 
 ```python
 elif card_type == "my_type":
     return fetch_my_data(data.get("card_subject"))
 ```
 
-### What to do
+### Steps
 
-1. Add your new `card_type` string to `valid_card_types` in `duples/{duple_id}/chat/card/card_config.py`
-2. If the LLM needs a subject value (like a ticker, product name, etc.), it will pass it as `card_subject` — update `REPLY_OUTPUT_PROMPT` in `card_config.py` to tell the LLM when to use the new type and what to put in `card_subject`
-3. Push your changes — the container picks them up on next restart (no rebuild needed)
-4. If router-triggered: add the keyword pattern to `router_config.yaml`
+1. Add your `card_type` to `valid_card_types` in `card_config.py`
+2. If LLM-triggered: update `REPLY_OUTPUT_PROMPT` to tell the LLM when to use it
+3. If router-triggered: add the keyword pattern to `router_config.yaml`
+4. Open a PR → team restarts the container (no rebuild needed)
 
 ---
 
 ## 3. Custom Domains
 
-A domain is a completely new capability with its own lifecycle — a background service, batch job, or event processor. Examples:
+A domain is a new background capability with its own lifecycle — a service, batch job, or event processor.
 
-| Domain idea | Pattern | Runs when |
+| Example | Pattern | Runs when |
 |---|---|---|
 | `social.publish` | Webhook + queue | On demand |
 | `report.weekly` | Batch + cron | Scheduled |
@@ -155,44 +197,33 @@ A domain is a completely new capability with its own lifecycle — a background 
 
 ### Structure
 
-Put everything in `duples/{duple_id}/{domain}/`:
-
 ```
 duples/{duple_id}/
-  reach/
-    alert/           ← reach.alert — cron-based price push (built-in)
   my_domain/
-    my_engine.py     ← core logic
+    my_engine.py     ← core logic (stateless, reads DB/Redis, writes DB)
     my_cron.py       ← entry point for scheduled runs
-    my_service.py    ← HTTP wrapper if it needs to be called from chat
+    my_service.py    ← HTTP wrapper if callable from chat
 ```
 
-### Typical process
+### Steps
 
-1. **Write the engine** (`my_engine.py`) — stateless pure logic, reads from DB/Redis, writes to DB
-2. **Write the entry point** (`my_cron.py` or `my_service.py`)
-3. **If you need new tables** — describe them to the Duply team (column names, types, indexes). Team adds the migration
-4. **If you need new env vars** — add them to your `duples/{duple_id}/.env` and tell the team
-5. **Push the code** — the team adds the Docker service entry or cron entry and deploys
+1. Write `my_engine.py` — pure logic, no network side effects in the module body
+2. Write the entry point (`my_cron.py` or `my_service.py`)
+3. If you need new tables — describe them in the PR (column names, types, indexes)
+4. If you need new env vars — add to your `duples/{duple_id}/.env.example`
+5. Open a PR → team adds the Docker service or cron entry and deploys
 
-### Hook new domain into chat (optional)
-
-If users should be able to interact with your domain via chat:
-- Add a tool (`get_my_domain_data`, `trigger_my_domain`) following the custom tool pattern above
-- Or add card types for domain output (custom card pattern above)
-- Gate access via `duple_settings.py`:
+### Gate access during development
 
 ```python
+# duples/{duple_id}/duple_settings.py
 MY_DOMAIN = {
     "enabled": True,
     "gate_roles": "creator",   # test with yourself first
 }
 ```
 
-### What to tell the team
+### Connect to chat (optional)
 
-- What the service is (cron / webhook / on-demand)
-- What schedule (if cron)
-- What port (if HTTP service — team assigns to avoid conflicts)
-- What new tables are needed
-- What new env vars are needed
+- Add a tool following the tool pattern above (`get_my_domain_data`, `trigger_my_domain`)
+- Or add card types for domain output
