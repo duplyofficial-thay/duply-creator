@@ -265,7 +265,8 @@ Real customer data must not enter production until:
 
 ## Related Documents
 
-- [Domain language](../../CONTEXT.md)
+- [Domain language](../../CLAUDE.md)
+- [Tawan documentation index](README.md)
 - [Architecture](ARCHITECTURE.md)
 - [Data model](DATA_MODEL.md)
 - [Security and privacy](SECURITY.md)

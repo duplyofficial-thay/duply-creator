@@ -1,9 +1,18 @@
 # Tawan Current Task Status
 
-**Updated:** 2026-09-03
+**Updated:** 2026-09-04
 
 **Source:** [TASK_BREAKDOWN.md](TASK_BREAKDOWN.md), current local Git commits,
-and verified local test output.
+verified local test output, and the active [Duple - Tawan Trello board](https://trello.com/b/HUbjHwDh/duple-tawan).
+
+## Operational Board
+
+Trello is now the active task-planning and execution board for the Duply team:
+
+- [Duple - Tawan](https://trello.com/b/HUbjHwDh/duple-tawan) is the main working board inside the Duply workspace.
+- Stable `TWN-*` identifiers remain the join key between the Git manifest, cards, code, and evidence.
+- Notion is reference-only for historical decisions and prior specifications; new planning and status changes belong in Trello.
+- The first eight Duply Platform cards have been copied to Trello. The remaining Tawan manifest cards still require migration before Trello can represent the complete 149-card plan.
 
 ## Overall Status
 
@@ -45,8 +54,8 @@ the manifest.
 
 ## Review: External Board Reconciliation Still Needed
 
-- `TWN-0001`: historical Notion reconciliation remains a review item.
-- `TWN-0007`: existing Notion Board records still require an owner-approved dry run before any bulk update.
+- `TWN-0001`: historical Notion reconciliation remains a reference/archive review item.
+- `TWN-0007`: prior Notion Board reconciliation remains historical; do not create a second active workflow in Notion.
 
 ## Explicitly Blocked
 
@@ -65,7 +74,7 @@ the manifest.
 
 | Milestone | Cards | Count | Main outcome |
 |---|---|---:|---|
-| 0 | `TWN-0001` to `0007` | 7 | Source of truth, Git, Notion, and handoff |
+| 0 | `TWN-0001` to `0007` | 7 | Source of truth, Git, Trello, and handoff |
 | 1 | `TWN-0101` to `0108` | 8 | Verified Duply runtime/data/LINE discovery |
 | 2 | `TWN-0201` to `0207` | 7 | Test harness, migration replay, fixtures, and isolation |
 | 3 | `TWN-0301` to `0314` | 14 | Store Workspace, roles, MFA, audit, limits, and secrets |
@@ -94,8 +103,9 @@ the manifest.
 ## Git Handoff Note
 
 The reviewed Tawan foundation is merged to `origin/main` via PR #4 at
-`095eb84045bdd4cbb2a349cff04d42a5cf816acf`. The Notion hub now links to the
-canonical Markdown files at that immutable commit. The local checkout still
+`095eb84045bdd4cbb2a349cff04d42a5cf816acf`. The historical Notion hub links to the
+canonical Markdown files at that immutable commit; Trello is the active task
+board. The local checkout still
 has unrelated uncommitted user files; they were not included in the merge.
 
 Current verification: 21 unit tests pass and Python compilation passes. On

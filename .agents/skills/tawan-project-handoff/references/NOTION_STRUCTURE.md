@@ -1,5 +1,7 @@
 # Notion Publishing Structure
 
+> ⚠️ **Legacy — retired 2026-09-04.** Work tracking moved to **GitHub + Trello**. Do not create, update, or sync Notion pages from this document, and do not treat any Notion page as a source of state. Kept only to explain how the historical Notion mirror was organised. Current tracking rules live in [`../SKILL.md`](../SKILL.md) and the repo `CLAUDE.md`.
+
 Create or reuse one parent page named `Duply - Tawan`. This workspace is a readable mirror for collaboration; GitHub remains the source of truth. Search the workspace and check the Sync Registry before creating a page.
 
 ## Page Tree

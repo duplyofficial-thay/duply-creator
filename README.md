@@ -36,12 +36,14 @@ Users talk to Duples via **LINE**. Each Duple has its own persona, tools, and me
 | `guide/04-prompts.md` | How to edit your Duple's persona and prompts |
 | `guide/06-launch-checklist.md` | Step-by-step checklist for launching a new Duple |
 | `PATCH-NOTES.md` | Platform changelog |
+| `docs/tawan/README.md` | **Index of every Tawan document, categorised — start here** |
 | `docs/tawan/PRODUCT_SPEC.md` | Approved Tawan commerce product baseline and related design documents |
+| `docs/tawan/COMMERCE_DESIGN.md` | Phase 1 commerce design (v3, multi-tenant single-schema) |
 | `docs/tawan/TASK_BREAKDOWN.md` | Atomic Tawan tasks, dependencies, status, and acceptance evidence |
 | `docs/tawan/CURRENT_TASK_STATUS.md` | Current status of all 149 Tawan cards, blockers, help needed, and next order |
 | `docs/tawan/PHASE_1_ROADBLOCKS.md` | Duply platform blockers and phase-by-phase feature plan |
 | `docs/tawan/TESTING.md` | Supported local test commands and current Tawan test scope |
-| `docs/tawan/notion-import/` | Validated Tawan task and Sprint CSV package for safe Notion synchronization |
+| `docs/tawan/notion-import/` | Legacy Tawan task/Sprint CSV package — Notion is retired; tracking is GitHub + Trello |
 | `.agents/skills/tawan-project-handoff/` | Portable AI handoff workflow for resuming Tawan work from Git |
 
 ---

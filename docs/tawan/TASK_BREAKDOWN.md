@@ -1,38 +1,39 @@
 # Tawan Task Breakdown
 
-**Status:** Canonical task manifest for Git and Notion synchronization
+**Status:** Canonical task manifest for Git and Trello synchronization
 
-**Updated:** 2026-09-03
+**Updated:** 2026-09-04
 
 **Source:** Approved Tawan product, architecture, data, security, legal-research, decision, and implementation documents
 
-**Current roll-up:** [CURRENT_TASK_STATUS.md](CURRENT_TASK_STATUS.md) summarizes all 149 cards, current evidence, blockers, required help, and the next execution order.
+**Current roll-up:** [CURRENT_TASK_STATUS.md](CURRENT_TASK_STATUS.md) summarizes all 149 cards, current evidence, blockers, required help, and the next execution order. Active board: [Duple - Tawan on Trello](https://trello.com/b/HUbjHwDh/duple-tawan).
 
 ## 1. How To Use This Manifest
 
 - Keep each Task small enough for roughly one to two focused working days. Split a Task before implementation when verified private interfaces make it larger.
-- Use the stable `TWN-*` identifier to update an existing Notion record. Never create a duplicate when the identifier already exists.
-- Produce a dry-run mapping for legacy-title matches. Never merge, archive, or replace a human-maintained Notion record without explicit owner approval.
+- Use the stable `TWN-*` identifier in every Trello card title or description. Never create a duplicate when the identifier already exists.
+- Trello is the active planning and status system. Notion records are historical reference and must not be maintained as a competing workflow.
+- Preserve existing Notion records unless the owner separately approves archival or migration cleanup.
 - Keep `Owner`, `Reviewer`, estimate, and due date `Unspecified` until a person accepts them. Do not infer assignments.
-- A `Done` engineering Task requires a committed change and verification evidence. A Notion checkbox alone is not completion evidence.
+- A `Done` engineering Task requires a committed change and verification evidence. A Trello list position alone is not completion evidence.
 - `Blocked` means an external dependency prevents responsible execution. Later milestones remain `Backlog`, not falsely blocked.
 - Campaign execution and intelligence are Pro-only and post-Phase-1. Standard Tasks must not expose Campaign execution.
 
-## 2. Notion Field Mapping
+## 2. Trello Field Mapping
 
 | Field | Rule |
 |---|---|
-| Task ID | Stable value from this manifest; use a title prefix if the database cannot add a property |
-| Task | Use the action-oriented title below |
+| Task ID | Stable value from this manifest; include it in the Trello card title |
+| Task | Use the action-oriented Trello card title below |
 | Type | Epic, Task, Research, Decision, Review, or Bug |
-| Status | Backlog, Ready, In Progress, Blocked, Review, or Done |
+| Status | Map to Trello lists; preserve the canonical status in the card description when the board uses a simpler workflow |
 | Phase | Documentation, Discovery, Phase 1, Transition Gate, Phase 2, or Later |
 | Plan | Shared, Standard, Pro, or Custom B2B |
 | Area | Product, Platform, LINE, Data, Security, Dashboard, Analytics, Campaign, Legal, or Operations |
 | Priority | Critical, High, Medium, or Low |
 | Depends On | Stable Task IDs; preserve links when titles change |
 | Acceptance | Required evidence before completion |
-| Source | Commit-pinned Markdown link after the source commit reaches the canonical default branch |
+| Source | Commit-pinned Markdown link after the source commit reaches the canonical default branch; include the link in the Trello card description |
 
 ## 3. Milestone 0 - Documentation And Handoff
 

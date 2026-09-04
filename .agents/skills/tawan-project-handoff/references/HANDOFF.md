@@ -58,7 +58,7 @@ Perform the read-only discovery milestone in `docs/tawan/IMPLEMENTATION_PLAN.md`
 
 ## Canonical Record Map
 
-- `CONTEXT.md`: required language and domain terms
+- `CLAUDE.md`: repo entry point, session workflow, Trello boards, and required language and domain terms
 - `docs/tawan/DECISIONS.md`: approved decision history
 - `docs/tawan/PRODUCT_SPEC.md`: product behaviour, tiers, and acceptance
 - `docs/tawan/ARCHITECTURE.md`: boundaries, isolation, flows, and dependencies
@@ -66,6 +66,9 @@ Perform the read-only discovery milestone in `docs/tawan/IMPLEMENTATION_PLAN.md`
 - `docs/tawan/SECURITY.md`: threats, privacy, marketing, retention, and launch blockers
 - `docs/tawan/IMPLEMENTATION_PLAN.md`: ordered milestones and verification
 - `docs/research/2026-08-17-thailand-pdpa-tawan-data.md`: legal research starting point, not legal advice
-- `docs/superpowers/specs/2026-08-05-tawan-commerce-design.md`: superseded historical draft
+- `docs/tawan/COMMERCE_DESIGN.md`: current Phase 1 commerce design (v3, multi-tenant single-schema) — **not** superseded; it replaced the earlier per-store-Duple assumption
+- `docs/tawan/CURRENT_TASK_STATUS.md`: live task status by state; read before assuming what is done
+- `docs/tawan/PHASE_1_ROADBLOCKS.md`: what Duply platform must supply before blocked cards can move
+- `docs/tawan/README.md`: index of every Tawan document, categorised
 
 The long planning conversation was normalized into these records so future agents do not need the original account or chat history.

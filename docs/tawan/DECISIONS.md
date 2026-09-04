@@ -104,6 +104,16 @@ Outbound Campaign drafting, scheduling, delivery, personalization, attribution, 
 
 The initial `TWN-0201` test baseline uses Python's standard-library `unittest` runner plus `compileall` so a clean local checkout can produce unit and syntax evidence without downloading packages. Real provisioning still requires `PyYAML`, and database/LINE/Supabase tests remain blocked until Duply confirms the private runtime and verification environment.
 
+## 2026-09-04 - Trello is the active task board
+
+The team will plan and execute Duply/Tawan work in the [Duple - Tawan Trello
+board](https://trello.com/b/HUbjHwDh/duple-tawan) inside the Duply workspace.
+Stable `TWN-*` identifiers remain the join key to the Git task manifest and
+evidence. Trello lists are the operational status; when a destination board has
+fewer lists than the canonical manifest, the original status remains explicit
+in the card description. Notion is retained as historical reference and is not
+updated as a parallel active board.
+
 ## 2026-09-03 - Approved additive schema applied to Supabase
 
 With explicit owner approval, the up sections of migrations `0010`, `0020`,

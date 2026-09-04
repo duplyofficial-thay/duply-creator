@@ -14,7 +14,9 @@ Rebuild the project state from Git and the approved Tawan documents before reaso
 3. Run `git status --short --branch`, `git remote -v`, `git branch -vv`, and `git log -15 --oneline --decorate`. Preserve unrelated and uncommitted work.
 4. Read [references/HANDOFF.md](references/HANDOFF.md) for the project map and known state.
 5. Read the canonical product records in this order:
-   - `CONTEXT.md`
+   - `CLAUDE.md`
+   - `docs/tawan/README.md`
+   - `docs/tawan/CURRENT_TASK_STATUS.md`
    - `docs/tawan/DECISIONS.md`
    - `docs/tawan/PRODUCT_SPEC.md`
    - `docs/tawan/ARCHITECTURE.md`
@@ -62,20 +64,23 @@ Do not silently reconcile conflicting requirements. Name the conflict and ask th
 - Show `git status` before committing. Never push, rewrite history, or touch production without explicit authority.
 - Record every successful paid API call in the project's cost ledger before parsing its response.
 
-## Notion Mirror
+## Work Tracking — Trello
 
-Use Notion as a readable collaboration mirror, never as the technical authority. Use one parent page named `Duply - Tawan`, identify the actual generating tool/account, and follow [references/NOTION_STRUCTURE.md](references/NOTION_STRUCTURE.md).
+**As of 2026-09-04, tracking is GitHub + Trello only. Notion is retired** and must not be created, updated, or treated as a source of state. [references/NOTION_STRUCTURE.md](references/NOTION_STRUCTURE.md) is kept for historical context only.
 
-Before publishing or refreshing Notion:
+Git remains the technical authority; Trello tracks work in flight. Boards (see `CLAUDE.md`): **Duply** for platform-level work, **Thay** and **Tawan** per Duple. The Tawan board is the creator ↔ team handoff layer:
 
-1. Read the canonical Git documents and record the full 40-character source commit SHA. Verify that commit is reachable from the canonical remote's default branch or another permanent protected ref. Do not label or publish a local-only or temporary-branch commit as GitHub state.
-2. Search for the exact parent page and consult its Sync Registry before creating anything. Reuse registered page IDs; never create a second tree merely because search is incomplete.
-3. Update only the `Generated Snapshot (managed)` section of registered pages. Preserve `Human Review (preserved)`, comments, and all blocks outside the managed section.
-4. Put `Source: GitHub`, the full 40-character SHA from the default or permanent protected branch, sync date, and actual generator at the top of every managed section.
-5. Regenerate a `Markdown Sources` subsection inside `Generated Snapshot (managed)` with full-SHA GitHub links to every canonical Markdown file used for that page. Include the handoff skill and continuity snapshot on the hub page. Re-read the saved Notion section and verify each link in the intended friend/AI access context before marking the page synchronized; otherwise mark the handoff blocked.
-6. Leave unavailable owner, status, or other metadata blank or mark it `Unspecified`; never infer it.
-7. Move approved decisions into Git first, push the commit with authorization, then refresh Notion from that remote state.
-8. Mark a Notion page `Out of sync` when its recorded commit differs from the approved remote commit.
+```
+📝 Creator — กำลังทำ  →  ⏳ รอ Team  →  🔧 Team กำลัง deploy  →  ✅ Done
+```
+
+When updating a card:
+
+1. Read the canonical Git documents first and record the full 40-character commit SHA. Verify it is reachable from the canonical remote's default branch — never present a local-only or temporary-branch commit as pushed state.
+2. Move the card to the next list and comment what was done and what happens next. A move without a comment loses the reason.
+3. Leave unavailable owner, status, or estimate metadata blank or marked `Unspecified`; never infer it.
+4. Move approved decisions into Git first, push with authorization, then update the card from that remote state.
+5. A card is only `Done` when a committed change and verification evidence exist. A checkbox is not evidence.
 
 ## Continuation Brief
 
