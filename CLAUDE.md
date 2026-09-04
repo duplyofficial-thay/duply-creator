@@ -1,6 +1,81 @@
-# Duply Creator Kit Context
+# CLAUDE.md — Duply Creator Kit
 
-The canonical language for Duply products and the Tawan commerce domain. Product and implementation documents should use these terms consistently.
+Read this file at the start of every session in this repo.
+
+---
+
+## What This Repo Is
+
+**duply-creator** = the handoff layer between Duply platform team and Duple creators.
+
+This is NOT the platform codebase (that lives in `duplyofficial-thay/duply-thay.git` on the Pi).  
+This repo contains: creator guides, registration configs, Duple scaffolds, and provisioning scripts.
+
+---
+
+## Two Roles — Know Which Side You're On
+
+| Role | Who | What they do here |
+|---|---|---|
+| **Creator** | Friend / external creator | Fills `register/{duple_id}.yaml`, edits system prompts in Supabase, reads `guide/` |
+| **Platform team** | Us (Claude Code) | Runs `provision_duple.py`, deploys infra on Pi, manages `duples/` scaffold, updates Trello |
+
+Claude Code operates as **platform team**. Don't do creator-side content work without explicit instruction.
+
+---
+
+## Trello Coordination
+
+Boards: **Duply Main**, **Duple - Thay**, **Duple - Tawan** (via `mcp-trello-advanced` MCP).
+
+Each active Duple's board tracks the launch journey:
+
+```
+📝 Creator — กำลังทำ  →  ⏳ รอ Team  →  🔧 Team กำลัง deploy  →  ✅ Done
+```
+
+**Handoff protocol:**
+- Creator finishes a step → moves card to "รอ Team"
+- Platform team finishes a step → moves card back to "Creator" or "Done" + comments what's next
+
+Check Trello first before starting any work to see what's queued.
+
+---
+
+## Key Scripts
+
+```bash
+# From duply-creator/ root — run only after register/{duple_id}.yaml is pushed by creator
+python scripts/provision_duple.py {duple_id}
+```
+
+Provisions schema + role in Supabase, generates `duples/{duple_id}/` scaffold (7 files).
+
+Full launch sequence: `guide/06-launch-checklist.md`
+
+---
+
+## Repo Structure
+
+```
+register/         ← creator fills {duple_id}.yaml here, triggers team provisioning
+  _template.yaml
+  thay.yaml, tawan.yaml, khun.yaml, dom.yaml
+guide/            ← creator reads these; 06-launch-checklist.md is team reference too
+  01-concepts.md … 05-extending.md
+  06-launch-checklist.md
+  tool-catalog.md
+duples/           ← generated scaffold per Duple (source of truth for per-Duple config)
+scripts/          ← provision_duple.py + other team tools
+docs/             ← per-Duple design docs (e.g. docs/tawan/)
+data/             ← reference data (archetypes, tool packs)
+```
+
+---
+
+## Terminology
+
+The canonical language for Duply products and the Tawan commerce domain. Use these terms consistently in all documents and code.
 
 ## Platform
 

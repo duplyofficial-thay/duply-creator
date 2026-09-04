@@ -34,6 +34,7 @@ Users talk to Duples via **LINE**. Each Duple has its own persona, tools, and me
 | `guide/02-onboarding.md` | Full onboarding walkthrough |
 | `guide/03-domains.md` | What each domain does and what you can configure |
 | `guide/04-prompts.md` | How to edit your Duple's persona and prompts |
+| `guide/06-launch-checklist.md` | Step-by-step checklist for launching a new Duple |
 | `PATCH-NOTES.md` | Platform changelog |
 | `docs/tawan/PRODUCT_SPEC.md` | Approved Tawan commerce product baseline and related design documents |
 | `docs/tawan/TASK_BREAKDOWN.md` | Atomic Tawan tasks, dependencies, status, and acceptance evidence |
