@@ -6,7 +6,33 @@
 
 ---
 
-## 1. Background
+## 1. System Overview
+
+```mermaid
+flowchart LR
+    LINE["LINE OA"] --> CA["Channel Adapter"]
+    CA --> SR["Store Resolver"]
+    SR --> CO["Conversation Orchestrator"]
+    CO --> K["Knowledge Module"]
+    CO --> M["Customer Memory Module"]
+    CO --> C["Commerce Module"]
+    CO --> T["Task and Approval Module"]
+    CO --> RP["Reply and Capture Plan"]
+    RP --> CA
+    C --> P["Payment Adapter"]
+    C --> T
+    T --> N["Notification Adapter"]
+    C --> A["Analytics Events"]
+    M --> A
+    RP --> A
+    T --> A
+```
+
+Every store-scoped operation resolves a trusted Store Context before data access. The adapter layer receives only the credentials and schema permitted for that Store Workspace.
+
+---
+
+## 2. Background
 
 Duply is a platform for building **Duples** — AI products with an isolated Postgres schema, a dedicated LINE OA, and a shared persona/behavior split (`public.duply_duples.persona` = character, `{schema}.agent_profiles.system_prompt` = per-agent operational behavior). Existing Duples: Thay and Khun (finance archetype), Dom (lifestyle archetype). `archetype: commerce` is already reserved in `register/_template.yaml` but nothing has been built for it — no commerce tool pack, no commerce schema tables. This spec is the reference implementation.
 

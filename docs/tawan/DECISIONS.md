@@ -39,8 +39,7 @@ The team review identified pilot-critical gaps around staff takeover, outbound
 message evidence, usage cost, order amendments, shipping/COD/returns, schema
 drift, branch hours, scheduled-job evidence, entitlements, tax foundations,
 and cross-border processing records. These are now represented in the
-store-scoped `0030_tawan_operational_safety` migration and explained in
-`TEAM_DATA_MODEL_GAP_REVIEW.md`. Cross-store payment-slip fingerprinting and
+store-scoped `0030_tawan_operational_safety` migration and absorbed into `REFERENCE.md`. Cross-store payment-slip fingerprinting and
 Thai legal treatment of external AI transfers remain explicit platform/legal
 decisions; they are not enabled implicitly by the store schema.
 

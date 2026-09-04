@@ -253,24 +253,38 @@ Phase 1 excludes outbound Campaign execution, automatic payment approval, autono
 
 Phase 2 may start after one realistic journey completes from Customer question through accurate answer, Order, payment-review Task, staff action, and completed outcome, with an independent security review confirming no cross-store leakage.
 
-## 15. Launch Gates
+## 15. Security Requirements
+
+1. A Store Workspace cannot read, write, retrieve, cache, search, or infer another store's operational or customer data.
+2. Tawan cannot authorize itself through model output or conversation text.
+3. Price, stock, payment, policy, consent, and commercial state remain correct under retries, concurrency, and partial failure.
+4. Customer data is processed only for documented purposes, retained only as justified, and available for applicable rights workflows.
+5. Support and Platform Administrator access is exceptional, time-limited, reason-coded, and auditable.
+6. Security incidents can be detected, contained, investigated, and escalated early enough for the controller to meet legal deadlines.
+
+**Open blocking items (must close before real customer data enters production):**
+- Supabase credentials rotation — credentials were exposed and require rotation
+- RLS policies — `tawan_ai` tables were created without Row Level Security; no customer data until RLS is in place
+
+**PDPA (Thai law):** Tawan processes personal data under Thai PDPA. Thai counsel must approve the privacy notice, controller/processor allocation, data-processing agreement, retention schedule, marketing basis, international transfers, and export terms before production. See [Thai PDPA research](../research/2026-08-17-thailand-pdpa-tawan-data.md).
+
+## 16. Launch Gates
 
 Real customer data must not enter production until:
 
-- Duply platform dependencies in [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) are complete;
+- platform dependencies are complete (tracked in Trello);
 - isolation, authorization, idempotency, payment, consent, export, deletion, and recovery tests pass;
+- both open security items above are closed;
 - an independent engineering and security review has no unresolved release-blocking findings;
-- Thai counsel approves the privacy notice, controller/processor allocation, data-processing agreement, retention schedule, marketing basis, international transfers, and export terms;
+- Thai counsel has approved all required legal artifacts;
 - operational cost tracking is active for every paid API call.
 
 ## Related Documents
 
-- [Domain language](../../CLAUDE.md)
-- [Tawan documentation index](README.md)
-- [Architecture](ARCHITECTURE.md)
-- [Data model](DATA_MODEL.md)
-- [Security and privacy](SECURITY.md)
-- [Decision log](DECISIONS.md)
-- [Implementation plan](IMPLEMENTATION_PLAN.md)
+- [Terminology](../../CLAUDE.md)
+- [Design](DESIGN.md)
+- [Reference](REFERENCE.md)
+- [Decisions](DECISIONS.md)
+- [Thai PDPA research](../research/2026-08-17-thailand-pdpa-tawan-data.md)
 - [Task breakdown](TASK_BREAKDOWN.md)
 - [Thai PDPA research](../research/2026-08-17-thailand-pdpa-tawan-data.md)

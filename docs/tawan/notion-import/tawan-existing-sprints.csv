@@ -1,4 +1,0 @@
-Sprint,Start Date,End Date,Goal,Status
-Sprint 1,2026-08-17,2026-08-23,"Documentation, handoff, Git publication, Notion sync, and access request",Planned
-Sprint 2,2026-08-24,2026-08-30,"Verify Duply runtime, LINE, data, security, deployment, and cost contracts",Planned
-Sprint 3,2026-08-31,2026-09-06,"Establish tests, migrations, disposable Postgres, fixtures, and isolation evidence",Planned
