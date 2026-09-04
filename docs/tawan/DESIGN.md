@@ -48,16 +48,16 @@ Terms used throughout this doc and all related specs. Use these exactly — do n
 
 | Term | Definition |
 |------|------------|
-| **Duply User** | A person registered in the Duply platform via LIFF auth. Has a `duply_id`. Typically a store owner or staff member using Channel 1. |
+| **Tawan Official** | ตะวัน's own LINE OA (Duply-owned). Store owners and staff add this OA to manage their store — approve knowledge, review analytics, handle staff access. This is where the store talks *to* ตะวัน. Also called Channel 1. |
+| **Tawan API** | The integration that deploys ตะวัน to answer a store's own end customers through the store's own LINE OA, Shopee account, or other channel. The store's customers never see "Tawan" — they see the store's brand. ตะวัน operates behind the scenes. Also called Channel 2. |
+| **Duply User** | A person registered in the Duply platform via LIFF auth. Has a `duply_id`. Typically a store owner or staff member using Tawan Official. |
 | `duply_id` | Platform-issued user ID (e.g. `A0002`). Unique per person across all Duples. Primary key in `user_profiles`. |
 | **Store** | A business entity using Tawan. Has a `store_id`. Shares `tawan_ai` schema with all other stores — tenant isolation is row-level by `store_id`, not schema-level. |
 | `store_id` | Stable identifier for a store (e.g. `papaya_fashion`). Primary key in `tawan_ai.stores`. Foreign key on all commerce tables. |
 | **Store Owner** | A Duply User with `owner` in `user_profiles.roles` linked to a store. |
 | **Store Staff** | A Duply User with `employee` in `user_profiles.roles` linked to a store. |
-| **Store Customer** | A person who contacts the store via Channel 2 (store's own LINE OA, Shopee, etc.). Does **not** need a `duply_id`. Identified by `store_id` + `platform_user_id` + `platform_type` in `store_customers`. |
-| **Channel 1** | Tawan Official LINE OA (Duply-owned). Store owners and staff use this to manage their store — approve knowledge, review analytics, handle staff access. Uses standard Duply domain stack. |
-| **Channel 2** | Store-owned channels (LINE OA, Shopee, etc.). Store customers use these for sales interactions. Tawan runs on behalf of the store on these channels. Each store registers its own credentials in `tawan_ai.stores`. |
-| **Store Resolver** | Middleware that maps an inbound Channel 2 request (by `platform_type` + `channel_id`) to the correct `store_id` within `tawan_ai`. No schema switching needed — always `tawan_ai`. |
+| **Store Customer** | A person who contacts the store via Tawan API (the store's own LINE OA, Shopee, etc.). Does **not** need a `duply_id`. Identified by `store_id` + `platform_user_id` + `platform_type` in `store_customers`. |
+| **Store Resolver** | Middleware that maps an inbound Tawan API request (by `platform_type` + `channel_id`) to the correct `store_id` within `tawan_ai`. |
 | **Tawan Brain** | A store's knowledge base — products (structured in `products`), policies/brand story (RAG via `knowledge_entries`). Per-store, scoped by `store_id`. |
 
 ---
