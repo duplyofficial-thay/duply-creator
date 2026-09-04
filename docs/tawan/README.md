@@ -4,7 +4,7 @@
 
 Every Tawan document, categorised. Statuses below are quoted from each document's own header — they are not a second opinion, so if a document's header changes, update this row too.
 
-Work tracking lives in **Trello** (Tawan board) and **GitHub**. Notion is no longer used for tracking.
+Work tracking lives in **Trello** — [Duple - Tawan](https://trello.com/b/HUbjHwDh/duple-tawan) — and **GitHub**. Notion is retained as historical reference only and is not updated as a parallel board. Stable `TWN-*` ids are the join key between the Git manifest, Trello cards, code, and evidence.
 
 ---
 
