@@ -1,7 +1,7 @@
 ARCHETYPE = "commerce"
 
 CHAT = {
-    "gate_roles": "creator",
+    "gate_roles": "all",
     "cards_enabled": False,
     "dump_prompt": False,
 }
