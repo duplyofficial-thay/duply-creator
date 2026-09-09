@@ -113,6 +113,19 @@ fewer lists than the canonical manifest, the original status remains explicit
 in the card description. Notion is retained as historical reference and is not
 updated as a parallel active board.
 
+## 2026-09-09 - Tawan restarts planning with twelve feature specifications
+
+The product owner approved a clean, documentation-first feature map: `TWN-01`
+through `TWN-12`. Each card completes when its design, specification,
+requirements, acceptance criteria, and out-of-scope boundary are approved; it
+does not authorise implementation. The map covers product direction, Tawan
+Official, merchant onboarding, Store Workspace/access, Store Brain, customer
+sales, store operations, Customer Memory/consent, dashboard, AI workflow,
+Channels/integrations, and pilot/safety/launch gate. Earlier long-form
+engineering `TWN-*` cards remain historical evidence/backlog and are not
+deleted or renumbered. The active feature map is `FEATURE_MAP.md`; the approved
+Phase 1 product detail is `PHASE_1_PILOT_SPEC.md`.
+
 ## 2026-09-03 - Approved additive schema applied to Supabase
 
 With explicit owner approval, the up sections of migrations `0010`, `0020`,
