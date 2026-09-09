@@ -4,6 +4,8 @@
 
 **Purpose:** This is the active, intentionally small planning board for Tawan. A `TWN-01` through `TWN-12` card represents one product feature area and completes when its design, specification, requirements, acceptance criteria, and out-of-scope boundary are approved. It is **not** an implementation task or a promise that code will be started.
 
+**Completion checklists:** `FEATURE_TASKS.md` is the authoritative detailed task list for every feature card.
+
 **Historical cards:** Existing long-form `TWN-*` engineering cards remain historical evidence/backlog. They are not the active Phase 1 delivery plan and are not renumbered or deleted by this feature map.
 
 ## Working Rules
