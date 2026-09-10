@@ -2,15 +2,15 @@
 
 **Status:** Approved product-owner direction on 2026-09-09. The active documentation sequence is `TWN-01` through `TWN-12` in `FEATURE_MAP.md`.
 
-**Product owner:** arriyathanasak@gmail.com
+**Product owner:** wasuwat arriyathanasak (`arriyathanasak@gmail.com`). First / `duply.official@gmail.com` is consulted when requested by the product owner.
 
-**Scope:** A controlled, 30-day Tawan pilot for ten Thai fashion and accessories merchants.
+**Scope:** A controlled, free 30-day Tawan pilot planned for ten Thai small-to-medium social-commerce retailers selling physical items by the piece. The cohort size is reassessed if recruitment evidence requires it. Fashion/accessories remain representative scenarios, not a recruitment restriction.
 
 **Relationship to the approved baseline:** This specification retains the product principles, privacy controls, roles, commerce concepts, and launch gates in `REQUIREMENTS.md`, `REFERENCE.md`, and `DECISIONS.md`. It adds the agreed Tawan Official onboarding and pilot-commercial model. It does not silently resolve the conflicting Store Workspace tenancy descriptions or obsolete automatic-payment semantics in the older design draft; both are explicit launch blockers.
 
 ## Problem Statement
 
-Thai LINE-first fashion and accessories merchants, especially solo entrepreneurs and very small teams, lose time answering repeated product questions, checking stock, remembering customer preferences, following up on unfinished sales, and assembling an understandable view of daily operations. They need a sales and administration partner that is useful before they have the time or technical capacity to connect every marketplace or back-office system.
+Thai LINE-first retailers selling physical items by the piece, especially solo entrepreneurs and very small teams, lose time answering repeated product questions, checking stock, remembering customer preferences, following up on unfinished sales, and assembling an understandable view of daily operations. They need a sales and administration partner that is useful before they have the time or technical capacity to connect every marketplace or back-office system.
 
 The merchant also needs confidence that an AI will not invent stock, price, promotions, delivery promises, or customer facts; act outside the merchant's authority; or leak a customer's information to another store. A customer needs normal service without being forced to accept optional profiling or marketing.
 
@@ -23,7 +23,7 @@ Tawan Phase 1 is a LINE-first, assisted pilot consisting of two connected experi
 
 For a confirmed retail Order, Tawan revalidates stock and price, creates a time-limited reservation, presents the configured PromptPay QR, records a submitted payment slip as protected evidence, and creates a payment-review Task. In Phase 1, only a Store Owner can record the final paid/rejected decision; model or OCR output never changes payment status by itself. Fulfilment, delivery, returns, and cancellation work remain accountable Tasks. Initial store data arrives through guided onboarding templates, approved uploads, CSV, or Google Sheets; approved website imports are limited to approved merchant domains. Direct marketplace/POS integration follows only after pilot evidence identifies the highest-value source.
 
-The pilot is free for 30 days and limited to ten fashion/accessory Store Workspaces. Merchants who continue use a Standard plan through a payment link. Pro capabilities -- campaign execution, proactive outreach, segmentation, and advanced customer intelligence -- are post-Phase-1 work and always need Store Owner approval.
+The pilot is free for 30 days and planned for ten Store Workspaces, subject to recruitment evidence. Merchants who continue may receive a Standard payment link through Tawan Official after pilot feedback and purchasing-power review; no price is promised yet. Pro is a future higher-paid tier for special advanced capabilities; its exact features and price require separate product-owner approval. Campaign execution, proactive outreach, segmentation, and advanced customer intelligence are post-Phase-1 candidates and always need Store Owner approval.
 
 ## User Stories
 
@@ -80,7 +80,7 @@ The pilot is free for 30 days and limited to ten fashion/accessory Store Workspa
 - The customer privacy experience has a short Thai notice, a full Thai privacy notice, distinct memory/marketing choices, a recorded versioned decision, verified-requester rights workflow for access, machine-readable portability where applicable, correction, restriction, deletion, and marketing objection. Rights handling defines identity verification, permitted requester/Store Owner authorization, minimised/redacted scope, deadlines, and auditable completion before releasing any export. Final wording, lawful bases, retention periods, the controller/processor agreement, international-transfer arrangements, and export terms require Thai counsel approval.
 - Raw conversation content is encrypted and short-lived under a purpose-specific retention policy. Structured operational records, Customer Memory, consent, orders/payment evidence, security/audit evidence, and anonymous aggregates have separate documented retention and deletion rules. Tawan must not retain sensitive traits or use them for memory, segmentation, recommendation, or marketing by default.
 - The dashboard is action-first and refreshes operational state in real time where possible, aggregates hourly, and closes store-local daily metrics once per business day. The daily summary includes sales/orders, low stock, unresolved questions, leads/follow-ups, payment/cancellation work, preference/demand signals, and no more than three evidence-backed actions.
-- The pilot is ten fashion/accessory merchants, free for 30 days. Standard follows via payment link. Pro campaign and advanced intelligence features remain post-Phase-1. Tawan Official Instagram begins as Tawan product marketing; merchant showcases require an explicit opt-in commercial agreement in a later phase.
+- The pilot is planned for ten piece-based physical-retail merchants and is free for 30 days, subject to recruitment evidence. Standard follows by payment link through Tawan Official only after product-owner review of pilot feedback and purchasing power. Pro campaign and advanced intelligence features remain post-Phase-1 candidates pending separate approval. Tawan Official Instagram begins as Tawan product marketing; merchant showcases require an explicit opt-in commercial agreement in a later phase.
 - A paid API call must be written to the project cost ledger immediately after it succeeds and before downstream parsing or processing.
 - Real customer data may not enter production until credential rotation, tenant isolation/RLS and authorization controls, current runtime contracts, legal artifacts, retention/deletion controls, cost tracking, end-to-end tests, recovery/restore and incident-response evidence, and an independent engineering/security review are complete.
 
@@ -98,7 +98,7 @@ The pilot is free for 30 days and limited to ten fashion/accessory Store Workspa
 ## Out of Scope
 
 - Direct marketplace/POS/social integrations, including Shopee, Lazada, TikTok Shop, Facebook, Instagram, and Discord.
-- Production-complete modules other than fashion/accessories.
+- Production-complete vertical modules beyond physical retail sold by the piece; fashion/accessories remain a representative test scenario rather than the only pilot category.
 - Outbound campaigns, proactive customer outreach, RFM/segmentation, churn or lifetime-value models, demand forecasting, and advanced recommendation intelligence.
 - Automatic payment approval, refunds, actual order cancellation, autonomous discounts, autonomous price changes, or other irreversible commercial actions.
 - A consumer marketplace that aggregates multiple merchants under Tawan Official.

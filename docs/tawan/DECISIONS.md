@@ -126,6 +126,33 @@ engineering `TWN-*` cards remain historical evidence/backlog and are not
 deleted or renumbered. The active feature map is `FEATURE_MAP.md`; the approved
 Phase 1 product detail is `PHASE_1_PILOT_SPEC.md`.
 
+## 2026-09-10 - TWN-01 product direction approved
+
+The product owner approved the complete TWN-01 roadmap and its eight
+requirement rows. Tawan is a LINE-first sales-administration partner for Thai
+SMEs and solo entrepreneurs selling physical retail items by the piece. It
+helps teams respond consistently, capture customer and Order details, and act
+on daily follow-ups while humans retain authority over money and exceptions.
+
+The Phase 1 pilot is free for 30 days and planned for ten merchants, subject
+to recruitment evidence. It includes assisted onboarding, a merchant-owned
+LINE OA, Store Brain, safe sales/admin support, an action-first dashboard, and
+a daily digest. Tawan Official manages Tawan subscription billing after the
+pilot; it never owns or autonomously decides a merchant customer's Order
+payment. Standard price and Pro entitlements remain deliberately open until
+pilot feedback, survey results, willingness-to-pay, and purchasing-power
+evidence are reviewed. Pro is a future higher-paid tier for special advanced
+capabilities, with no entitlement or price promised in Phase 1.
+
+Phase 2 is demand-proven integrations plus owner-approved Pro campaigns,
+segmentation, and advanced insights. Phase 3 is mature multichannel
+operations, recurring billing, advanced intelligence, and optional merchant
+showcase/brand-ambassador work. Marketplace, multichannel connectors,
+campaigns, autonomous commercial actions, cross-store identifiable data use,
+and real customer data before the legal/security/runtime launch gates are
+explicitly out of scope. The detailed source of truth is
+`TWN-01_PRODUCT_DIRECTION.md`.
+
 ## 2026-09-03 - Approved additive schema applied to Supabase
 
 With explicit owner approval, the up sections of migrations `0010`, `0020`,

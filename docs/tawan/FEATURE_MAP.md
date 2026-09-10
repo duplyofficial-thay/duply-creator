@@ -24,14 +24,14 @@
 
 **Depends on:** None
 
-**Complete when:** A product direction document defines Tawan's target customer, problem, value proposition, three phases, Standard/Pro boundary, pilot commercial model, success metrics, and explicit out-of-scope list.
+**Complete when:** `TWN-01_PRODUCT_DIRECTION.md` defines Tawan's target customer, problem, value proposition, three phases, Standard/Pro boundary, pilot commercial model, success metrics, explicit out-of-scope list, and product-owner approval evidence.
 
 **Requirements to settle:**
 
-- Phase 1 is a LINE-first, assisted business-assistant pilot for Thai fashion/accessories SMEs and solo entrepreneurs.
+- Phase 1 is a LINE-first, assisted business-assistant pilot for Thai SMEs and solo entrepreneurs selling physical retail items by the piece. Fashion/accessories remain representative scenarios, not a recruitment restriction.
 - Phase 2 introduces demand-proven integrations and owner-approved Pro campaigns/intelligence.
 - Phase 3 addresses mature multi-channel operations, recurring billing, advanced intelligence, and optional merchant showcase/brand-ambassador work.
-- The first pilot is free for 30 days, limited to ten merchants, with Standard available by payment link after the pilot.
+- The first pilot is free for 30 days and planned for ten merchants, with the cohort reassessed from recruitment evidence; Standard payment-link conversion is considered only after pilot feedback and product-owner review.
 - Pilot success has measurable onboarding, daily-summary, reply-quality, time-saved, safety, and conversion targets.
 
 **Out of scope:** Detailed engineering architecture, a public marketplace, and individual third-party connector implementation.
@@ -132,7 +132,7 @@
 
 **Depends on:** TWN-04, TWN-05, TWN-06
 
-**Complete when:** A retail-operation specification defines the safe Order-to-outcome workflow for the fashion/accessories pilot.
+**Complete when:** A retail-operation specification defines the safe Order-to-outcome workflow for the piece-based physical-retail pilot; fashion/accessories may remain a representative scenario.
 
 **Requirements to settle:**
 
@@ -228,7 +228,7 @@
 
 **Requirements to settle:**
 
-- Pilot cohort: ten fashion/accessories merchants, free for 30 days, then Standard payment link for merchants who continue.
+- Pilot cohort: planned for ten Thai retailers selling physical items by the piece, free for 30 days and reassessed from recruitment evidence; Standard payment-link conversion is considered after pilot feedback and product-owner review. Fashion/accessories may be a representative scenario, not a cohort restriction.
 - Primary validation seam: Tawan Official onboarding through owner-approved activation, merchant LINE customer conversation, safe Order/payment/human work, dashboard update, and daily digest.
 - Acceptance targets: 80% onboarding completion, 14 consecutive useful daily summaries for active merchants, 85% routine replies without correction, two hours saved per merchant each week, zero cross-store leaks/unapproved commercial actions, and 50% paid conversion.
 - No real customer data before credential rotation, tenant isolation/RLS, runtime verification, cost tracking, Thai counsel review, rights/retention controls, recovery/restore exercise, incident-response rehearsal, and independent security review.

@@ -8,14 +8,14 @@
 
 ## TWN-01 — Tawan Product Direction
 
-- [ ] Write the one-sentence Tawan promise: a LINE-first business assistant for Thai SMEs and solo entrepreneurs, beginning with fashion/accessories.
-- [ ] Define the Phase 1 result: assisted onboarding, merchant-owned LINE OA, Store Brain, safe customer sales/admin support, action-first dashboard, and daily digest.
-- [ ] Define Phase 2: demand-proven integrations, owner-approved Pro campaigns, segmentation, and advanced insights.
-- [ ] Define Phase 3: mature multi-channel operations, recurring billing, advanced intelligence, and optional merchant showcase/brand-ambassador programme.
-- [ ] Confirm Pilot, Standard, and Pro boundaries; distinguish merchant subscription payments from customer Order payments.
-- [ ] Record the free 30-day/ten-merchant pilot target, Standard payment-link conversion for continuing merchants, and all success measures.
-- [ ] Record the out-of-scope list so no one assumes marketplace, campaigns, or multi-channel work is Phase 1.
-- [ ] Obtain product-owner approval of the roadmap and terms used in all later cards.
+- [x] Write the one-sentence Tawan promise: a LINE-first business assistant for Thai SMEs and solo entrepreneurs selling physical retail items by the piece. Evidence: `TWN-01_PRODUCT_DIRECTION.md`.
+- [x] Define the Phase 1 result: assisted onboarding, merchant-owned LINE OA, Store Brain, safe customer sales/admin support, action-first dashboard, and daily digest. Evidence: `TWN-01_PRODUCT_DIRECTION.md`.
+- [x] Define Phase 2: demand-proven integrations, owner-approved Pro campaigns, segmentation, and advanced insights. Evidence: `TWN-01_PRODUCT_DIRECTION.md`.
+- [x] Define Phase 3: mature multi-channel operations, recurring billing, advanced intelligence, and optional merchant showcase/brand-ambassador programme. Evidence: `TWN-01_PRODUCT_DIRECTION.md`.
+- [x] Confirm Pilot, Standard, and Pro boundaries; distinguish merchant subscription payments from customer Order payments. Evidence: `TWN-01_PRODUCT_DIRECTION.md`.
+- [x] Record the free 30-day/ten-merchant pilot target, Standard payment-link conversion for continuing merchants, and all success measures. Evidence: `TWN-01_PRODUCT_DIRECTION.md`.
+- [x] Record the out-of-scope list so no one assumes marketplace, campaigns, or multi-channel work is Phase 1. Evidence: `TWN-01_PRODUCT_DIRECTION.md`.
+- [x] Obtain product-owner approval of the roadmap and terms used in all later cards. Evidence: `TWN-01_PRODUCT_DIRECTION.md` and `DECISIONS.md` (2026-09-10).
 
 ## TWN-02 — Tawan Official
 
@@ -135,7 +135,7 @@
 
 ## TWN-12 — Pilot, Safety, and Launch Gate
 
-- [ ] Define the free ten-merchant fashion/accessories pilot cohort, 30-day duration, support ownership, onboarding schedule, and Standard payment-link exit/conversion path.
+- [ ] Define the free pilot cohort planned for ten Thai retailers selling physical items by the piece, 30-day duration, support ownership, onboarding schedule, and Standard payment-link exit/conversion path; fashion/accessories may be a representative scenario, not a cohort restriction.
 - [ ] Define the primary synthetic rehearsal: Tawan Official onboarding; approved and rejected Knowledge Candidates; owner approval; merchant LINE conversation; safe missing/conflicting-fact escalation; memory refusal and STOP; Order/reservation expiry; PromptPay/payment review; duplicate-payment conflict; human work; dashboard; and daily digest.
 - [ ] Define the required safety evidence: negative cross-store tests at Channel, retrieval/vector/cache, tools, analytics, staff, export, and support boundaries; authorization/idempotency; payment safety; consent/rights; export/deletion; recovery; incident response; and cost-ledger evidence.
 - [ ] Define pre-production legal evidence: Thai counsel-approved notices, lawful bases, controller/processor agreement, retention schedule, marketing rules, international-transfer arrangements, and export terms.
