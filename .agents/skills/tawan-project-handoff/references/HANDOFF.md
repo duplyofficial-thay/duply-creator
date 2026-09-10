@@ -1,8 +1,23 @@
 # Tawan Continuity Snapshot
 
-**Snapshot date:** 2026-08-18
+**Snapshot date:** 2026-09-10
 
-**Authority:** Orientation only. Current Git state and the canonical Tawan documents override this snapshot.
+**Authority:** Orientation only. Read [PROJECT_MEMBRANE.md](PROJECT_MEMBRANE.md)
+first. Current Git state and the canonical Tawan documents override this
+snapshot.
+
+## Current Operating Context
+
+- Git is the technical authority and Trello is the active task board.
+- Main board: [Duple - Tawan](https://trello.com/b/HUbjHwDh/duple-tawan) in the
+  Duply workspace. Notion is historical reference only.
+- Eight Duply Platform cards have been copied to that board: 2 in `To Do`, 4
+  in `Doing`, and 2 in `Done`. The full 149-card Tawan manifest is not yet
+  fully migrated.
+- The current repository state includes additive schema and documentation
+  milestones, but production readiness is not proven. RLS, credential
+  rotation, platform contracts, deployment, LINE delivery, and legal review
+  remain gates where not evidenced.
 
 ## Repository
 
@@ -11,7 +26,9 @@
 - Stale duplicate: `~/Documents/06_Code/Projects/Solo/duply-creator`; inspect only, never edit
 - Approved product baseline commit: `66b3fd1` (`docs(tawan): establish approved product blueprint`)
 - Pro-only Campaign decision commit: `38b2422` (`docs(tawan): reserve campaigns for pro tier`)
-- Production implementation status at this snapshot: not started
+- Production implementation status at this snapshot: partially documented and
+  schema foundation applied; runtime integration and production readiness not
+  proven
 
 Always verify the branch, latest commit, remotes, and working tree. Local approved commits may be ahead of GitHub until the product owner authorizes a push.
 

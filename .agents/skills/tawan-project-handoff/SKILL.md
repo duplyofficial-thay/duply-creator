@@ -1,6 +1,6 @@
 ---
 name: tawan-project-handoff
-description: Restore and transfer the verified Tawan commerce-project context from its canonical Git repository. Use when Codex, Claude, another account, or a new teammate needs to resume Tawan planning or implementation; prepare or receive a handoff; answer what has been approved, changed, blocked, or should happen next; or work on Tawan product, architecture, data, security, dashboard, LINE, analytics, Campaign, subscription-tier, or Notion project records.
+description: Restore and transfer the verified Tawan commerce-project context from its canonical Git repository. Use when Codex, Claude, another account, or a new teammate needs to resume Tawan planning or implementation; prepare or receive a handoff; answer what has been approved, changed, blocked, or should happen next; or work on Tawan product, architecture, data, security, dashboard, LINE, analytics, Campaign, subscription-tier, or Trello project records.
 ---
 
 # Tawan Project Handoff
@@ -12,8 +12,9 @@ Rebuild the project state from Git and the approved Tawan documents before reaso
 1. Locate the checkout whose `origin` is `duplyofficial-thay/duply-creator`. Prefer the repository containing this skill. Do not edit a duplicate checkout.
 2. Read the repository `AGENTS.md` when present, then follow its required entry-document order. If it is absent, continue from the tracked records below and report the missing project instructions.
 3. Run `git status --short --branch`, `git remote -v`, `git branch -vv`, and `git log -15 --oneline --decorate`. Preserve unrelated and uncommitted work.
-4. Read [references/HANDOFF.md](references/HANDOFF.md) for the project map and known state.
-5. Read the canonical product records in this order:
+4. Read [references/PROJECT_MEMBRANE.md](references/PROJECT_MEMBRANE.md) for the durable project context and current operating rules.
+5. Read [references/HANDOFF.md](references/HANDOFF.md) for the project map and known state.
+6. Read the canonical product records in this order:
    - `CLAUDE.md`
    - `docs/tawan/README.md`
    - `docs/tawan/CURRENT_TASK_STATUS.md`
@@ -23,8 +24,8 @@ Rebuild the project state from Git and the approved Tawan documents before reaso
    - `docs/tawan/DATA_MODEL.md`
    - `docs/tawan/SECURITY.md`
    - `docs/tawan/IMPLEMENTATION_PLAN.md`
-6. For privacy, retention, marketing, export, or Thai-law work, also read `docs/research/2026-08-17-thailand-pdpa-tawan-data.md` and verify current law with primary Thai authorities before advising or shipping.
-7. Report the verified branch, working-tree state, latest relevant decision, present milestone, blockers, and proposed next action before editing.
+7. For privacy, retention, marketing, export, or Thai-law work, also read `docs/research/2026-08-17-thailand-pdpa-tawan-data.md` and verify current law with primary Thai authorities before advising or shipping.
+8. Report the verified branch, working-tree state, latest relevant decision, present milestone, blockers, and proposed next action before editing.
 
 ## Source Priority
 
