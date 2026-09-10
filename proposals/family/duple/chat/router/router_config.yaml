@@ -1,0 +1,92 @@
+# DRAFT — duples/dom/chat/router/router_config.yaml for the family archetype.
+# Updated for the 2026-07-28 "yaml-driven routing" platform change (v0.3.0,
+# commit 23376f1) — service_routes/postback_routes/ticker_regex are new
+# top-level keys since this file was first drafted; see
+# ../../../platform_changes/provision_duple_notes.md for the full diff.
+#
+# Follows thay's populated-keyword-map pattern (not khun's empty one) since fast
+# card-lane responses matter a lot here: quest list / wallet / leaderboard are
+# high-frequency, structured lookups, not conversation.
+
+# No ticker concept in this archetype — omit ticker_regex entirely so the
+# router never attempts ticker matching (per PATCH-NOTES.md v0.3.0).
+
+ticker_alias_map: {}
+
+chat_word_denylist:
+  # NO/YES MUST stay quoted — PyYAML (1.1 spec) parses bare NO/YES/ON/OFF as
+  # booleans, not strings. Keep quoted or a silent misroute reappears (see
+  # thay's router_config.yaml for the original incident note).
+  - HI
+  - HEY
+  - OK
+  - "NO"
+  - "YES"
+  - WOW
+  - LOL
+  - THANKS
+  - TEST
+  - ERROR
+
+# SERVICE-lane text patterns (deterministic, no LLM involved). LANG_UPDATE is
+# the one every Duple should keep per PATCH-NOTES.md v0.3.0. PROFILE_UPDATE
+# (generic add/remove against an archetype_data field) doesn't map cleanly
+# onto anything in this archetype's data model (quests/wallet/family live in
+# their own tables, not user_profiles.archetype_data) — omitted rather than
+# force-fit.
+service_routes:
+  - patterns: ["TH", "EN", "TH LANG", "EN LANG"]
+    match: exact
+    type: LANG_UPDATE
+    payload: self
+
+# OPEN QUESTION for the Duply team (see provision_duple_notes.md's "postback
+# routing" section): the proof-of-completion flow needs a parent to tap
+# Approve/Reject on a pushed card (plan §8). khun's postback_routes example
+# only shows `card_type` dispatch (re-render a card on tap) — it's unclear
+# from this repo whether postback_routes can also trigger a SERVICE-lane
+# DB mutation (approve/reject writing to quest_submissions + wallets), or
+# whether that needs a different mechanism entirely. Left commented out
+# until confirmed — do not uncomment/ship this shape without checking:
+#
+# postback_routes:
+#   - patterns: ["QUEST_APPROVE|"]
+#     match: prefix
+#     type: SERVICE   # <- unconfirmed: does postback_routes support this?
+#     action: review_submission
+#     decision: approve
+#     payload: rest
+#   - patterns: ["QUEST_REJECT|"]
+#     match: prefix
+#     type: SERVICE
+#     action: review_submission
+#     decision: reject
+#     payload: rest
+
+mode_words: {}
+  # No mode-word concept in this archetype (no bf/pt/ns equivalent) — left empty
+  # rather than omitted, matching the key's presence in every other Duple's file.
+
+# keyword -> {card_type}. All single-word Thai/English keywords for now; extend with
+# theme-style two-word keys only if a real need shows up (see thay's comment on why
+# two-word matching was deliberately tightened).
+keyword_route_map:
+  "เควส": {card_type: quest_list}
+  QUEST: {card_type: quest_list}
+  "งานวันนี้": {card_type: quest_list}
+  "ภารกิจ": {card_type: quest_list}
+  "กระเป๋าเงิน": {card_type: wallet}
+  "เหรียญ": {card_type: wallet}
+  COIN: {card_type: wallet}
+  WALLET: {card_type: wallet}
+  "แร้งกิ้ง": {card_type: leaderboard}
+  RANK: {card_type: leaderboard}
+  RANKING: {card_type: leaderboard}
+  "อันดับ": {card_type: leaderboard}
+  "ครอบครัว": {card_type: family_dashboard}
+  "กิลด์": {card_type: family_dashboard}
+  GUILD: {card_type: family_dashboard}
+  FAMILY: {card_type: family_dashboard}
+  "รางวัล": {card_type: reward_shop}
+  "ของรางวัล": {card_type: reward_shop}
+  REWARD: {card_type: reward_shop}

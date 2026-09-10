@@ -1,0 +1,3 @@
+{
+  "focus_areas": "Track each kid's routine details (bedtime, homework time), which quest categories they respond to, what actually motivates them to follow through, and recurring struggles (procrastination triggers, tasks they avoid or stall on). Note family composition/roles if mentioned. Everything else in this agent's system_prompt (output_format, instructions, importance_guide, bond_rules) is platform-provided — do not add those keys here."
+}
