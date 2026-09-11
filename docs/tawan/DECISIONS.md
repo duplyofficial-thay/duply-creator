@@ -163,3 +163,38 @@ checks plus the 12 existing platform tables, with 96 indexes. Existing
 platform tables and data were preserved. The migration was executed without
 RLS after Supabase presented its warning; RLS policies and runtime authorization
 are a required follow-up before customer data is exposed.
+
+## 2026-09-11 - TWN-02 Tawan Official management-plane contract approved
+
+Tawan Official is Duply's management Channel for discovery, plain-Thai
+qualification, onboarding coordination, support, and merchant subscription
+status. Duply's main platform is the discovery surface; a merchant then
+connects to Tawan Official and says “Hi”. The merchant's own LINE OA remains
+the customer-facing sales Channel. An immutable `handoff_id` joins Duply and
+Tawan records; Tawan reads only approved fields through a controlled service or
+approved view, never unrestricted database data, secrets, prompts, customer
+conversations, Store Knowledge, Orders, or payment evidence.
+
+The approved journey is `discovered → handoff_pending → connected →
+acknowledgement_pending → pilot_request_draft → team_review →
+needs_merchant_input → approved_for_onboarding → onboarding_in_progress →
+activation_pending → activated`, with explicit escalation, ineligible,
+withdrawn, and closed exits. Six qualification fields are required; partial
+answers are saved and reviewed before submission. Duply owns queue identity,
+subscription/payment-process status, and paid-through time. Tawan owns detailed
+Store Workspace onboarding after handoff. Activation may be deterministic for
+the regular paid path only when payment, qualification, workspace, merchant
+LINE OA, legal/privacy acknowledgement, Store Knowledge approval, test
+conversation, and no-exception gates all pass; otherwise a named team queue
+must intervene.
+
+The free 30-day pilot has no cashback/refund system route. Post-pilot Standard
+conversion hands to a Duply-owned PromptPay or online provider such as Stripe;
+price and Pro entitlements remain open pending pilot survey and purchasing
+power evidence. Subscription state is tracked per merchant/Store Workspace,
+stays active through the paid-through day, and closes at end of day in the
+merchant timezone after cancellation with no automatic refund. Customer Order
+PromptPay and payment slips remain outside Tawan Official merchant billing.
+The implementation-ready conversation map and acceptance criteria are
+`TWN-02_TAWAN_OFFICIAL.md`; TWN-04 must still resolve the existing tenancy
+model conflict before production implementation.

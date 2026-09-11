@@ -19,14 +19,14 @@
 
 ## TWN-02 — Tawan Official
 
-- [ ] Map the prospective merchant journey from first LINE message to pilot request, including FAQs Tawan can answer and cases that must go to the Duply team.
-- [ ] Define the qualification information Tawan Official collects before a pilot: business type, owner contact, current sales channel, store size, source of catalog/stock data, and main pain point.
-- [ ] Define the assisted onboarding status stages and the plain-Thai messages sent at each stage.
-- [ ] Specify exactly when a team member must verify or intervene; Tawan Official must never activate an unreviewed Store Workspace.
-- [ ] Define the support journey for existing Store Owners and Staff: how they ask operational questions, report a problem, and receive escalation status.
-- [ ] Define the post-pilot conversion journey: Standard offer, payment-link handoff, payment follow-up, and outcome recording.
-- [ ] Keep customer Order/PromptPay handling explicitly outside Tawan Official merchant-billing messages.
-- [ ] Obtain product-owner approval of the Tawan Official conversation map.
+- [x] Map the prospective merchant journey from first LINE message to pilot request, including FAQs Tawan can answer and cases that must go to the Duply team. Evidence: `TWN-02_TAWAN_OFFICIAL.md` §§1–2.
+- [x] Define the qualification information Tawan Official collects before a pilot: business type, owner contact, current sales channel, store size, source of catalog/stock data, and main pain point. Evidence: `TWN-02_TAWAN_OFFICIAL.md` §3.
+- [x] Define the assisted onboarding status stages and the plain-Thai messages sent at each stage. Evidence: `TWN-02_TAWAN_OFFICIAL.md` §§2–3.
+- [x] Specify exactly when a team member must verify or intervene; Tawan Official must never activate an unreviewed Store Workspace. Evidence: `TWN-02_TAWAN_OFFICIAL.md` §4.
+- [x] Define the support journey for existing Store Owners and Staff: how they ask operational questions, report a problem, and receive escalation status. Evidence: `TWN-02_TAWAN_OFFICIAL.md` §4.
+- [x] Define the post-pilot conversion journey: Standard offer, payment-link handoff, payment follow-up, and outcome recording. Evidence: `TWN-02_TAWAN_OFFICIAL.md` §5.
+- [x] Keep customer Order/PromptPay handling explicitly outside Tawan Official merchant-billing messages. Evidence: `TWN-02_TAWAN_OFFICIAL.md` §5.
+- [x] Obtain product-owner approval of the Tawan Official conversation map. Evidence: `TWN-02_TAWAN_OFFICIAL.md` approval section and `DECISIONS.md` (2026-09-11).
 
 ## TWN-03 — Merchant Onboarding
 

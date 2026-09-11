@@ -42,14 +42,14 @@
 
 **Depends on:** TWN-01
 
-**Complete when:** A requirements document explains the complete management-plane journey: discovery, feature questions, assisted pilot registration, support, onboarding status, team intervention, and later merchant subscription billing.
+**Complete when:** `TWN-02_TAWAN_OFFICIAL.md` explains and product-owner approval covers the complete management-plane journey: discovery, feature questions, assisted pilot registration, support, onboarding status, deterministic team intervention/activation, post-pilot conversion, and merchant subscription entitlement/cancellation.
 
 **Requirements to settle:**
 
 - Tawan Official is Duply's management Channel, not the shared identity seen by a merchant's customers.
 - Prospective merchants can understand Tawan, request a pilot, and be guided to the next onboarding action in plain Thai.
-- Tawan Official records onboarding progress, escalates uncertainty to the Duply team, and distinguishes merchant subscription billing from a customer's Order payment.
-- Activation is team-verified; self-service chat never activates an unreviewed store.
+- Tawan Official records onboarding progress, escalates uncertainty to the Duply team, and distinguishes merchant subscription billing from a customer's Order payment; Duply owns payment-provider status and Tawan consumes status only.
+- Activation is Duply-gated and audited: routine paid activations may run automatically only after every deterministic verification gate passes; human review is required for exceptions, low-confidence evidence, or failed gates. Self-service chat never bypasses the gates or activates an unreviewed store.
 
 **Out of scope:** Customer commerce conversations and automated recurring billing.
 
