@@ -59,7 +59,7 @@
 
 **Depends on:** TWN-01, TWN-02
 
-**Complete when:** An assisted onboarding specification lists the required inputs, review points, responsible role, activation criteria, and test conversation.
+**Complete when:** `TWN-03_MERCHANT_ONBOARDING.md` lists the required inputs, low-friction pilot verification and risk-triggered strong verification, review points, responsible role, protected-source rules, activation criteria, and test conversation, with product-owner approval evidence.
 
 **Requirements to settle:**
 
@@ -68,8 +68,12 @@
 - Before activation, record the Store Owner's versioned acceptance of the final service terms, controller/processor agreement, and applicable privacy notices approved by Thai counsel.
 - Keep the Store Workspace in draft until the Store Owner approves Store Knowledge and a safe test conversation succeeds.
 - Do not require detailed shipping configuration at initial setup; require a manual path for fulfilment/delivery/returns instead.
+- Provide an isolated synthetic/test-data mode and an initial protected-source allowlist with configurable per-file and total-upload limits; test data can never become live Store Knowledge.
+- Pilot onboarding uses Duply account/email/phone/LINE verification and owner authority declaration; passport/national-ID collection is not ordinary onboarding. Strong verification is requested only by an authorised Duply reviewer for a documented risk, provider/legal requirement, or higher-risk capability.
+- Automated intake/status availability is continuous, while human response follows configured support hours and urgent-incident policy.
+- Potential fraud or illegal selling is signalled to Duply first; Tawan does not accuse, disclose to authorities, or suspend without Duply's confirmed decision.
 
-**Out of scope:** Marketplace/POS connector setup and automatic store activation.
+**Out of scope:** Marketplace/POS connector setup and autonomous activation without all required gates and Duply's activation decision.
 
 ### TWN-04 — Store Workspace and Access
 

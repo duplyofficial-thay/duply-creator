@@ -30,14 +30,14 @@
 
 ## TWN-03 — Merchant Onboarding
 
-- [ ] Create the mandatory onboarding checklist: owner/business details, brand voice, operating hours, staff, policies, consent settings, catalog/prices/variants/stock source, and merchant LINE OA.
-- [ ] Define optional data sources for Phase 1: templates, CSV, Google Sheets, approved uploads, and approved-domain website imports.
-- [ ] Define input quality rules: required fields, data owner, missing-data path, update frequency, and a test-data option.
-- [ ] Define protected-source rules: allowed file types/sizes, malware scan, protected storage, approved URL/domain allowlist, and no public file path.
-- [ ] Define draft, review, needs-owner-decision, test-ready, and live-ready onboarding states.
-- [ ] Require Store Owner approval of published Store Knowledge and a successful test conversation before activation.
-- [ ] Require versioned acceptance of counsel-approved service terms, controller/processor terms, and privacy notices before activation.
-- [ ] Confirm manual fulfilment/delivery/return work is sufficient at launch; detailed shipping setup is later work.
+- [x] Create the mandatory onboarding checklist: owner/business details, brand voice, operating hours, staff, policies, consent settings, catalog/prices/variants/stock source, and merchant LINE OA. Evidence: `TWN-03_MERCHANT_ONBOARDING.md` §§1–2.
+- [x] Define optional data sources for Phase 1: templates, CSV, Google Sheets, approved uploads, and approved-domain website imports. Evidence: `TWN-03_MERCHANT_ONBOARDING.md` §5.
+- [x] Define input quality rules: required fields, data owner, missing-data path, update frequency, and a test-data option. Evidence: `TWN-03_MERCHANT_ONBOARDING.md` §§2,5.
+- [x] Define protected-source rules: allowed file types/sizes, malware scan, protected storage, approved URL/domain allowlist, and no public file path. Evidence: `TWN-03_MERCHANT_ONBOARDING.md` §5.
+- [x] Define draft, review, needs-owner-decision, test-ready, and live-ready onboarding states. Evidence: `TWN-03_MERCHANT_ONBOARDING.md` §6.
+- [x] Require Store Owner approval of published Store Knowledge and a successful test conversation before activation. Evidence: `TWN-03_MERCHANT_ONBOARDING.md` §7.
+- [x] Require versioned acceptance of counsel-approved service terms, controller/processor terms, and privacy notices before activation. Evidence: `TWN-03_MERCHANT_ONBOARDING.md` §§2,7.
+- [x] Confirm manual fulfilment/delivery/return work is sufficient at launch; detailed shipping setup is later work. Evidence: `TWN-03_MERCHANT_ONBOARDING.md` §8.
 
 ## TWN-04 — Store Workspace and Access
 

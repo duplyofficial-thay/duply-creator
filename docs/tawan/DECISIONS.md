@@ -198,3 +198,40 @@ PromptPay and payment slips remain outside Tawan Official merchant billing.
 The implementation-ready conversation map and acceptance criteria are
 `TWN-02_TAWAN_OFFICIAL.md`; TWN-04 must still resolve the existing tenancy
 model conflict before production implementation.
+
+## 2026-09-14 - TWN-03 merchant onboarding contract approved
+
+The product owner approved the TWN-03 onboarding checklist and gates. Phase 1
+targets Thai small-to-medium social-commerce merchants selling physical retail
+products by piece. Onboarding is assisted, one question at a time, with partial
+save, editable summary, owner approval, and explicit test-ready/live-ready
+states. Required inputs cover Duply identity, owner authority, constrained brand
+voice, timezone and operating hours, staff, store policies, consent/legal
+acknowledgements, catalog/price/variant/stock source, merchant LINE OA, and a
+manual fulfilment path.
+
+Pilot identity verification is intentionally low-friction: verified Duply
+account, email, phone, linked LINE identity, consistent store details, and an
+owner-authority declaration. Passport or national-ID documents are not required
+for ordinary pilot onboarding. Tier 2 signals pause activation and create a
+Duply review. Only an authorised Duply reviewer may request strong identity
+verification through a secure provider/vault for confirmed risk, provider/legal
+requirements, or higher-risk capability. Tawan records the verification result
+and audit metadata, not identity documents. Potential fraud or illegal selling
+is signalled to Duply; Duply confirms, restricts, or suspends and manages lawful
+authority requests.
+
+Approved sources are guided templates, CSV, Google Sheets, protected uploads,
+and owner-approved-domain website imports. Malware/file checks, protected
+storage, prompt-injection/data-exfiltration controls, provenance, checksum,
+confidence, conflicts, effective/expiry dates, and no public file path are
+required. Extracted facts remain Knowledge Candidates until the Store Owner
+approves published Store Knowledge. Before live-ready, legal acknowledgements,
+merchant LINE OA verification, approved Store Knowledge, a successful test
+conversation, and Duply's activation decision are required. Manual
+fulfilment/delivery/returns are sufficient for the pilot; POS, courier, and
+automatic shipping integrations remain out of scope.
+
+The detailed source of truth is `TWN-03_MERCHANT_ONBOARDING.md`. Duply team
+feasibility, security/privacy, UX, and Thai-counsel review remain gates before
+production implementation or any passport/national-ID collection.
