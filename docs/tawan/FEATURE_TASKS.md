@@ -41,15 +41,15 @@
 
 ## TWN-04 — Store Workspace and Access
 
-- [ ] Reconcile the contradictory existing tenancy designs and select one verified Store Workspace isolation model before implementation starts.
-- [ ] Define how a verified Store Context is resolved for every management and customer operation.
-- [ ] Define the canonical roles: `platform_admin`, `store_owner`, `store_staff`, and `customer`.
-- [ ] Define Store Staff Capabilities, including sales, fulfilment, marketing, knowledge editor, manager, and payment review; state what remains Owner-only.
-- [ ] Define the mapping/retirement plan for legacy role names such as owner and employee.
-- [ ] Define time-limited, reason-coded, auditable Platform Administrator support access.
-- [ ] State and test the non-negotiable rule: no role, Channel, model, prompt, or client parameter may cross Store Workspace boundaries.
-- [ ] Publish Store Context/Channel authorization as the canonical contract that TWN-06, TWN-07, TWN-09, and TWN-11 must reference.
-- [ ] Obtain architecture/security owner approval of the chosen boundary.
+- [x] Reconcile the contradictory existing tenancy designs and select one verified Store Workspace isolation model before implementation starts. Evidence: `TWN-04_STORE_WORKSPACE_ACCESS.md` §§1,4,11.
+- [x] Define how a verified Store Context is resolved for every management and customer operation. Evidence: `TWN-04_STORE_WORKSPACE_ACCESS.md` §3.
+- [x] Define the canonical roles: `platform_admin`, `store_owner`, `workspace_admin`, `store_staff`, and `customer`; store staff are capability-based. Evidence: `TWN-04_STORE_WORKSPACE_ACCESS.md` §5.
+- [x] Define Store Staff Capabilities, including sales, fulfilment, marketing, knowledge editor, manager, and payment review; state what remains Owner-only. Evidence: `TWN-04_STORE_WORKSPACE_ACCESS.md` §5.
+- [x] Define the mapping/retirement plan for legacy role names such as owner and employee. Evidence: `TWN-04_STORE_WORKSPACE_ACCESS.md` §6.
+- [x] Define time-limited, reason-coded, auditable Platform Administrator support access. Evidence: `TWN-04_STORE_WORKSPACE_ACCESS.md` §10.
+- [x] State and test the non-negotiable rule: no role, Channel, model, prompt, or client parameter may cross Store Workspace boundaries. Evidence: `TWN-04_STORE_WORKSPACE_ACCESS.md` §§3–4,7,11.
+- [x] Publish Store Context/Channel authorization as the canonical contract that TWN-06, TWN-07, TWN-09, and TWN-11 must reference. Evidence: `TWN-04_STORE_WORKSPACE_ACCESS.md` §§3,7.
+- [ ] Obtain architecture/security owner approval of the chosen boundary. Evidence target: `TWN-04_STORE_WORKSPACE_ACCESS.md` §§4,11; pending architecture/security sign-off and verified negative isolation tests.
 
 ## TWN-05 — Tawan Store Brain
 

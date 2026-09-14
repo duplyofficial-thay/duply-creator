@@ -81,17 +81,19 @@
 
 **Depends on:** TWN-01
 
-**Complete when:** A design/requirements document defines Store Workspace isolation, Store Context, canonical roles, Capabilities, support access, and the resolution of the conflicting existing tenancy designs.
+**Complete when:** `TWN-04_STORE_WORKSPACE_ACCESS.md` defines and product-owner approval covers the canonical Store Workspace isolation model, server-derived Store Context, RLS/member-scoped access, roles, Capabilities, support access, Channel separation, subscription suspension/reactivation, and the required negative isolation tests.
 
 **Requirements to settle:**
 
 - Every merchant has isolated customers, Channel mapping, credentials, Store Knowledge, settings, operations, and analytics.
 - Every data action derives a verified Store Context; a model, customer message, or client request cannot select another store.
-- Canonical roles are `platform_admin`, `store_owner`, `store_staff`, and `customer`; staff receive explicit Capabilities rather than universal access.
+- Canonical roles are `platform_admin`, `store_owner`, `workspace_admin`, `store_staff`, and `customer`; `store_staff` receives explicit Capabilities rather than universal access.
 - Platform support access is exceptional, time-limited, reason-coded, and audited.
-- The document explicitly selects and verifies one tenancy model before implementation, including the correct current payment semantics: Store Owner review, never model/OCR auto-payment completion.
+- The document explicitly selects one tenancy model; architecture/security verification, RLS/context tests, and the correct current payment semantics (Store Owner review, never model/OCR auto-payment completion) remain implementation gates.
+- Tawan uses one shared `tawan_ai` schema with workspace-scoped rows, but this is not implementation-ready without RLS, transaction-local server-derived context, workspace-scoped foreign keys/indexes/caches, private object storage, and cross-workspace negative tests.
+- Expired subscription suspends service without deleting data; restricted read-only status and reactivation use the same Store Workspace after a new entitlement is confirmed.
 
-**Out of scope:** Building the authorization system or provisioning a production workspace.
+**Out of scope:** Building the authorization system or provisioning a production workspace; production activation before RLS/context verification and architecture/security approval.
 
 ### TWN-05 — Tawan Store Brain
 

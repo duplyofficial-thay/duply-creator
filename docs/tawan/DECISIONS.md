@@ -235,3 +235,50 @@ automatic shipping integrations remain out of scope.
 The detailed source of truth is `TWN-03_MERCHANT_ONBOARDING.md`. Duply team
 feasibility, security/privacy, UX, and Thai-counsel review remain gates before
 production implementation or any passport/national-ID collection.
+
+## 2026-09-14 - TWN-04 Store Workspace and access contract approved
+
+The product owner selected one shared `tawan_ai` schema with many Store
+Workspaces and mandatory workspace scope on every store-owned row. This choice
+is valid only with database-enforced RLS, server-derived transaction-local Store
+Context, workspace-scoped foreign keys/indexes/caches/queues/exports, private
+object storage, atomic quota accounting, and negative cross-workspace tests.
+The client, model, tool, URL, message, stale session, retry, webhook, or
+background job may never choose or change `store_workspace_id`.
+
+Customer operational records use shared workspace-scoped relational tables;
+documents, images, slips, and other binary data use private workspace-bound
+object storage. The starting Store Knowledge quota is 1 GB per workspace with
+70/85/100% warnings and atomic reserve/release accounting. Signed URLs are
+short-lived and issued only after authorization; upload, read, download,
+replacement, deletion, expiry, and quota decisions are audited.
+
+The canonical access model is exactly one primary `store_owner`, optional
+`workspace_admin`, and capability-based `store_staff` (`manager`, `sales`,
+`fulfilment`, `marketing`, `knowledge_editor`, `payment_review`). Owner-only
+actions include owner/admin grants, sensitive capability changes, management
+Channel binding, Store Knowledge publication, final Phase 1 payment decisions,
+legal/retention changes, ownership transfer, and workspace closure/reactivation.
+Legacy `owner` maps to `store_owner`; `employee` maps to `store_staff`; unknown
+or conflicting labels receive no elevated access.
+
+Tawan Official management LINE and the merchant customer-facing LINE OA are
+separate security domains. Each management LINE ID requires signed-event
+verification and explicit Owner approval, with immediate revocation and
+idempotency/replay protection. Retrieval, vectors, prompts, tools, caches,
+logs, queues, and exports carry the same server-derived workspace scope.
+
+Membership and subscription are separate. After the paid-through day, the
+workspace becomes `suspended`: new customer replies, API/tool actions,
+onboarding/knowledge changes, outbound sends, Orders, and payment operations
+stop; retained records remain under their own retention schedules. Expired
+owners/admins receive restricted read-only status/reactivation information.
+Reactivation restores the same workspace and memberships after entitlement and
+safety checks; it never creates a duplicate workspace or silently restores
+revoked access.
+
+The implementation gate is architecture/security approval plus negative tests
+for RLS, Store Context, object storage, quotas, roles, Channels, AI layers,
+suspension/reactivation, and break-glass support. TWN-04-T01 through T08 are
+design-complete; TWN-04-T09 remains pending until that evidence exists. The
+detailed source of truth is `TWN-04_STORE_WORKSPACE_ACCESS.md`.
