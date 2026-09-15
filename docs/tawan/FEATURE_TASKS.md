@@ -53,14 +53,14 @@
 
 ## TWN-05 — Tawan Store Brain
 
-- [ ] Separate the definitions and allowed uses of Store Knowledge, Knowledge Source, Knowledge Candidate, published knowledge, and Customer Memory.
-- [ ] Define source metadata: uploader, source/version, checksum, approved domain, sensitivity, retention, provenance, and effective/expiry date.
-- [ ] Define the extraction/review journey: uploaded, extracting, needs review, approved/rejected, published, corrected, superseded, or expired.
-- [ ] Define conflict handling for catalog, price, stock, policy, delivery, promotion, and payment facts.
-- [ ] State which facts need immediate Owner approval and which low-risk updates may use a periodic review digest.
-- [ ] Define what Tawan may use in a customer reply: approved/current facts only; raw uploads and unapproved candidates never become promises.
-- [ ] Define the stale/missing/conflicting-fact response: create accountable work and say Tawan is checking.
-- [ ] Obtain Store Owner and product-owner approval of the Store Brain lifecycle.
+- [x] Separate the definitions and allowed uses of Store Knowledge, Knowledge Source, Knowledge Candidate, published knowledge, and Customer Memory. Evidence: `TWN-05_STORE_BRAIN.md` §1.
+- [x] Define source metadata: uploader, source/version, checksum, approved domain, sensitivity, retention, provenance, and effective/expiry date. Evidence: `TWN-05_STORE_BRAIN.md` §§2,4.
+- [x] Define the extraction/review journey: uploaded, extracting, needs review, approved/rejected, published, corrected, superseded, or expired. Evidence: `TWN-05_STORE_BRAIN.md` §3.
+- [x] Define conflict handling for catalog, price, stock, policy, delivery, promotion, and payment facts. Evidence: `TWN-05_STORE_BRAIN.md` §5.
+- [x] State which facts need immediate Owner approval and which low-risk updates may use a periodic review digest. Evidence: `TWN-05_STORE_BRAIN.md` §6.
+- [x] Define what Tawan may use in a customer reply: approved/current facts only; raw uploads and unapproved candidates never become promises. Evidence: `TWN-05_STORE_BRAIN.md` §8.
+- [x] Define the stale/missing/conflicting-fact response: create accountable work and say Tawan is checking. Evidence: `TWN-05_STORE_BRAIN.md §§5,8`.
+- [x] Obtain Store Owner and product-owner approval of the Store Brain lifecycle. Evidence: `TWN-05_STORE_BRAIN.md §10` and `DECISIONS.md` (2026-09-15).
 
 ## TWN-06 — Customer Sales Assistant
 

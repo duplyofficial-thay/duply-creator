@@ -282,3 +282,38 @@ for RLS, Store Context, object storage, quotas, roles, Channels, AI layers,
 suspension/reactivation, and break-glass support. TWN-04-T01 through T08 are
 design-complete; TWN-04-T09 remains pending until that evidence exists. The
 detailed source of truth is `TWN-04_STORE_WORKSPACE_ACCESS.md`.
+
+## 2026-09-15 - TWN-05 Store Brain lifecycle approved
+
+The product owner approved the Store Brain contract. Store Knowledge, Knowledge
+Source, Knowledge Candidate, Published Knowledge, and Customer Memory remain
+separate concepts. Only current, workspace-scoped, Owner-approved Published
+Knowledge may support a customer promise. Sources carry uploader, version,
+checksum, provenance, sensitivity, retention, trust, effective/expiry, and
+review metadata. The lifecycle is uploaded, extracting, needs review, approved
+or rejected, published, corrected/superseded, and expired.
+
+Price, stock, promotion, payment, delivery, return/refund, legal, and customer
+rights facts require immediate Owner approval. Low-risk descriptive cleanup may
+use a periodic review digest. Missing, stale, expired, low-confidence, or
+conflicting facts block promises, tell the customer Tawan is checking, and
+create accountable Task/Approval work. Retrieval enforcement applies to the
+database, vectors, prompts, tools, caches, queues, exports, object storage, and
+final reply validation.
+
+Customer Memory is limited to consented, purpose-bound summaries with retention,
+correction, deletion, and audit controls. Restricted-sensitive data and raw
+merchant/customer data are excluded from normal model context and general
+training; only approved de-identified aggregates may be considered. TWN-05 is
+design-complete for planning, but production implementation still requires
+TWN-04 isolation/security approval plus Duply/security/privacy review and the
+specified acceptance tests. The detailed source of truth is
+`TWN-05_STORE_BRAIN.md`.
+
+The independent review added mandatory safeguards before Trello close-out:
+explicit audience visibility separate from sensitivity, Owner approval even for
+low-risk review-digest publication, trust-to-authorization mapping, 60-second
+invalidation of vectors/caches/queues/exports/derived indexes, TWN-08 consent
+and rights propagation for Customer Memory, and Duply product/privacy/security/
+legal approval plus minimum-cohort and re-identification controls for any
+approved aggregate improvement data.

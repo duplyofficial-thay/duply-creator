@@ -101,7 +101,7 @@
 
 **Depends on:** TWN-03, TWN-04
 
-**Complete when:** A requirements document explains how Store Knowledge is supplied, validated, approved, updated, expired, and used safely in customer replies.
+**Complete when:** `TWN-05_STORE_BRAIN.md` explains how Store Knowledge is supplied, validated, approved, updated, expired, and used safely in customer replies, with product-owner and Store Owner approval evidence.
 
 **Requirements to settle:**
 
@@ -111,6 +111,9 @@
 - Extracted facts become Knowledge Candidates with confidence, conflict, validity, and expiry information.
 - Only Store Owner-approved published knowledge can be used as a durable customer-facing fact.
 - Price, stock, promotion, availability, payment, and policy facts never come from unreviewed material or model invention.
+- Separate Customer Memory from Store Knowledge; retain only consented, purpose-limited summaries and never use raw merchant/customer data for general model training.
+- Enforce approved/current retrieval at database, vector, prompt, tool, cache, queue, export, and reply-validation layers.
+- Every fact has an explicit audience (`customer_visible`, `merchant_internal`, `support_only`, or `restricted`); sensitivity and approval never override audience restrictions.
 
 **Out of scope:** General web crawling, autonomous knowledge publication, and cross-store knowledge sharing.
 
