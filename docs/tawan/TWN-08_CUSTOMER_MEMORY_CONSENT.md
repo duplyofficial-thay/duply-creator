@@ -108,7 +108,7 @@ reconstructing a customer or store from multiple outputs.
 
 | Data | Default | Deletion/suspension rule |
 | --- | --- | --- |
-| Raw chat/transient context | About 30 days | Delete after purpose unless active Order, dispute, legal hold, or security incident |
+| Raw chat/transient context | 30 days | Delete after purpose unless active Order, dispute, legal hold, or security incident |
 | Customer Memory | 12 months after last relevant observation | Individual expiry; delete/correct on approved request |
 | Order/payment evidence | Counsel-approved accounting, dispute, and legal period | Restricted after fulfilment; legal hold wins |
 | Consent and audit/security logs | Restricted, append-only/tamper-evident; counsel-approved period | Redact/minimise where possible; retain only the evidence needed |
