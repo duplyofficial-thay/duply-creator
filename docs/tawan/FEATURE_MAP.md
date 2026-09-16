@@ -144,7 +144,7 @@
 
 **Depends on:** TWN-04, TWN-05, TWN-06
 
-**Complete when:** A retail-operation specification defines the safe Order-to-outcome workflow for the piece-based physical-retail pilot; fashion/accessories may remain a representative scenario.
+**Complete when:** `TWN-07_ORDERS_STORE_OPERATIONS.md` defines the safe Order-to-outcome workflow for the piece-based physical-retail pilot, including recurring overnight availability, demand requests, payment evidence, incidents, and human authority.
 
 **Requirements to settle:**
 
@@ -153,6 +153,9 @@
 - OCR/AI may extract payment candidates but never marks payment paid; only the Store Owner gives the final Phase 1 decision.
 - Block duplicate exact payment evidence or bank references; owner review of a probable fingerprint false positive is reason-coded and auditable.
 - Track fulfilment, delivery, return, cancellation-request, and handover Tasks. Cancellation is requested by Tawan but completed by authorized human approval.
+- A recurring availability-to-sell profile enables 24-hour automation with caps, safety buffers, expiry, morning digest, and Owner emergency pause.
+- When capacity is full or stale, Tawan creates a consented Request/Waitlist rather than an Order or payment request; Owner dashboards show demand without hidden customer scoring.
+- Merchant source accuracy and fulfilment responsibility are explicit, while Duply/Tawan remains accountable for platform, authorization, duplicate-action, and security defects; final terms require legal review.
 
 **Out of scope:** Refund automation, automatic cancellation, automatic payment approval, or autonomous discounts/price changes.
 

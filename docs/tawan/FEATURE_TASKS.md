@@ -76,15 +76,15 @@
 
 ## TWN-07 — Orders and Store Operations
 
-- [ ] Define the fashion Order lifecycle from customer confirmation through completed, cancelled, returned, or expired outcome.
-- [ ] Define authoritative price and stock sources, revalidation at confirmation, reservation duration, and safe expiry/release behaviour.
-- [ ] Define configured PromptPay QR presentation and the boundary between customer payment and merchant subscription billing.
-- [ ] Define protected payment-slip intake, OCR/AI candidate extraction, manual review, owner-only paid/rejected decision, and customer update messages.
-- [ ] Define duplicate payment controls: exact evidence, normalized fingerprint, bank reference, unresolvable conflict, reason-coded false-positive handling, and audit evidence.
-- [ ] Define Tasks for fulfilment, delivery, tracking, returns, cancellation requests, stock issue, payment review, and customer follow-up.
-- [ ] Define cancellation authority: Tawan can request and prepare; authorized human approves the completed action; no automated refund/cancellation in Phase 1.
-- [ ] Explicitly prohibit autonomous exceptional prices, discounts, and price changes; every exception follows the Approval workflow.
-- [ ] Approve a fashion end-to-end example covering Order, reservation, payment review, fulfilment, and return/cancellation.
+- [x] Define the retail Order lifecycle from customer confirmation through completed, cancelled, returned, or expired outcome, including stock/fulfilment failure states. Evidence: `TWN-07_ORDERS_STORE_OPERATIONS.md` §1.
+- [x] Define authoritative price and stock sources, revalidation at confirmation, recurring availability-to-sell profile, reservation duration, and safe expiry/release behavior. Evidence: `TWN-07_ORDERS_STORE_OPERATIONS.md` §§2–4.
+- [x] Define configured PromptPay QR presentation and the boundary between customer payment and merchant subscription billing. Evidence: `TWN-07_ORDERS_STORE_OPERATIONS.md` §5.
+- [x] Define protected payment-slip intake, OCR/AI candidate extraction, manual review, owner-only paid/rejected decision, and customer update messages. Evidence: `TWN-07_ORDERS_STORE_OPERATIONS.md` §§5–6,9.
+- [x] Define duplicate payment controls: exact evidence, normalized fingerprint, bank reference, unresolvable conflict, reason-coded false-positive handling, immediate notification, and audit evidence. Evidence: `TWN-07_ORDERS_STORE_OPERATIONS.md` §6.
+- [x] Define Tasks for fulfilment, delivery, tracking, returns, cancellation requests, stock issue, payment review, customer follow-up, SLAs, and duration tracking. Evidence: `TWN-07_ORDERS_STORE_OPERATIONS.md` §§7–9.
+- [x] Define cancellation authority: Tawan can request and prepare; authorized human approves the completed action; no automated refund/cancellation in Phase 1. Evidence: `TWN-07_ORDERS_STORE_OPERATIONS.md` §8.
+- [x] Explicitly prohibit autonomous exceptional prices, discounts, and price changes; every exception follows the Approval workflow. Evidence: `TWN-07_ORDERS_STORE_OPERATIONS.md` §§8,10.
+- [x] Approve an end-to-end example covering Order, recurring overnight allowance, reservation, payment review, fulfilment, stock issue, and return/cancellation. Evidence: `TWN-07_ORDERS_STORE_OPERATIONS.md` §10 and `DECISIONS.md` (2026-09-16).
 
 ## TWN-08 — Customer Memory and Consent
 

@@ -350,3 +350,39 @@ baseline in `TWN-06_CUSTOMER_SALES_ASSISTANT.md` §10 for planning. The baseline
 also records the Store Owner approval responsibility: each merchant Store Owner
 must approve the brand-specific wording and examples before that merchant's
 activation. Any wording change requires a new dated review record.
+
+## 2026-09-16 - TWN-07 Orders and Store Operations approved
+
+The product owner approved the TWN-07 Order contract. Phase 1 uses an Order
+state machine with explicit stock, fulfilment, payment-review, cancellation,
+return, expiry, and incident outcomes. A recurring availability-to-sell profile
+supports 24-hour automation: the Owner configures product limits, safety buffer,
+payment deadline, fulfilment promise, active schedule, blackout periods, and
+responsible capability. Allowance warnings occur at 70% and 90%; 100% stops
+automatic acceptance. Morning digests report overnight work and delays.
+
+When capacity is full or stale, Tawan creates a Request/Waitlist rather than an
+Order or payment request. Customer consent, first-requested priority, 90-day
+configurable expiry, Owner demand dashboard, and new payment deadline on later
+availability are required. PromptPay customer payment remains separate from
+Duply subscription billing. Slips are protected evidence; OCR/AI extracts
+candidates only. Only the Store Owner makes the final Phase 1 paid/rejected
+decision; `payment_review` inspects and recommends only.
+
+Duplicate signals immediately notify the store and create reason-coded review
+work. Every state and queue duration is tracked. Store-side no-stock or
+non-fulfilment incidents preserve immutable evidence, notify the Store Owner and
+Duply where appropriate, and trigger customer-safe remedies; repeated abuse can
+suspend new paid Orders. Tawan may prepare cancellation/return work but cannot
+complete refunds, cancellations, payment approval, discounts, or exceptional
+prices autonomously. The detailed source of truth is
+`TWN-07_ORDERS_STORE_OPERATIONS.md`; implementation remains gated by
+TWN-04/TWN-05/TWN-06/TWN-08 and legal/security review.
+
+The planning end-to-end baseline was approved on 2026-09-16. Each merchant
+Store Owner must approve the store-specific availability profile, payment
+wording, terms, and customer messages before activation. Only the Store Owner
+can finalize a Phase 1 paid/rejected payment decision; `payment_review` can
+inspect and recommend only. Availability uses store-local period identifiers,
+atomic reservation/release, safety buffers, and Owner-approved renewal windows;
+hard expiry never renews silently. Duplicate matching is Store Workspace-local.
