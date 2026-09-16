@@ -386,3 +386,32 @@ can finalize a Phase 1 paid/rejected payment decision; `payment_review` can
 inspect and recommend only. Availability uses store-local period identifiers,
 atomic reservation/release, safety buffers, and Owner-approved renewal windows;
 hard expiry never renews silently. Duplicate matching is Store Workspace-local.
+
+## 2026-09-17 - TWN-08 Customer Memory and Consent approved
+
+The Product Owner approved the TWN-08 documentation baseline. Tawan separates
+operational service, optional durable Customer Memory, direct marketing,
+security/audit, and anonymous aggregate analysis. Memory is Store Workspace-local
+with source, confidence, confirmation, validity, expiry, correction/dispute and
+deletion evidence; no global profile or identifiable cross-store reuse is allowed.
+
+The Thai customer experience is layered. Durable memory and marketing are
+separate voluntary choices with versioned evidence. `STOP`, `ยกเลิก`, and
+`ไม่รับข่าวสาร` immediately suppress marketing without disabling ordinary service.
+Rights requests use risk-based identity verification, minimised/redacted exports,
+Store Owner/Duply privacy approval, legal holds, and auditable completion. They
+are acknowledged within one business day and target completion within 30 calendar
+days (or a counsel-configured shorter period). Durable-memory withdrawal
+immediately suppresses retrieval and derived copies. Raw chat is short-lived;
+each data class has bounded/configurable retention and deletion-job evidence.
+
+The merchant is the primary controller for customer/order data; Duply/Tawan is
+the processor, while Duply independently controls platform, billing, fraud,
+security, and audit data. Sensitive traits are not stored or inferred by default.
+A transparent evidence-backed Customer Tier never alone authorizes a discount.
+Thai counsel must approve notices, legal bases, consent, contracts, providers,
+retention, rights, breach handling, and sensitive-data policy before real data;
+the actual sign-off remains pending. Duply security must approve RLS/Storage/
+LINE signature controls and negative tests. Anonymous aggregates require a
+minimum cohort of 10, rare-pattern suppression, and re-identification testing.
+The detailed source of truth is `TWN-08_CUSTOMER_MEMORY_CONSENT.md`.

@@ -165,20 +165,22 @@
 
 **Depends on:** TWN-04
 
-**Complete when:** A privacy-first Customer Memory and consent specification defines what can be retained, why, for how long, and how a customer controls it.
+**Complete when:** `TWN-08_CUSTOMER_MEMORY_CONSENT.md` defines purpose-separated Customer Memory, Thai layered privacy and consent, rights, retention/deletion, security controls, and pre-launch legal/security gates.
 
 **Requirements to settle:**
 
-- Customer Memory remains local to one Store Workspace and identifies source, confidence, confirmation, validity, expiry, and correction history.
+- Customer Memory remains local to one Store Workspace and identifies source, confidence, confirmation, validity, expiry, correction, dispute, consent, and deletion history.
 - Routine service data, durable preference memory, and direct marketing are separate documented purposes.
 - A short Thai notice links to a full privacy notice; durable preference memory and marketing are separate voluntary choices with versioned evidence.
 - STOP immediately suppresses marketing for that Store Workspace, customer, purpose, and Channel without affecting normal service.
 - Verified customers can request access, applicable portability export, correction, restriction, deletion, and objection handling.
-- A rights request defines identity verification strength, allowed requester/Store Owner approvals, minimised/redacted scope, response deadline, and auditable completion evidence before an export is released.
+- A rights request defines risk-based identity verification, allowed requester/Store Owner approvals, minimised/redacted scope, legal hold, one-business-day acknowledgement, 30-calendar-day target, and auditable completion evidence before an export is released.
 - Sensitive traits are not retained as memory, inferred, segmented, or used for recommendations/marketing by default.
-- A Store Owner may assign or override a transparent Customer Tier with evidence and audit history; a Tier alone never authorizes a discount. Automated Tier recommendations remain outside this documentation-first Phase 1 scope.
+- Only the Store Owner may assign or override a transparent Customer Tier; evidence, reason, actor, timestamp, expiry, visibility, correction/appeal, and audit history are required. A Tier alone never authorizes a discount. Automated Tier recommendations remain outside this documentation-first Phase 1 scope.
+- RLS, private Storage, LINE signature verification, deletion propagation, incident response, and negative isolation tests are implementation gates.
+- Durable-memory withdrawal immediately suppresses retrieval and derived copies; retention is bounded/configurable, deletion jobs emit verification evidence, and anonymous aggregates require a minimum cohort of 10 plus re-identification testing and rare-pattern suppression.
 
-**Out of scope:** Cross-store identifiable analytics and final legal advice; Thai counsel approves final legal artifacts before launch.
+**Out of scope:** Cross-store identifiable analytics, routine passport/national-ID collection, autonomous legal/discount decisions, and final legal advice; Thai counsel approves final legal artifacts before launch.
 
 ### TWN-09 — Admin Dashboard
 

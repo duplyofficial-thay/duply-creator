@@ -88,17 +88,17 @@
 
 ## TWN-08 — Customer Memory and Consent
 
-- [ ] Define the personal-data categories for operational service, structured Customer Memory, direct marketing, security/audit, and anonymous aggregate analysis.
-- [ ] Define memory fields and metadata: source, confidence, confirmation, first/last observed, effective/expiry, correction, dispute, and deletion status.
-- [ ] Confirm Customer Memory is Store Workspace-local: no global profile, cross-store matching, or identifiable cross-store reuse.
-- [ ] Write the layered Thai privacy experience: short notice, full notice, service explanation, optional durable-memory choice, and separate marketing choice.
-- [ ] Define consent evidence: Store Workspace, Customer, purpose, Channel, wording version, timestamp, actor, withdrawal, and suppression result.
-- [ ] Define STOP and equivalent Thai opt-out language; confirm it immediately suppresses marketing without reducing normal service.
-- [ ] Define customer-rights workflow: identity-verification strength, authorized requester, Store Owner approval, minimised/redacted export scope, deadline, legal hold, and auditable completion.
-- [ ] Define retention/deletion rules separately for raw chat, memory, Order/payment evidence, consent/audit history, vectors/caches/logs/backups, and anonymous aggregates.
-- [ ] Require raw chat to be encrypted, short-lived, and excluded from durable behaviour after its purpose/retention period ends.
-- [ ] State that sensitive traits are not stored/inferred/segmented by default; define Store Owner evidence-backed Customer Tier assignment/override with audit history; and confirm a Tier never alone authorizes a discount.
-- [ ] Obtain Thai counsel sign-off before real customer data is admitted.
+- [x] Define the personal-data categories for operational service, structured Customer Memory, direct marketing, security/audit, and anonymous aggregate analysis. Evidence: purpose map and field boundaries in `TWN-08_CUSTOMER_MEMORY_CONSENT.md`.
+- [x] Define memory fields and metadata: source, confidence, confirmation, first/last observed, effective/expiry, correction, dispute, and deletion status. Evidence: Customer Memory contract.
+- [x] Confirm Customer Memory is Store Workspace-local: no global profile, cross-store matching, or identifiable cross-store reuse. Evidence: workspace-local contract and negative-test gate.
+- [x] Write the layered Thai privacy experience: short notice, full notice, service explanation, optional durable-memory choice, and separate marketing choice. Evidence: approved Thai baseline copy; counsel gate recorded.
+- [x] Define consent evidence: Store Workspace, Customer, purpose, Channel, wording version, timestamp, actor, withdrawal, and suppression result. Evidence: consent and suppression schema requirements.
+- [x] Define STOP and equivalent Thai opt-out language; confirm it immediately suppresses marketing without reducing normal service. Evidence: `STOP`, `ยกเลิก`, and `ไม่รับข่าวสาร` behavior.
+- [x] Define customer-rights workflow: identity-verification strength, authorized requester, Store Owner approval, minimised/redacted export scope, deadline, legal hold, and auditable completion. Evidence: rights workflow and escalation gates.
+- [x] Define retention/deletion rules separately for raw chat, memory, Order/payment evidence, consent/audit history, vectors/caches/logs/backups, and anonymous aggregates. Evidence: retention table and deletion propagation requirement.
+- [x] Require raw chat to be encrypted, short-lived, and excluded from durable behaviour after its purpose/retention period ends. Evidence: 30-day default and deletion propagation/negative tests.
+- [x] State that sensitive traits are not stored/inferred/segmented by default; define Store Owner evidence-backed Customer Tier assignment/override with audit history; and confirm a Tier never alone authorizes a discount. Evidence: sensitive-data and Tier rules.
+- [ ] Obtain Thai counsel sign-off before real customer data is admitted. The required gate is specified and approved by the Product Owner on 2026-09-17, but actual counsel evidence is still pending before production/customer-data use.
 
 ## TWN-09 — Admin Dashboard
 
