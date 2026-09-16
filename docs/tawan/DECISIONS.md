@@ -317,3 +317,36 @@ invalidation of vectors/caches/queues/exports/derived indexes, TWN-08 consent
 and rights propagation for Customer Memory, and Duply product/privacy/security/
 legal approval plus minimum-cohort and re-identification controls for any
 approved aggregate improvement data.
+
+## 2026-09-16 - TWN-06 Customer Sales Assistant approved
+
+The product owner approved the TWN-06 customer-assistant contract. Tawan uses a
+natural, cute, humble Thai part-time-assistant voice but truthfully identifies
+herself as an AI assistant when relevant. She supports Phase 1 product,
+variant, stock, price, promotion, comparison, order-intent, payment-question,
+tracking, cancellation-request, and human-help intents using only current,
+approved, customer-visible facts.
+
+Missing, stale, low-confidence, expired, conflicting, internal, or restricted
+facts trigger a concise Thai “I will check with the owner” response, accountable
+Task/Approval work, and no guessing. Relevant alternatives are offered only
+while actively shopping. Out-of-stock requests may create an explicitly
+consented, 90-day configurable wishlist with Owner-entered restock date/range,
+dashboard demand analysis, and Owner-approved transactional notification;
+forecasting, campaigns, and multi-channel outreach remain Pro/later scope.
+
+Owner takeover immediately stops automated replies and queued sends. Resume
+requires confirmation, re-reads authorized summaries and current Store Brain
+facts, and continues only on new messages. Interaction Events, Sales Journey,
+Tasks/Approvals, wishlist, feedback, and eligible Customer Memory records are
+structured and idempotent; LINE retries cannot duplicate operational work.
+Representative Thai examples and pilot metrics are required before
+implementation. The detailed source of truth is
+`TWN-06_CUSTOMER_SALES_ASSISTANT.md`; production remains gated by TWN-04,
+TWN-05, TWN-07, TWN-08, and independent security/privacy review.
+
+On 2026-09-16 the product owner approved the representative Thai dialogue
+baseline in `TWN-06_CUSTOMER_SALES_ASSISTANT.md` §10 for planning. The baseline
+also records the Store Owner approval responsibility: each merchant Store Owner
+must approve the brand-specific wording and examples before that merchant's
+activation. Any wording change requires a new dated review record.

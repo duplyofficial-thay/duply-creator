@@ -64,15 +64,15 @@
 
 ## TWN-06 — Customer Sales Assistant
 
-- [ ] Define the customer-facing persona: warm, consultative, merchant-brand-aligned, clear, and never inventing facts.
-- [ ] Define the supported Phase 1 customer intents: product search, variant/colour/size question, stock/price/promotion question, comparison, order intent, payment question, tracking question, cancellation request, and human help.
-- [ ] Define the answer rules for approved/current facts, missing/stale/conflicting facts, uncertainty, and prohibited promises.
-- [ ] Define in-conversation alternatives: relevant colour, size, and product suggestions only while a customer is actively shopping.
-- [ ] Define escalation triggers, Store Staff takeover, owner-only commercial exceptions, and the customer-facing waiting message.
-- [ ] Define reply-time structured capture: Interaction Event, Sales Journey, next action, Task/Approval, and eligible Customer Memory candidate.
-- [ ] Define retry/idempotency expectations so Channel retries cannot duplicate sales work.
-- [ ] Publish reply-time structured capture as the canonical contract that TWN-07 and TWN-10 must reference.
-- [ ] Approve representative Thai conversation examples before implementation.
+- [x] Define the customer-facing persona: warm, consultative, merchant-brand-aligned, clear, and never inventing facts. Evidence: `TWN-06_CUSTOMER_SALES_ASSISTANT.md` §1.
+- [x] Define the supported Phase 1 customer intents: product search, variant/colour/size question, stock/price/promotion question, comparison, order intent, payment question, tracking question, cancellation request, and human help. Evidence: `TWN-06_CUSTOMER_SALES_ASSISTANT.md` §2.
+- [x] Define the answer rules for approved/current facts, missing/stale/conflicting facts, uncertainty, and prohibited promises. Evidence: `TWN-06_CUSTOMER_SALES_ASSISTANT.md` §3.
+- [x] Define in-conversation alternatives: relevant colour, size, and product suggestions only while a customer is actively shopping. Evidence: `TWN-06_CUSTOMER_SALES_ASSISTANT.md` §§4–5.
+- [x] Define escalation triggers, Store Staff takeover, owner-only commercial exceptions, and the customer-facing waiting message. Evidence: `TWN-06_CUSTOMER_SALES_ASSISTANT.md` §§6–7.
+- [x] Define reply-time structured capture: Interaction Event, Sales Journey, next action, Task/Approval, and eligible Customer Memory candidate. Evidence: `TWN-06_CUSTOMER_SALES_ASSISTANT.md` §8.
+- [x] Define retry/idempotency expectations so Channel retries cannot duplicate sales work. Evidence: `TWN-06_CUSTOMER_SALES_ASSISTANT.md` §9.
+- [x] Publish reply-time structured capture as the canonical contract that TWN-07 and TWN-10 must reference. Evidence: `TWN-06_CUSTOMER_SALES_ASSISTANT.md` §§8,11.
+- [x] Approve representative Thai conversation examples before implementation. Evidence: `TWN-06_CUSTOMER_SALES_ASSISTANT.md` §10 and `DECISIONS.md` (2026-09-16).
 
 ## TWN-07 — Orders and Store Operations
 

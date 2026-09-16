@@ -123,7 +123,7 @@
 
 **Depends on:** TWN-04, TWN-05
 
-**Complete when:** A customer-conversation specification defines Tawan's brand-safe sales behaviour in a merchant's own LINE OA.
+**Complete when:** `TWN-06_CUSTOMER_SALES_ASSISTANT.md` defines Tawan's brand-safe sales behavior in a merchant's own LINE OA, including structured capture, idempotency, owner takeover, wishlist flow, and approved Thai examples.
 
 **Requirements to settle:**
 
@@ -132,6 +132,9 @@
 - When facts are missing, stale, low-confidence, or conflicting, say that Tawan is checking and create accountable human work rather than guessing.
 - Record Sales Journey and Interaction Event progress in the reply flow, with idempotency for Channel retries.
 - Use the merchant's approved brand voice while preserving the Tawan principle: never invent store facts.
+- Tawan may sound like a cute, humble Thai part-time shop assistant but truthfully identifies herself as an AI assistant when relevant.
+- Phase 1 supports consented restock wishlists and Owner-approved transactional notices; Pro/later forecasting, campaigns, and multi-channel outreach remain out of scope.
+- Owner takeover stops automated replies and queued sends; resume re-reads authorized summaries and current facts before continuing on new messages.
 
 **Out of scope:** Outbound campaigns, cross-Channel customer profiling, and autonomous commercial exceptions.
 
