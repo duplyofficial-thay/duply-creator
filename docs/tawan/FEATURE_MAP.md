@@ -204,19 +204,19 @@
 
 **Phase:** 1 to 2
 
-**Depends on:** TWN-05, TWN-07, TWN-09
+**Depends on:** TWN-05, TWN-07, TWN-08, TWN-09
 
-**Complete when:** A workflow document defines what happens in real time, hourly, daily, weekly, and only in Pro.
+**Complete when:** `TWN-10_AI_WORKFLOW_DAILY_INSIGHTS.md` defines real-time capture, hourly/daily/weekly cadence, Thai owner digests, evidence-backed recommendations, insufficient-data behavior, approval boundaries, and Pro limits.
 
 **Requirements to settle:**
 
-- Customer reply orchestration captures structured progress immediately; it does not wait for a nightly summariser.
+- Customer reply orchestration captures meaningful structured progress immediately, confirms important facts, and asks focused questions without repeating known information; it does not wait for a nightly summariser. Source references are minimised/redacted and inherit TWN-08 purpose, audience, consent, retention, and deletion rules.
 - Store operational state is current where possible; dashboard aggregates refresh hourly; daily close finalises store-local totals.
 - The daily plain-Thai owner digest includes sales/orders, stock risks, unresolved questions, leads/follow-ups, payment/cancellation work, demand signals, and up to three evidence-backed actions.
-- Recommendations expose evidence, confidence, expiry, and insufficient-data state; they do not make commercial decisions.
+- Recommendations expose evidence, confidence, explanation, model/rule version, assignee, expiry, and insufficient-data state; they do not make commercial decisions, are idempotent/auditable, are capability-filtered/redacted, and never rank by sensitive traits or hidden customer value.
 - Segmentation, proactive campaigns, customer lifetime value, churn, demand forecasting, and advanced intelligence are Pro/post-Phase-1 only.
 
-**Out of scope:** Background actions that alter a store's commercial state without owner authority.
+**Out of scope:** Background actions that alter a store's commercial state without owner authority, proactive campaigns, segmentation, LTV, churn, forecasting, and advanced intelligence.
 
 ### TWN-11 — Channels and Integrations
 

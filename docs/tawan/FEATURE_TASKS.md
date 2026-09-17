@@ -113,14 +113,14 @@
 
 ## TWN-10 — AI Workflow and Daily Insights
 
-- [ ] Define the real-time reply workflow and the structured data captured on each inbound customer event.
-- [ ] Define real-time reply handling, hourly refresh, daily close, weekly review, and the boundary between Phase 1 and Pro work using the Store Workspace timezone and business date.
-- [ ] Define the daily plain-Thai LINE owner digest: sales/orders, inventory risk, unresolved questions, leads/follow-ups, payment/cancellation work, preference/demand signals, and up to three recommended actions.
-- [ ] Define what evidence, confidence, explanation, model/rule version, and expiry a recommendation must show.
-- [ ] Define “insufficient data” behaviour so Tawan never creates unsupported insights.
-- [ ] Define approval boundaries: Tawan recommends; owner/staff take accountable commercial action.
-- [ ] Keep segmentation, proactive campaigns, LTV, churn, demand forecasting, and advanced intelligence explicitly Pro/post-Phase-1.
-- [ ] Approve one sample daily digest and one sample insufficient-data digest.
+- [x] Define the real-time reply workflow and the structured data captured on each inbound customer event. Evidence: event fields, focused-question behavior, confirmation, confidence, and source references in `TWN-10_AI_WORKFLOW_DAILY_INSIGHTS.md`.
+- [x] Define real-time reply handling, hourly refresh, daily close, weekly review, and the boundary between Phase 1 and Pro work using the Store Workspace timezone and business date. Evidence: operating cadence and phase boundary.
+- [x] Define the daily plain-Thai LINE owner digest: sales/orders, inventory risk, unresolved questions, leads/follow-ups, payment/cancellation work, preference/demand signals, and up to three recommended actions. Evidence: Duply + authenticated management LINE digest and Thai sample.
+- [x] Define what evidence, confidence, explanation, model/rule version, and expiry a recommendation must show. Evidence: recommendation contract and accept/dismiss/snooze behavior.
+- [x] Define “insufficient data” behaviour so Tawan never creates unsupported insights. Evidence: explicit `ข้อมูลยังไม่เพียงพอ` rules and approved sample.
+- [x] Define approval boundaries: Tawan recommends; owner/staff take accountable commercial action. Evidence: payment/refund/commercial-state negative tests and authorization boundaries.
+- [x] Keep segmentation, proactive campaigns, LTV, churn, demand forecasting, and advanced intelligence explicitly Pro/post-Phase-1. Evidence: phase boundary and out-of-scope list.
+- [x] Approve one sample daily digest and one sample insufficient-data digest. Evidence: two approved Thai samples; Product Owner approved 2026-09-17.
 
 ## TWN-11 — Channels and Integrations
 

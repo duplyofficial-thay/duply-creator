@@ -439,3 +439,33 @@ and result. Operational logs are retained for at least 30 days for investigation
 subject to TWN-08 retention approval. Store timezone drives cutoffs and business
 days; stale, empty, error, and insufficient-data states provide plain Thai next
 steps. The detailed source of truth is `TWN-09_ADMIN_DASHBOARD.md`.
+
+## 2026-09-17 - TWN-10 AI Workflow and Daily Insights approved
+
+The Product Owner approved the TWN-10 workflow baseline. Tawan captures
+meaningful structured progress during conversation in a natural seller voice,
+asks one focused question at a time, confirms important facts, and pauses or
+creates a human Task when evidence is low-confidence or conflicting. Real-time
+events, hourly refresh, store-local daily close, and weekly evidence review use
+the merchant's timezone and business date. TWN-08 is a mandatory dependency:
+every captured field has an approved purpose, audience, consent basis where
+required, retention, and deletion behavior. Events store a source interaction
+ID plus a minimised/redacted excerpt or hash by default, never an unbounded raw
+transcript copy.
+
+The daily Thai owner digest appears in Duply and authenticated management LINE at
+a configured local time. It covers sales/orders, inventory risk, unresolved
+questions, leads/follow-ups, payment/cancellation work, preference/demand
+signals, and no more than three ranked recommendations. Each recommendation
+shows evidence, explanation, confidence, model/rule version, assignee, expiry,
+and accept/dismiss/snooze audit. Digest sections and source details are
+capability-filtered and redacted for each recipient. Ranking uses approved
+operational evidence only, never sensitive traits, hidden spending scores, or
+unauthorized Customer Memory. Insufficient data is stated explicitly as
+`ข้อมูลยังไม่เพียงพอ`; Tawan never fills gaps with unsupported insights.
+
+Tawan recommends and prepares; Owner/Staff take accountable action. It cannot
+finalize payment, execute refunds, change commercial state, or run proactive
+campaigns. Segmentation, LTV, churn, forecasting, and advanced intelligence are
+reserved for Pro/post-Phase-1. The detailed source of truth is
+`TWN-10_AI_WORKFLOW_DAILY_INSIGHTS.md`.
