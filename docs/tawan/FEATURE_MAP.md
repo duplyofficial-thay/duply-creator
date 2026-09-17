@@ -188,16 +188,17 @@
 
 **Depends on:** TWN-04, TWN-07, TWN-08
 
-**Complete when:** A dashboard requirements document defines the action-first views for Store Owner and Store Staff.
+**Complete when:** `TWN-09_ADMIN_DASHBOARD.md` defines the action-first views, Store Owner/Staff Capabilities, store-local timing, LINE quick actions, audit evidence, and Phase 1 wireframe requirements.
 
 **Requirements to settle:**
 
-- Prioritise unresolved Tasks and Approvals, unanswered customers, high-value opportunities, payment review, low stock, and overdue follow-up.
+- Prioritise low stock, Morning Confirmation, Orders/Payments, Customers/Follow-up, Tasks/Approvals, Catalog/Store Brain, and Settings/Access; high-value opportunities, payment review, urgent approvals, unanswered customers, and overdue follow-up remain accountable queues.
 - Define the permitted views for Customer, Sales Journey, Transaction, Task, Approval, Catalog, Store Knowledge, consent, and settings.
-- Reflect individual Capability boundaries and make material actions auditable.
+- Reflect individual Capability boundaries and make material actions auditable; `workspace_admin` cannot self-grant or approve final Phase 1 payment, and Owner-only controls include payment final decision, deletion, subscriptions, Duply settings, discounts, exports, and exceptions.
 - Keep analytics useful for action rather than hiding urgent work behind charts.
+- Use store-selected country/timezone, explicit freshness, Thai-first labels with English option, and authenticated management-LINE quick actions backed by Duply evidence; customer-facing LINE OA cannot invoke management actions.
 
-**Out of scope:** Advanced Pro campaigns, external marketplace control panels, and custom BI projects.
+**Out of scope:** Advanced Pro campaigns, external marketplace control panels, autonomous discounts, cross-store staff views, and custom BI projects.
 
 ### TWN-10 — AI Workflow and Daily Insights
 

@@ -415,3 +415,27 @@ the actual sign-off remains pending. Duply security must approve RLS/Storage/
 LINE signature controls and negative tests. Anonymous aggregates require a
 minimum cohort of 10, rare-pattern suppression, and re-identification testing.
 The detailed source of truth is `TWN-08_CUSTOMER_MEMORY_CONSENT.md`.
+
+## 2026-09-17 - TWN-09 Admin Dashboard approved
+
+The Product Owner approved the Phase 1 dashboard baseline. The dashboard is
+store-scoped, Thai-first with a user-selectable English option, and available in
+Duply with selected LINE alerts/quick actions. The daily order is Low Stock,
+Morning Confirmation, Orders and Payments, Customers and Follow-up, Tasks and
+Approvals, Catalog/Store Brain, and Settings/Access.
+
+Store Staff can see permitted operational detail and handle assigned stock,
+payment-review preparation, customer-contact, refund-request preparation, and
+restock work. Only the Store Owner makes the final Phase 1 paid/rejected payment
+decision; staff and workspace admins may inspect and recommend only. Refunds are
+prepared in an idempotent workflow and completed only by an authorized human.
+The Store Owner controls Capabilities and remains the only authority for customer deletion, subscription
+changes, Duply settings, discounts, exports, and exceptions. Staff never see
+another Store Workspace. Overnight paid work must appear in the daily Morning
+Confirmation routine with a recorded outcome.
+
+All material actions record actor, Capability, time, previous/new values, reason,
+and result. Operational logs are retained for at least 30 days for investigation,
+subject to TWN-08 retention approval. Store timezone drives cutoffs and business
+days; stale, empty, error, and insufficient-data states provide plain Thai next
+steps. The detailed source of truth is `TWN-09_ADMIN_DASHBOARD.md`.

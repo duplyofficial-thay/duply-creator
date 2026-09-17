@@ -102,14 +102,14 @@
 
 ## TWN-09 — Admin Dashboard
 
-- [ ] Define the action-first home view: urgent Approvals, unanswered customers, high-value opportunities, payment reviews, low stock, and overdue follow-up.
-- [ ] Define authorized screens for Customers, Customer Memory/consent, Sales Journeys, Transactions, Tasks, Approvals, Catalog, Store Brain, and settings.
-- [ ] Define what each role/Capability can see, change, approve, export, or only prepare.
-- [ ] Define the dashboard's real-time operational state, hourly aggregates, and store-local business-day display.
-- [ ] Define empty, loading, error, stale-data, and insufficient-data states in plain Thai.
-- [ ] Define audit evidence for owner decisions, staff action, exports, deletion, and support access.
-- [ ] Ensure dashboard views lead to accountable actions, not charts with no next step.
-- [ ] Approve wireframes or representative screen requirements before implementation.
+- [x] Define the action-first home view: low stock first, then morning confirmation, orders/payments, customers/follow-up, tasks/approvals, Catalog/Store Brain, and Settings/Access. Evidence: `TWN-09_ADMIN_DASHBOARD.md` home-view contract.
+- [x] Define authorized screens for Customers, Customer Memory/consent, Sales Journeys, Transactions, Tasks, Approvals, Catalog, Store Brain, and settings. Evidence: screen/action matrix.
+- [x] Define what each role/Capability can see, change, approve, export, or only prepare. Evidence: Owner/Staff matrix and backend authorization gate.
+- [x] Define the dashboard's real-time operational state, hourly aggregates, and store-local business-day display. Evidence: freshness, timezone, and aggregation rules.
+- [x] Define empty, loading, error, stale-data, and insufficient-data states in plain Thai. Evidence: state behavior and Thai example copy.
+- [x] Define audit evidence for owner decisions, staff action, exports, deletion, and support access. Evidence: audit fields, 30-day investigation minimum, and minimisation rule.
+- [x] Ensure dashboard views lead to accountable actions, not charts with no next step. Evidence: next-action requirement and traceable Task/Order/Approval record.
+- [x] Approve wireframes or representative screen requirements before implementation. Evidence: Phase 1 wireframe requirements approved by Product Owner 2026-09-17.
 
 ## TWN-10 — AI Workflow and Daily Insights
 
