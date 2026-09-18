@@ -37,6 +37,7 @@ Users talk to Duples via **LINE**. Each Duple has its own persona, tools, and me
 | `guide/06-launch-checklist.md` | Step-by-step checklist for launching a new Duple |
 | `PATCH-NOTES.md` | Platform changelog |
 | `docs/tawan/REQUIREMENTS.md` | What Tawan is, who it serves, business rules, security requirements, launch gates |
+| `docs/tawan/README.md` | Tawan documentation index, implementation status, feature map, and open release gates |
 | `docs/tawan/DESIGN.md` | Phase 1 design — commerce model, architecture, agent architecture, tool packs |
 | `docs/tawan/REFERENCE.md` | Data model, entities, lifecycle, invariants, data layers |
 | `docs/tawan/DECISIONS.md` | Decision log — approved product and architecture decisions |
