@@ -242,14 +242,14 @@
 
 **Depends on:** TWN-01 through TWN-11
 
-**Complete when:** A pilot and launch-gate specification defines the test journey, evidence, accountable owners, acceptance targets, legal/security release criteria, and Phase 2 go/no-go decision.
+**Complete when:** `TWN-12_PILOT_SAFETY_LAUNCH_GATE.md` defines the pilot journey, synthetic payment rehearsal, evidence, accountable owners, provisional acceptance targets, legal/security release criteria, incident pause rules, and Phase 2 go/no-go decision.
 
 **Requirements to settle:**
 
-- Pilot cohort: planned for ten Thai retailers selling physical items by the piece, free for 30 days and reassessed from recruitment evidence; Standard payment-link conversion is considered after pilot feedback and product-owner review. Fashion/accessories may be a representative scenario, not a cohort restriction.
-- Primary validation seam: Tawan Official onboarding through owner-approved activation, merchant LINE customer conversation, safe Order/payment/human work, dashboard update, and daily digest.
-- Acceptance targets: 80% onboarding completion, 14 consecutive useful daily summaries for active merchants, 85% routine replies without correction, two hours saved per merchant each week, zero cross-store leaks/unapproved commercial actions, and 50% paid conversion.
-- No real customer data before credential rotation, tenant isolation/RLS, runtime verification, cost tracking, Thai counsel review, rights/retention controls, recovery/restore exercise, incident-response rehearsal, and independent security review.
-- The Phase 2 decision uses the evidence from the pilot rather than assumptions about integrations or Pro features.
+- Pilot cohort: planned for ten Thai retailers selling physical items by the piece, free for 30 days and reassessed from recruitment evidence; sandbox payment testing is separate from real customer funds, and Standard payment-link conversion is considered after pilot feedback and product-owner review. Fashion/accessories may be a representative scenario, not a cohort restriction.
+- Primary validation seam: Tawan Official onboarding through owner-approved activation, synthetic merchant LINE customer conversation before release, safe Order/payment/human work, dashboard update, and daily digest.
+- Acceptance targets: ten-merchant recruitment target; 80% onboarding completion, 14 consecutive useful daily summaries for active merchants, 85% routine replies without correction, two hours saved per merchant each week, zero cross-store leaks/unapproved commercial actions, and 50% paid conversion, with defined denominators/rubrics and weekly evidence.
+- No real customer data before credential rotation, tenant isolation/RLS, runtime verification, cost tracking, Thai counsel review, rights/retention controls, recovery/restore exercise, incident-response rehearsal, independent security review, named approval owners, and signed evidence. Pre-gate conversations use synthetic identities/messages only; missing Security, Operations, counsel, or Incident Commander assignments block activation.
+- The Phase 2 decision uses the evidence from the pilot rather than assumptions about integrations or Pro features; the reviewer must be independent from implementation/support and recorded before Go.
 
-**Out of scope:** Launching Phase 2 or Phase 3 features before this gate passes.
+**Out of scope:** Real-money payment testing/cashback, silent activation, or launching Phase 2 or Phase 3 features before this gate passes.

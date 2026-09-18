@@ -501,3 +501,46 @@ rollback plan, and pilot evidence are required before any non-LINE build. No
 connector scope may finalize payment, approve a refund, alter discounts, or
 bypass Owner approval. The
 detailed source of truth is `TWN-11_CHANNELS_INTEGRATIONS.md`.
+
+## 2026-09-18 - TWN-12 Pilot, Safety, and Launch Gate approved
+
+The Product Owner approved a 30-day free pilot plan for ten Thai retailers
+selling physical products by the piece. The Product Owner leads the pilot;
+Duply.official assists when assigned. Each merchant follows the same journey:
+Tawan Official onboarding, Owner-approved Store Knowledge, merchant LINE
+conversation, safe Order/stock/payment work, dashboard, daily digest, monitoring,
+support, and Owner/staff feedback survey. The recruitment target is ten
+merchants; actual cohort size is reported separately.
+
+Payment testing is sandbox/synthetic only, with separate non-production
+environment/test OA, test-only credentials, non-live PromptPay destinations,
+synthetic payee/account/IDs/slips, hard blocks on live QR/callbacks and
+production writes, and proof that sandbox events cannot mark production paid.
+It is separate from customer funds,
+production Orders, refunds, accounting, and cashback. The rehearsal includes
+approved/rejected knowledge, missing/conflicting facts, memory refusal, STOP,
+reservation expiry, sandbox PromptPay review, duplicate-payment conflict, stock
+failure, human escalation, dashboard/digest, rights, deletion, recovery, and
+incident pause/resume.
+
+Before release gates pass, all conversations use synthetic identities and test
+messages; no real LINE user IDs, customer PII, Orders, or production Channel
+activation are permitted. No real customer data is allowed until credential rotation, RLS/tenant and
+Channel isolation, runtime/idempotency tests, privacy/legal approval, rights and
+retention controls, recovery/restore, incident rehearsal, cost-ledger evidence,
+and independent security review pass. Critical issues pause affected workflows;
+high issues require correction and Store Owner + Product Owner approval. Initial acceptance metrics are
+provisional: 80% onboarding, 14 useful daily summaries, 85% routine replies
+without correction, two hours saved weekly, zero leakage/unauthorized action,
+and 50% paid conversion.
+
+The Phase 2 decision is Product Owner-owned and uses weekly evidence on safety,
+satisfaction, digest/reply quality, time saved, payment/order reliability,
+support workload, conversion, connector demand, and Pro demand. Metrics define
+active merchant, useful digest, routine reply, correction, denominators, survey
+rubric, event sources, exclusions, and weekly reporting. An independent
+reviewer not responsible for implementation/support must be named, conflict-
+checked, and recorded before Go. Security, Operations, Thai counsel, and an
+Incident Commander must be named before activation; the outcome is
+Go, Hold, or No-go with named scope, owner, risks, budget, and acceptance
+criteria. The detailed source of truth is `TWN-12_PILOT_SAFETY_LAUNCH_GATE.md`.
