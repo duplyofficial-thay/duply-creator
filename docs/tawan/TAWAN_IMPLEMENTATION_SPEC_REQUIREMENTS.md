@@ -17,6 +17,7 @@ release controls.
 Required reading:
 
 - `docs/tawan/IMPLEMENTATION_HANDOFF_TWN01_TWN12.md`
+- `docs/tawan/SUPABASE_SCHEMA_REQUIREMENTS.md`
 - `docs/tawan/FEATURE_MAP.md`, `FEATURE_TASKS.md`, and `DECISIONS.md`
 - `TWN-01_PRODUCT_DIRECTION.md` through `TWN-12_PILOT_SAFETY_LAUNCH_GATE.md`
 

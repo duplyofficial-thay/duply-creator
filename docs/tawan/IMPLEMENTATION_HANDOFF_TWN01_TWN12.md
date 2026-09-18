@@ -9,6 +9,9 @@ approval or activation authorization.
 The formal requirements and acceptance matrix are in
 `TAWAN_IMPLEMENTATION_SPEC_REQUIREMENTS.md`; use that document for
 implementation tickets, API/data contracts, test evidence, and release status.
+The Supabase table/column contract and tenancy reconciliation are in
+`SUPABASE_SCHEMA_REQUIREMENTS.md`; do not apply the draft migrations until the
+TWN-04 data-model decision and RLS evidence are approved.
 
 ## How to use this handoff
 

@@ -2,6 +2,16 @@
 
 This log records approved product and architecture decisions. New entries append; changed decisions are marked superseded rather than silently rewritten.
 
+## 2026-09-18 - Supabase tenancy model requires TWN-04 reconciliation
+
+The existing architecture decision uses one isolated schema per Duple. The new
+implementation contract also requires an immutable `store_workspace_id` on
+merchant-owned records, server-derived Store Context, and RLS on every exposed
+table. These are not interchangeable guarantees. No migration may be applied
+until TWN-04 explicitly approves either the verified per-Duple model or a
+canonical shared schema with `store_workspace_id`. The analysis and required
+table/column contract are recorded in `docs/tawan/SUPABASE_SCHEMA_REQUIREMENTS.md`.
+
 ## 2026-08-18 - One Tawan product, isolated Store Workspaces
 
 Tawan is one shared commerce product supporting many stores. Each store is a separately provisioned Tawan Instance/Duple with a unique `duple_id`, isolated schema, role, Customer Memory, Store Knowledge, configuration, staff access, and Channel mapping. Instances reuse a shared Tawan archetype implementation instead of forking code. This preserves Duply's current one-Duple/one-schema convention and strongest isolation control.
