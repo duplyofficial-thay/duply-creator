@@ -3,7 +3,12 @@
 **Audience:** Duply.official / implementation team  
 **Source:** `FEATURE_TASKS.md`, `FEATURE_MAP.md`, `DECISIONS.md`, and TWN-01–TWN-12 specifications  
 **Planning baseline:** 2026-09-18  
-**Important:** This is a development handoff, not production-data approval.
+**Important:** This is a planning-only development handoff, not production-data
+approval or activation authorization.
+
+The formal requirements and acceptance matrix are in
+`TAWAN_IMPLEMENTATION_SPEC_REQUIREMENTS.md`; use that document for
+implementation tickets, API/data contracts, test evidence, and release status.
 
 ## How to use this handoff
 
@@ -40,13 +45,23 @@ record.
 - Enable RLS and least-privilege grants on every exposed table. Add negative
   tests for table reads/writes, views/functions, Storage, vectors, caches,
   analytics, exports, support access, and direct API paths.
-- Implement subscription entitlement lifecycle: active, end-of-paid-day stop,
-  suspension, reactivation, and no deletion solely because service ended.
+- Implement the entitlement state machine: `active` → `payment_due` → `past_due`
+  → `grace_period` → `suspended` → `closed` as provider status/time rules
+  require, with idempotent audited transitions and Store Workspace timezone
+  `paid_through` calculation. At paid-through end, stop new service but preserve
+  read-only rights/records under retention policy; reactivation requires valid
+  entitlement and Owner approval; closure never silently deletes data.
+- Deny workspace-admin, staff, and platform-admin attempts to perform Owner-only
+  actions: final payment, sensitive export/deletion approval, subscription,
+  Duply settings, discounts/exceptions, management-Channel binding,
+  administrator appointment/removal, ownership transfer, legal/retention
+  settings, workspace closure, and reactivation.
 - Keep onboarding/activation evidence, Owner approvals, verification gates, and
   support access reason-coded and auditable.
 
 **Exit evidence:** migrations/schema review, RLS policy tests, role/capability
-matrix, Channel-binding tests, and architecture/security sign-off.
+matrix, Channel-binding tests, entitlement transition tests, Owner-only denial
+tests, and architecture/security sign-off.
 
 ## Workstream B — Store Brain and customer conversation (TWN-05–TWN-06)
 
