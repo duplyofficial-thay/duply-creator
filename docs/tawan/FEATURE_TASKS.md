@@ -124,14 +124,14 @@
 
 ## TWN-11 — Channels and Integrations
 
-- [ ] Define the distinction between Tawan Official management Channel and a merchant's customer-facing LINE OA.
-- [ ] Define the common Channel Adapter contract: identity, messages, media, delivery status, consent, capabilities, error handling, and Store Context resolution.
-- [ ] Confirm LINE OA is the only complete customer Channel in Phase 1.
-- [ ] Define manual/template/CSV/Google Sheets as Phase 1 data-input paths.
-- [ ] Create a Phase 2 connector-selection scorecard: merchant demand, API authorization, reliability, security, cost, maintenance, and measurable business value.
-- [ ] List later candidates without committing to build them: POS, Shopee, Lazada, TikTok Shop, Facebook, Instagram, and Discord.
-- [ ] Define Tawan Official Instagram as Tawan product marketing first; merchant showcase requires a separate opt-in commercial agreement.
-- [ ] Obtain product/technical approval before committing to any non-LINE integration.
+- [x] Define the distinction between Tawan Official management Channel and a merchant's customer-facing LINE OA. Evidence: website, management/sales AI, customer Channel, and cross-channel authorization boundary in `TWN-11_CHANNELS_INTEGRATIONS.md`.
+- [x] Define the common Channel Adapter contract: identity, messages, media, delivery status, consent, capabilities, error handling, and Store Context resolution. Evidence: versioned adapter contract and server-derived Store Context.
+- [x] Confirm LINE OA is the only complete customer Channel in Phase 1. Evidence: explicit Phase 1 boundary and out-of-scope connector list.
+- [x] Define manual/template/CSV/Google Sheets as Phase 1 data-input paths. Evidence: validated Owner-approved Google Drive/API source path included.
+- [x] Create a Phase 2 connector-selection scorecard: merchant demand, API authorization, reliability, security, cost, maintenance, and measurable business value. Evidence: scored criteria and approval gates.
+- [x] List later candidates without committing to build them: POS, Shopee, Lazada, TikTok Shop, Facebook, Instagram, and Discord. Evidence: candidate list and no-build promise for Phase 1.
+- [x] Define Tawan Official Instagram as Tawan product marketing first; merchant showcase requires a separate opt-in commercial agreement. Evidence: partner approval, agreement, identity, usage, and withdrawal rules.
+- [x] Obtain product/technical approval before committing to any non-LINE integration. Evidence: scorecard, threat/risk review, rollback plan, scope copy, pilot evidence, and approval gate; Product Owner approved 2026-09-18.
 
 ## TWN-12 — Pilot, Safety, and Launch Gate
 

@@ -224,17 +224,17 @@
 
 **Depends on:** TWN-01, TWN-04
 
-**Complete when:** A Channel/integration strategy identifies the Phase 1 LINE boundary and an evidence-led process for later connectors.
+**Complete when:** `TWN-11_CHANNELS_INTEGRATIONS.md` defines the Phase 1 LINE boundary, common adapter contract, source-separated unified view, approved input paths, connector scorecard, and product/technical approval gate.
 
 **Requirements to settle:**
 
-- A merchant's own LINE OA is the first complete customer Channel; Tawan Official remains the merchant-management Channel.
-- The shared Channel interface preserves the possibility of Sheets/POS, Shopee, Lazada, TikTok Shop, Facebook, Instagram, and Discord without assuming identical features or authorization.
-- Phase 1 uses manual inputs, templates, CSV, and Sheets before marketplace/POS integrations.
+- A merchant's own LINE OA is the first complete customer Channel; Tawan Official is management/sales administration in Phase 1, and Duply website remains the authenticated management surface. Future connector selling is a separately approved Channel capability.
+- The shared Channel interface preserves the possibility of Sheets/POS, Shopee, Lazada, TikTok, Facebook, Instagram, and Discord without assuming identical features or authorization; source records remain separate in one operational view.
+- Phase 1 uses manual inputs, templates, CSV, Sheets, and Owner-approved Google Drive/API sources before marketplace/POS integrations; each new Drive file is quarantined and approved before retrieval.
 - Pilot demand, API legality/capability, security, cost, and value determine the first Phase 2 connector.
-- Tawan Official Instagram initially markets Tawan itself; merchant showcases need an explicit opt-in commercial agreement in a later phase.
+- Tawan Official Instagram initially markets Tawan/Duply and approved current partners; merchant showcases need explicit partner opt-in and a separate commercial agreement.
 
-**Out of scope:** Implementing any post-LINE connector in Phase 1.
+**Out of scope:** Implementing any post-LINE connector in Phase 1 or bypassing Store Context, privacy, payment, or Owner approval boundaries.
 
 ### TWN-12 — Pilot, Safety, and Launch Gate
 

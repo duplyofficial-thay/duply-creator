@@ -469,3 +469,35 @@ finalize payment, execute refunds, change commercial state, or run proactive
 campaigns. Segmentation, LTV, churn, forecasting, and advanced intelligence are
 reserved for Pro/post-Phase-1. The detailed source of truth is
 `TWN-10_AI_WORKFLOW_DAILY_INSIGHTS.md`.
+
+## 2026-09-18 - TWN-11 Channels and Integrations approved
+
+The Product Owner approved the TWN-11 channel boundary. The Duply website is
+the authenticated onboarding and management surface. Tawan Official is the
+management/sales-administration AI in Phase 1, while each merchant's own LINE OA is the only complete
+customer sales Channel in Phase 1. Customer and management Channel identities
+remain separate and cannot invoke one another's operations.
+
+Every future connector must use a versioned adapter contract with server-derived
+Store Context, isolated credentials, scopes, identity, messages/media, delivery,
+consent, capabilities, errors, idempotency, pause/disconnect, audit, and deletion
+propagation. Duply may combine source data in one operational view, but stock,
+orders, prices, and freshness remain source-specific so conflicts are visible.
+
+Phase 1 accepts manual/template/CSV/Sheets and Owner-selected Google Drive/API
+sources. Every newly added Drive-folder file enters quarantine and remains
+non-retrievable until approved (unless a narrowly scoped, explicitly approved
+folder policy applies). Imports are checked for quality, malware, prompt injection,
+duplication, staleness, and conflicts, then require Owner approval before they
+become operational or customer-facing truth. Connector scope is approved during
+setup and re-approved after changes; failure or conflicting data pauses affected
+automation and creates evidence-backed reconciliation work.
+
+Later candidates are Shopee, Facebook, TikTok, Instagram, and Lazada, with no
+Phase 1 build commitment. Tawan Official Instagram markets Tawan/Duply and may
+promote current partners only with partner approval and a separate opt-in
+commercial agreement. Product and technical approval, scorecard, threat review,
+rollback plan, and pilot evidence are required before any non-LINE build. No
+connector scope may finalize payment, approve a refund, alter discounts, or
+bypass Owner approval. The
+detailed source of truth is `TWN-11_CHANNELS_INTEGRATIONS.md`.
